@@ -13,7 +13,12 @@ ADD Gemfile /noosfero/Gemfile
 WORKDIR /noosfero
 RUN bundle install
 
+VOLUME /public
+
 ADD . /noosfero/
+
+
+ADD /public /noosfero/public/
 
 COPY ./config/docker/prod/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
