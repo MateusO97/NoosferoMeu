@@ -15,6 +15,8 @@ stages:
 #  stage: smoke-tests
 
 gitlab-unstable-deploy:
+  before_script:
+    - ''
   image: docker:17.04-git
   services:
     - docker:17.04-dind
@@ -34,6 +36,8 @@ gitlab-unstable-deploy:
     - docker
     
 gitlab-stable-deploy:
+  before_script:
+    - ''
   image: docker:17.04-git
   services:
     - docker:17.04-dind
@@ -53,6 +57,8 @@ gitlab-stable-deploy:
     - docker
 
 trigger-noosfero-fga-stable:
+  before_script:
+    - ''
   stage: trigger-noosfero-fga
   environment: development
   only:
@@ -61,6 +67,8 @@ trigger-noosfero-fga-stable:
     - curl -X POST -F token=dd7cbf437e98ca22af602fc5af96cf -F ref=develop https://gitlab.com/api/v4/projects/3779528/trigger/pipeline
 
 trigger-noosfero-fga-unstable:
+  before_script:
+    - ''
   stage: trigger-noosfero-fga
   environment: development
   only:
