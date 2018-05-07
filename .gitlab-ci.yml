@@ -8,48 +8,65 @@ stages:
   #FIXME Selenium tests are randomly failing and this avoid other tests to run.
   #- smoke-tests
   #- all-tests
-  - build
+  #- build
+  - trigger-noosfero-fga
 #smoke:
 #  script: bundle exec rake ci:smoke
 #  stage: smoke-tests
 
-gitlab-unstable-deploy:
-  image: docker:17.04-git
-  services:
-    - docker:17.04-dind
-  stage: build
-  variables:
-    NOOSFERO_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/noosfero:$CI_BUILD_REF_NAME
-  script:
-    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build -f config/docker/prod/Dockerfile -t $NOOSFERO_RELEASE_IMAGE .
-    - docker tag $NOOSFERO_RELEASE_IMAGE "$CI_REGISTRY_IMAGE/noosfero:latest"
-    - docker push $NOOSFERO_RELEASE_IMAGE
-    - docker push "$CI_REGISTRY_IMAGE/noosfero:latest"
-  only:
-    - unstable_deploy
-  environment: development
-  tags:
-    - docker
+# gitlab-unstable-deploy:
+#   image: docker:17.04-git
+#   services:
+#     - docker:17.04-dind
+#   stage: build
+#   variables:
+#     NOOSFERO_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/noosfero:$CI_BUILD_REF_NAME
+#   script:
+#     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+#     - docker build -f config/docker/prod/Dockerfile -t $NOOSFERO_RELEASE_IMAGE .
+#     - docker tag $NOOSFERO_RELEASE_IMAGE "$CI_REGISTRY_IMAGE/noosfero:latest"
+#     - docker push $NOOSFERO_RELEASE_IMAGE
+#     - docker push "$CI_REGISTRY_IMAGE/noosfero:latest"
+#   only:
+#     - unstable_deploy
+#   environment: development
+#   tags:
+#     - docker
     
-gitlab-stable-deploy:
-  image: docker:17.04-git
-  services:
-    - docker:17.04-dind
-  stage: build
-  variables:
-    NOOSFERO_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/noosfero:$CI_BUILD_REF_NAME
-  script:
-    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build -f config/docker/prod/Dockerfile -t $NOOSFERO_RELEASE_IMAGE .
-    - docker tag $NOOSFERO_RELEASE_IMAGE "$CI_REGISTRY_IMAGE/noosfero:latest"
-    - docker push $NOOSFERO_RELEASE_IMAGE
-    - docker push "$CI_REGISTRY_IMAGE/noosfero:latest"
+# gitlab-stable-deploy:
+#   image: docker:17.04-git
+#   services:
+#     - docker:17.04-dind
+#   stage: build
+#   variables:
+#     NOOSFERO_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/noosfero:$CI_BUILD_REF_NAME
+#   script:
+#     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+#     - docker build -f config/docker/prod/Dockerfile -t $NOOSFERO_RELEASE_IMAGE .
+#     - docker tag $NOOSFERO_RELEASE_IMAGE "$CI_REGISTRY_IMAGE/noosfero:latest"
+#     - docker push $NOOSFERO_RELEASE_IMAGE
+#     - docker push "$CI_REGISTRY_IMAGE/noosfero:latest"
+#   only:
+#     - stable_deploy
+#   environment: development
+#   tags:
+#     - docker
+
+trigger-noosfero-fga-stable:
+  stage: trigger-noosfero-fga
+  environment: development
   only:
     - stable_deploy
+  script:
+    - curl -X POST -F token=dd7cbf437e98ca22af602fc5af96cf -F ref=develop https://gitlab.com/api/v4/projects/3779528/trigger/pipeline
+
+trigger-noosfero-fga-unstable:
+  stage: trigger-noosfero-fga
   environment: development
-  tags:
-    - docker
+  only:
+    - unstable_deploy
+  script:
+    - curl -X POST -F token=dd7cbf437e98ca22af602fc5af96cf -F ref=unstable_deploy https://gitlab.com/api/v4/projects/3779528/trigger/pipeline
 
 #  .retriable-template: &retriable
 #    retry: 2
