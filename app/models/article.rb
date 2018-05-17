@@ -674,6 +674,7 @@ class Article < ApplicationRecord
     :children_count,
     :comments_count,
     :hits,
+    :translation_of_id,
   ]
 
   def self.find_by_old_path(old_path)
@@ -771,9 +772,9 @@ class Article < ApplicationRecord
   def author_name(version_number = nil)
     person = author_by_version(version_number)
     if version_number
-      person ? person.name : _('Unknown')
+      person ? person.name : environment.name
     else
-      person ? person.name : (setting[:author_name] || _('Unknown'))
+      person ? person.name : (setting[:author_name] || environment.name)
     end
   end
 
@@ -895,6 +896,10 @@ class Article < ApplicationRecord
 
   def editor?(editor)
     self.editor == editor
+  end
+
+  def icon
+    'file'
   end
 
   private

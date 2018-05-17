@@ -138,11 +138,11 @@ class FriendsBlockViewTest < ActionView::TestCase
   should 'list friends from person' do
     owner = fast_create(Person)
     u = create_user
-    u.activate
+    u.activate!
     friend1 = u.person
 
     u = create_user
-    u.activate
+    u.activate!
     friend2 = u.person
 
 
@@ -164,13 +164,17 @@ class FriendsBlockViewTest < ActionView::TestCase
   end
 
   should 'link to "all friends"' do
-    person1 = create_user('mytestperson').person
+    env = fast_create(Environment)
+    person1 = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    friend = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    person1.add_friend(friend)
+    person1.save!
 
     block = FriendsBlock.new
     block.stubs(:suggestions).returns([])
     block.expects(:owner).returns(person1).at_least_once
-
-    assert_tag_in_string render_block_footer(block), tag: 'a', attributes: {class: 'view-all', href: '/profile/mytestperson/friends' }
+    ActionView::Base.any_instance.stubs(:font_awesome).returns("View All")
+    assert_tag_in_string render_block_footer(block), tag: 'a', attributes: {class: 'view-all', href: "/profile/#{person1.identifier}/friends" }
   end
 
   should 'not have a linear increase in time to display friends block' do

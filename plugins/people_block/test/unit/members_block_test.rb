@@ -67,19 +67,19 @@ class MembersBlockTest < ActionView::TestCase
   should 'respect limit when listing members' do
     community = fast_create(Community)
     u1 = create_user
-    u1.activate
+    u1.activate!
     p1 = u1.person
 
     u2 = create_user
-    u2.activate
+    u2.activate!
     p2 = u2.person
 
     u3 = create_user
-    u3.activate
+    u3.activate!
     p3 = u3.person
 
     u4 = create_user
-    u4.activate
+    u4.activate!
     p4 = u4.person
 
     community.add_member(p1)
@@ -165,11 +165,11 @@ class MembersBlockTest < ActionView::TestCase
     env = fast_create(Environment)
     env.boxes << Box.new
     u1 = create_user
-    u1.activate
+    u1.activate!
     profile1 = u1.person
 
     u2 = create_user
-    u2.activate
+    u2.activate!
     profile2 = u2.person
 
     block = MembersBlock.new
@@ -195,11 +195,11 @@ class MembersBlockTest < ActionView::TestCase
     env = fast_create(Environment)
     env.boxes << Box.new
     u1 = create_user
-    u1.activate
+    u1.activate!
     profile1 = u1.person
 
     u2 = create_user
-    u2.activate
+    u2.activate!
     profile2 = u2.person
 
     block = MembersBlock.new
@@ -233,11 +233,11 @@ class MembersBlockTest < ActionView::TestCase
   should 'count number of profiles by role' do
     owner = fast_create(Community)
     u1 = create_user(nil,{},{:public_profile => true})
-    u1.activate
+    u1.activate!
     profile1 = u1.person
 
     u2 = create_user(nil,{},{:public_profile => true})
-    u2.activate
+    u2.activate!
     profile2 = u2.person
 
 
@@ -264,10 +264,10 @@ class MembersBlockViewTest < ActionView::TestCase
   should 'list members from community' do
     owner = fast_create(Community)
     user1 = create_user
-    user1.activate
+    user1.activate!
     person1 = user1.person
     user2 = create_user
-    user2.activate
+    user2.activate!
     person2 = user2.person
     owner.add_member(person1)
     owner.add_member(person2)
@@ -289,10 +289,21 @@ class MembersBlockViewTest < ActionView::TestCase
   end
 
   should 'provide link to members page without a visible_role selected' do
-    profile = create_user('mytestuser').person
+    env = fast_create(Environment)
+    profile = fast_create(Community, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    member = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    relation = RoleAssignment.new(:resource_id => profile.id, :resource_type => 'Profile', :role_id => 3)
+    relation.accessor = member
+    relation.save
     block = MembersBlock.new
     block.box = profile.boxes.first
+    block.expects(:owner).returns(profile.reload).at_least_once
     block.save!
+
+    ActionView::Base.any_instance.stubs(:block_title).returns("")
+    ActionView::Base.any_instance.stubs(:profile_image_link).returns('some name')
+    ActionView::Base.any_instance.stubs(:theme_option).returns(nil)
+    ActionView::Base.any_instance.stubs(:font_awesome).returns("View All")
 
     render_block_footer(block)
     assert_select 'a.view-all' do |elements|
@@ -301,11 +312,21 @@ class MembersBlockViewTest < ActionView::TestCase
   end
 
   should 'provide link to members page when visible_role is profile_member' do
-    profile = create_user('mytestuser').person
+    env = fast_create(Environment)
+    profile = fast_create(Community, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    member = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    relation = RoleAssignment.new(:resource_id => profile.id, :resource_type => 'Profile', :role_id => 3)
+    relation.accessor = member
+    relation.save
     block = MembersBlock.new
     block.box = profile.boxes.first
     block.visible_role = 'profile_member'
+    block.expects(:owner).returns(profile.reload).at_least_once
     block.save!
+    ActionView::Base.any_instance.stubs(:font_awesome).returns("View       All")
+    ActionView::Base.any_instance.stubs(:block_title).returns("")
+    ActionView::Base.any_instance.stubs(:profile_image_link).returns('some name')
+    ActionView::Base.any_instance.stubs(:theme_option).returns(nil)
 
     render_block_footer(block)
     assert_select 'a.view-all' do |elements|
@@ -314,11 +335,22 @@ class MembersBlockViewTest < ActionView::TestCase
   end
 
   should 'provide link to members page when visible_role is profile_moderator' do
-    profile = create_user('mytestuser').person
+    env = fast_create(Environment)
+    profile = fast_create(Community, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    member = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    relation = RoleAssignment.new(:resource_id => profile.id, :resource_type => 'Profile', :role_id => 3)
+    relation.accessor = member
+    relation.save
     block = MembersBlock.new
     block.box = profile.boxes.first
     block.visible_role = 'profile_moderator'
+    block.expects(:owner).returns(profile.reload).at_least_once
     block.save!
+
+    ActionView::Base.any_instance.stubs(:font_awesome).returns("View       All")
+    ActionView::Base.any_instance.stubs(:block_title).returns("")
+    ActionView::Base.any_instance.stubs(:profile_image_link).returns('some name')
+    ActionView::Base.any_instance.stubs(:theme_option).returns(nil)
 
     render_block_footer(block)
     assert_select 'a.view-all' do |elements|
@@ -327,13 +359,23 @@ class MembersBlockViewTest < ActionView::TestCase
   end
 
   should 'provide link to admins page when visible_role is profile_admin' do
-    profile = create_user('mytestuser').person
+    env = fast_create(Environment)
+    profile = fast_create(Community, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    member = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    relation = RoleAssignment.new(:resource_id => profile.id, :resource_type => 'Profile', :role_id => 3)
+    relation.accessor = member
+    relation.save
     block = MembersBlock.new
     block.box = profile.boxes.first
     block.visible_role = 'profile_admin'
+    block.expects(:owner).returns(profile.reload).at_least_once
     block.save!
+    ActionView::Base.any_instance.stubs(:font_awesome).returns("View       All")
+    ActionView::Base.any_instance.stubs(:block_title).returns("")
+    ActionView::Base.any_instance.stubs(:profile_image_link).returns('some name')
+    ActionView::Base.any_instance.stubs(:theme_option).returns(nil)
+    render_block_footer(block).inspect
 
-    render_block_footer(block)
     assert_select 'a.view-all' do |elements|
       assert_select '[href=/profile/mytestuser/members#admins-tab]'
     end
@@ -409,7 +451,7 @@ class MembersBlockViewTest < ActionView::TestCase
     env.boxes << Box.new
     community = fast_create(Community)
     u1 = create_user
-    u1.activate
+    u1.activate!
     p1 = u1.person
     community.add_member(p1)
     identifier = "fake_template"

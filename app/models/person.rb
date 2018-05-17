@@ -258,7 +258,6 @@ class Person < Profile
 
   FIELDS = %w[
   description
-  image
   preferred_domain
   nickname
   sex
@@ -344,7 +343,9 @@ class Person < Profile
   settings_items :formation, :custom_formation, :custom_area_of_study
 
   N_('Contact information'); N_('City'); N_('State'); N_('Country'); N_('Sex'); N_('Zip code'); N_('District'); N_('Address reference')
-  settings_items :photo, :contact_information, :sex, :city, :state, :country, :zip_code, :district, :address_line2, :address_reference
+  settings_items :photo, :contact_information, :sex
+  metadata_items :city, :state, :country, :zip_code, :district, :address_line2,
+                 :address_reference
 
   extend SetProfileRegionFromCityState::ClassMethods
   set_profile_region_from_city_state
@@ -405,14 +406,14 @@ class Person < Profile
   def default_set_of_blocks
     return angular_theme_default_set_of_blocks if Theme.angular_theme?(environment.theme)
     links = [
-      {:name => _('Profile'), :address => '/profile/{profile}', :icon => 'menu-people'},
-      {:name => _('Image gallery'), :address => '/{profile}/gallery', :icon => 'photos'},
-      {:name => _('Agenda'), :address => '/profile/{profile}/events', :icon => 'event'},
-      {:name => _('Blog'), :address => '/{profile}/blog', :icon => 'edit'},
+      { name: _('Profile'),       address: '/profile/{profile}',        icon: 'menu-people' },
+      { name: _('Image gallery'), address: '/{profile}/gallery',        icon: 'photos'      },
+      { name: _('Agenda'),        address: '/profile/{profile}/events', icon: 'event'       },
+      { name: _('Blog'),          address: '/{profile}/blog',           icon: 'blog'        }
     ]
     [
       [MainBlock.new],
-      [ProfileImageBlock.new(:show_name => true), LinkListBlock.new(:links => links), RecentDocumentsBlock.new],
+      [ProfileImageBlock.new(show_name: true), LinkListBlock.new(links: links), RecentDocumentsBlock.new],
       [CommunitiesBlock.new]
     ]
   end
@@ -673,4 +674,13 @@ class Person < Profile
     super(person) + [FavoriteEnterprisesBlock, CommunitiesBlock, EnterprisesBlock]
   end
 
+  def pending_tasks
+    Task.to(self).pending
+  end
+
+  def self.exportable_fields(environment)
+    active_fields = environment.active_person_fields
+    { base: %w[name updated_at created_at identifier lat lng] + active_fields,
+      user: %w[email last_login_at] }
+  end
 end

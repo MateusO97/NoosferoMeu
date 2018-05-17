@@ -8,6 +8,7 @@ require 'sdbm' unless RUBY_ENGINE == 'jruby'
 class UploadedFile < Article
 
   include UploadSanitizer
+  include CroppedImage
 
   attr_accessible :uploaded_data, :title
 
@@ -42,6 +43,7 @@ class UploadedFile < Article
   def title
     if self.name.present? then self.name else self.filename end
   end
+
   def title= value
     self.name = value
   end
@@ -86,7 +88,11 @@ class UploadedFile < Article
   #  :min_size => 2.megabytes
   #  :max_size => 5.megabytes
   has_attachment :storage => :file_system,
-    :thumbnails => { :icon => [24,24], :bigicon => [50,50], :thumb => '130x130>', :slideshow => '320x240>', :display => '640X480>' },
+    :thumbnails => { :icon => [24,24],
+                     :bigicon => [50,50],
+                     :thumb => '130x130>',
+                     :slideshow => '320x240>',
+                     :display => '640X480>' },
     :thumbnail_class => Thumbnail,
     :max_size => self.max_size,
     processor: 'Rmagick'
@@ -202,6 +208,48 @@ class UploadedFile < Article
     !image?
   end
 
+  def icon
+    icons = {
+      'no-icon' => 'no-icon',
+      'edit' => 'edit',
+      'new' => 'plus-circle',
+      'save' => 'save',
+      'send' => 'share-square',
+      'cancel' => 'remove',
+      'add' => 'plus',
+      'up' => 'arrow-up',
+      'down' => 'arrow-down',
+      'left' => 'arrow-left',
+      'right' => 'arrow-right',
+      'up-disabled' => 'arrow-up',
+      'down-disabled' => 'arrow-down',
+      'left-disabled' => 'arrow-left',
+      'right-disabled' => 'arrow-right',
+      'up-read' => 'quote-right',
+      'search' => 'search',
+      'ok' => 'check',
+      'login' => 'sign-in',
+      'help' => 'question',
+      'spread' => 'send',
+      'eyes' => 'eye',
+      'photos' => 'image',
+      'menu-people' => 'user',
+      'event' => 'calendar',
+      'forum' => 'users',
+      'home' => 'home',
+      'product' => 'shopping-bag',
+      'todo' => 'clipboard',
+      'chat' => 'comments',
+      'enterprise' => 'building-o',
+      'blog' => 'newspaper-o',
+      'community' => 'users',
+    }
+
+    icons.default = 'generic-icon'
+    
+    icons[content_type.split('/').first()]
+  end
+
   private
 
   def profile_quota_usage
@@ -215,5 +263,4 @@ class UploadedFile < Article
   def update_profile_disk_usage
     profile.update_disk_usage!
   end
-
 end

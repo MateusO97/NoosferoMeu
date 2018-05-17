@@ -50,9 +50,13 @@ module ApplicationHelper
 
   include TaskHelper
 
+  include TasksHelper
+
   include MembershipsHelper
 
   include StyleHelper
+
+  include CustomFieldsHelper
 
   def locale
     (@page && !@page.language.blank?) ? @page.language : FastGettext.locale
@@ -211,12 +215,11 @@ module ApplicationHelper
   end
 
   def icon_button(type, text, url, html_options = {})
-    the_class = "button icon-button icon-#{type}"
+    css_class = "icon-button icon-#{type}"
     if html_options.has_key?(:class)
-      the_class << ' ' << html_options[:class]
+      css_class << ' ' << html_options[:class]
     end
-
-    link_to(content_tag('span', text), url, html_options.merge(:class => the_class, :title => text))
+    link_to(content_tag('span', text), url, html_options.merge(class: css_class, title: text))
   end
 
   def render_profile_actions klass
@@ -309,6 +312,10 @@ module ApplicationHelper
     @theme_site_title ||= theme_include 'site_title'
   end
 
+  def theme_user
+    @theme_user ||= theme_include 'user'
+  end
+
   def theme_header
     @theme_header ||= theme_include 'header'
   end
@@ -337,7 +344,7 @@ module ApplicationHelper
     Theme.find(current_theme).owner.identifier
   end
 
-  def popover_menu(title,menu_title,links,html_options={})
+  def popover_menu(title, menu_title, links,html_options = {})
     html_options[:class] = "" unless html_options[:class]
     html_options[:class] << " menu-submenu-trigger"
     html_options[:onclick] = "toggleSubmenu(this, '#{menu_title}', #{CGI::escapeHTML(links.to_json)}); return false".html_safe
@@ -440,10 +447,10 @@ module ApplicationHelper
     javascript_include_tag script if script
   end
 
-  def file_field_or_thumbnail(label, image, for_attr, removable = true)
+  def file_field_or_thumbnail(label, image, for_attr, type = 'default', removable = true)
     display_form_field label, (
       render :partial => (image && image.valid? ? 'shared/show_thumbnail' : 'shared/change_image'),
-      :locals => { :image => image, :removable => removable, :for_attr => for_attr }
+      :locals => { :image => image, :removable => removable, :for_attr => for_attr, :type => type }
       )
   end
 
@@ -693,21 +700,6 @@ module ApplicationHelper
     content_for(:head) { stylesheet_link_tag(*args) }
   end
 
-  # Please, use link_to by default!
-  # This method was created to work around to inexplicable
-  # chain of problems when display_short_format was called
-  # from Article model for an ArticleBlock.
-  def reference_to_article(text, article, anchor=nil)
-    if article.profile.domains.empty?
-      href = "#{Noosfero.root}/#{article.url[:profile]}/"
-    else
-      href = "http://#{article.profile.domains.first.name}#{Noosfero.root}/"
-    end
-    href += article.url[:page].join('/')
-    href += '#' + anchor if anchor
-    content_tag('a', text, :href => href)
-  end
-
   def display_short_format(article, options={})
     options[:comments_link] ||= true
     options[:read_more_link] ||= true
@@ -748,7 +740,20 @@ module ApplicationHelper
   end
 
   def float_to_currency(value)
-    number_to_currency(value, :unit => environment.currency_unit, :separator => environment.currency_separator, :delimiter => environment.currency_delimiter, :format => "%u %n")
+    number_to_currency(value,  :format => "%u %n", locale: currency_locale())
+  end
+
+  def currency_locale
+    current_lang = environment.default_language
+    return :"pt-BR" if current_lang.eql? 'pt'
+    current_lang.try(:to_sym)
+  end
+
+  def currency_symbol
+    current_lang = environment.default_language
+    return "R$" if current_lang.eql? 'pt'
+    return "€" if (current_lang.eql? 'fr' or current_lang.eql? 'es')
+    "$"
   end
 
   def collapsed_item_icon
@@ -816,47 +821,51 @@ module ApplicationHelper
       links.merge(_('New content') => modal_options({:href => url_for({:controller => 'cms', :action => 'new', :profile => current_user.login, :cms => true})}))
     end
 
-    link_to(content_tag(:span, _('Contents'), :class => 'icon-menu-articles'), {:controller => "search", :action => 'contents', :category_path => nil}, :id => 'submenu-contents') +
-    popover_menu(_('Contents menu'),'',links,:class => 'up', :id => 'submenu-contents-trigger')
+    link_to(font_awesome(:article, _('Contents')), { controller: "search", action: 'contents', category_path: nil }, { id: 'submenu-contents', class: 'icon-menu-articles' })
   end
   alias :browse_contents_menu :search_contents_menu
 
   def search_people_menu
-    host = environment.default_hostname
-     links = {
-       s_('people|More recent') => {href: url_for({host: host, controller: 'search', action: 'people', filter: 'more_recent'})},
-       s_('people|More active') => {href: url_for({host: host, controller: 'search', action: 'people', filter: 'more_active'})},
-       s_('people|More popular') => {href: url_for({host: host, controller: 'search', action: 'people', filter: 'more_popular'})}
-     }
-     if logged_in?
-       links.merge!(_('My friends') => {:href => url_for({:profile => current_user.login, :controller => 'friends'})})
-       links.merge!(_('Invite friends') => {:href => url_for({:profile => current_user.login, :controller => 'invite', :action => 'friends'})})
-     end
-
-    link_to(content_tag(:span, _('People'), :class => 'icon-menu-people'), {:controller => "search", :action => 'people', :category_path => ''}, :id => 'submenu-people') +
-    popover_menu(_('People menu'),'',links,:class => 'up', :id => 'submenu-people-trigger')
+    return '' if user && !user.environment.enabled?(:search_people)
+    link_to(font_awesome(:user, _('People')), { controller: "search", action: 'people', category_path: ''}, { id: 'submenu-people', class: 'icon-menu-people' })
   end
   alias :browse_people_menu :search_people_menu
 
-  def search_communities_menu
+  def search_people_options
     host = environment.default_hostname
-     links = {
-       s_('communities|More recent') => {href: url_for({host: host, controller: 'search', action: 'communities', filter: 'more_recent'})},
-       s_('communities|More active') => {href: url_for({host: host, controller: 'search', action: 'communities', filter: 'more_active'})},
-       s_('communities|More popular') => {href: url_for({host: host, controller: 'search', action: 'communities', filter: 'more_popular'})}
-     }
-     if logged_in?
-       links.merge!(_('My communities') => {:href => url_for({:profile => current_user.login, :controller => 'memberships'})})
-       links.merge!(_('New community') => {:href => url_for({:profile => current_user.login, :controller => 'memberships', :action => 'new_community'})})
-     end
+    [
+      (link_to s_('people|More recent'), controller: 'search', action: 'people', filter: 'more_recent'),
+      (link_to s_('people|More active'), controller: 'search', action: 'people', filter: 'more_active'),
+      (link_to s_('people|More popular'), controller: 'search', action: 'people', filter: 'more_popular')
+    ]
+  end
 
-    link_to(content_tag(:span, _('Communities'), :class => 'icon-menu-community'), {:controller => "search", :action => 'communities'}, :id => 'submenu-communities') +
-    popover_menu(_('Communities menu'),'',links,:class => 'up', :id => 'submenu-communities-trigger')
+  def search_community_options
+    host = environment.default_hostname
+    [
+      (link_to s_('communities|More recent'), controller: 'search', action: 'communities', filter: 'more_recent'),
+      (link_to s_('communities|More active'), controller: 'search', action: 'communities', filter: 'more_active'),
+      (link_to s_('communities|More popular'), controller: 'search', action: 'communities', filter: 'more_popular')
+    ]
+  end
+
+  def search_communities_menu
+    return '' if user && !user.environment.enabled?(:search_communities)
+    link_to(font_awesome(:users, _('Communities')), { controller: "search", action: 'communities' }, { id: 'submenu-communities', class: 'icon-menu-community' })
   end
   alias :browse_communities_menu :search_communities_menu
 
+  def search_events_menu
+    @search_events_url = content_tag(:a, content_tag(:i, "", :class => 'fa fa-calendar') + _('Events'), :class => 'icon-menu-events', :href => "/search/events", :id => 'submenu-events')
+    render :text => @search_events_url
+  end
+  alias :browse_events_menu :search_events_menu
+
   def pagination_links(collection, options={})
-    options = {:previous_label => content_tag(:span, '&laquo; '.html_safe, :class => 'previous-arrow') + _('Previous'), :next_label => _('Next') + content_tag(:span, ' &raquo;'.html_safe, :class => 'next-arrow'), :inner_window => 1, :outer_window => 0 }.merge(options)
+    options = { previous_label: content_tag(:span, font_awesome('long-arrow-left', _('Previous'))),
+                next_label:     content_tag(:span, "#{_('Next')} #{font_awesome('long-arrow-right')}".html_safe),
+                inner_window: 1,
+                outer_window: 0 }.merge(options)
     will_paginate(collection, options)
   end
 
@@ -871,37 +880,38 @@ module ApplicationHelper
     result.html_safe
   end
 
-  def manage_link(list, kind, title)
+  def manage_link(list, kind, title, icon = '')
     if list.present?
       link_to_all = nil
       if list.count > 5
         list = list.first(5)
-        link_to_all = link_to(content_tag('strong', _('See all')), :controller => 'memberships', :profile => user.identifier)
+        link_to_all = link_to( font_awesome('plus-circle', _('See all')), :controller => 'memberships', :profile => user.identifier)
       end
       link = list.map do |element|
-        link_to(content_tag('strong', _('<span>Manage</span> %s').html_safe % element.short_name(25)), element.admin_url, :class => "icon-menu-"+element.class.identification.underscore, :title => _('Manage %s').html_safe % element.short_name)
+        link_to( font_awesome( icon, _('Manage %s').html_safe % element.short_name(25)),
+                 element.admin_url, :title => (_('Manage %s').html_safe % element.short_name))
       end
       if link_to_all
         link << link_to_all
       end
-      render :partial => "shared/manage_link", :locals => {:link => link, :kind => kind.to_s, :title => title}
+      render :partial => "shared/manage_link", :locals => {:link => link, :kind => kind.to_s, :title => font_awesome(icon, title)}
     end
   end
 
   def manage_enterprises
     return '' unless user && user.environment.enabled?(:display_my_enterprises_on_user_menu)
-    manage_link(user.enterprises, :enterprises, _('My enterprises')).to_s
+    manage_link(user.enterprises, :enterprises, _('My enterprises'), 'suitcase').to_s
   end
 
   def manage_communities
     return '' unless user && user.environment.enabled?(:display_my_communities_on_user_menu)
     administered_communities = user.communities.more_popular.select {|c| c.admins.include? user}
-    manage_link(administered_communities, :communities, _('My communities')).to_s
+    manage_link(administered_communities, :communities, _('My communities'), :users).to_s
   end
 
   def admin_link
-    admin_icon = '<i class="icon-menu-admin"></i><strong>' + _('Administration') + '</strong>'
-    user.is_admin?(environment) ? link_to(admin_icon.html_safe, environment.admin_url, :title => _("Configure the environment"), :class => 'admin-link') : ''
+    admin_icon = font_awesome(:shield, _('Administration'))
+    user.is_admin?(environment) ? link_to(admin_icon, environment.admin_url, title: _("Configure the environment"), class: 'admin-link') : nil
   end
 
   def usermenu_logged_in
@@ -909,7 +919,7 @@ module ApplicationHelper
     count = user ? Task.to(user).pending.count : -1
 
     if count > 0
-      pending_tasks_count = link_to(count.to_s, 
+      pending_tasks_count = link_to(count.to_s,
       user.tasks_url,
       :id => 'pending-tasks-count',
       :title => _("Manage your pending tasks"))
@@ -919,32 +929,45 @@ module ApplicationHelper
     join_result
   end
 
-  def user_menu_items (pending_tasks_count)
-    items = [
-      welcome_span.html_safe,
-      *plugins_items,
+  def main_dropdown_items
+    [
+      search_contents_menu,
+      search_people_menu,
+      search_communities_menu,
+      search_events_menu
+    ]
+  end
+
+
+  def user_menu_items
+    [
+      search_contents_menu,
+      search_people_menu,
+      search_events_menu,
+      search_communities_menu,
       render_environment_features(:usermenu).html_safe,
-      admin_link.html_safe,
+      user.is_admin?(environment) ? admin_link : nil,
       manage_enterprises,
       manage_communities,
-      ctrl_panel_link.html_safe,
-      pending_tasks_count.html_safe,
-      logout_link.html_safe
+      ctrl_panel_link,
+      *plugins_items,
+      logout_link
     ]
-    items 
   end
 
   def logout_link
-    logout_icon = '<i class="icon-menu-logout"></i><strong>' + _('Logout') + '</strong>'
-    logout_link = link_to(logout_icon.html_safe,
-      {:controller => 'account',:action => 'logout'},
-      :id => "logout", :title => _("Leave the system"))
-    logout_link   
+    link_to(font_awesome(:logout, _('Logout')), { controller: 'account', action: 'logout' }, id: "logout", title: _("Leave the system"))
   end
 
   def plugins_items
-    plugins_items = @plugins.dispatch(:user_menu_items, user).collect { |content| instance_eval(&content) }
-    plugins_items
+    actions = []
+    plugins_toolbar(user).each do |item|
+      item[:html_options] ||= {}
+      item[:html_options][:title] ||= item[:title]
+      title = font_awesome(item[:icon], item[:title])
+      actions << link_to( title, item[:url], item[:html_options])
+    end
+    actions
   end
 
   def welcome_span
@@ -953,31 +976,22 @@ module ApplicationHelper
         user.url,
         :id => "homepage-link",
         :title => _('Go to your homepage'))
-    welcome_span = _("<span class='welcome'>Welcome,</span> %s") % welcome_link.html_safe
-    welcome_span
+    welcome_link.html_safe
   end
 
-  def ctrl_panel_link 
-    ctrl_panel_icon = '<i class="icon-menu-ctrl-panel"></i>'
-    ctrl_panel_section = '<strong>' + ctrl_panel_icon + _('Control panel') + '</strong>'
-    ctrl_panel_link = link_to(ctrl_panel_section.html_safe, user.admin_url,
-      :class => 'ctrl-panel',
-      :title => _("Configure your personal account and content"))
-    ctrl_panel_link
+  def ctrl_panel_link
+    link_to(font_awesome(:cog, _('Control panel')), user.admin_url,
+                          class: 'ctrl-panel', title: _("Configure your personal account and content"))
   end
 
-  def usermenu_notlogged_in
-    login_str = '<i class="icon-menu-login"></i><strong>' + _('Login') + '</strong>'
-    ret = _("<span class='login'>%s</span>") % modal_inline_link_to(login_str.html_safe, login_url, '#inlineLoginBox', :id => 'link_login')
-    return ret.html_safe
+  def modal_link_to_login
+    modal_inline_link_to(font_awesome(:login, _('Login')), '#', '#inlineLoginBox', id: 'link_login')
   end
 
-  def usermenu_signup
-    signup_str = '<strong>' + _('Sign up') + '</strong>'
-    ret = _("<span class='or'>or</span> <span class='signup'>%s</span>") % link_to(signup_str.html_safe, :controller => 'account', :action => 'signup')
-    return ret.html_safe
-
+  def link_to_signup
+    link_to(font_awesome(:user, _('Sign up')), controller: 'account', action: 'signup')
   end
+
   def limited_text_area(object_name, method, limit, text_area_id, options = {})
     content_tag(:div, safe_join([
       text_area(object_name, method, { :id => text_area_id, :onkeyup => "limited_text_area('#{text_area_id}', #{limit})" }.merge(options)),
@@ -1001,7 +1015,6 @@ module ApplicationHelper
 
   def comment_balloon(options = {}, &block)
     wrapper = content_tag(:div, capture(&block), :class => 'comment-balloon-content')
-    (1..8).to_a.reverse.each { |i| wrapper = content_tag(:div, wrapper, :class => "comment-wrapper-#{i}") }
     classes = options.delete(:class) || options.delete("class") || ''
     concat(content_tag('div', wrapper + tag('br', :style => 'clear: both;'), { :class => 'comment-balloon ' + classes.to_s }.merge(options)))
   end
@@ -1057,8 +1070,8 @@ module ApplicationHelper
             :action => 'report_abuse',
             :profile => profile.identifier }
     url.merge!({:content_type => content.class.name, :content_id => content.id}) if content
-    text = content_tag('span', _('Report abuse'))
-    klass = 'report-abuse-action'
+    text = font_awesome(:alert, _('Report abuse'))
+    klass = 'report-abuse-action '
     already_reported_message = _('You already reported this profile.')
     report_profile_message = _('Report this profile for abusive behaviour')
     report_depending_component(profile, type, content, url, text, klass, already_reported_message, report_profile_message)
@@ -1075,13 +1088,12 @@ module ApplicationHelper
       if user.already_reported?(profile)
         content_tag('a', text, :class => klass + ' disabled button with-text icon-alert', :title => already_reported_message)
       else
-        link_to(text, url, :class => klass + ' button with-text icon-alert', :title => report_profile_message)
+        link_to(text, url, :class => klass + 'with-text icon-alert', :title => report_profile_message)
       end
     elsif type == :comment_link
-      (user.already_reported?(profile) ?
-        content_tag('a', text, :class => klass + ' disabled comment-footer comment-footer-link', :title => already_reported_message) :
-        link_to(text, url, :class => klass + ' comment-footer comment-footer-link', :title => report_profile_message)
-      ) + content_tag('span', ' ', :class => 'comment-footer comment-footer-hide')
+      user.already_reported?(profile) ?
+        content_tag('a', text, :class => klass + 'disabled', :title => already_reported_message) :
+        link_to(text, url, :class => klass, :title => report_profile_message)
     end
   end
 
@@ -1111,7 +1123,7 @@ module ApplicationHelper
   def expirable_link_to(expired, content, url, options = {})
     if expired
       options[:class] = (options[:class] || '') + ' disabled'
-      content_tag('a', '&nbsp;'.html_safe+content_tag('span', content), options)
+      content_tag('a', content, options)
     else
       if options[:modal]
         options.delete(:modal)
@@ -1279,26 +1291,18 @@ module ApplicationHelper
     text_field(object_name, method, options.merge(:class => 'colorpicker_field'))
   end
 
-  def fullscreen_buttons(itemId)
-    content="
-      <script>fullscreenPageLoad('#{itemId}')</script>
-    "
-    content+=content_tag('a', content_tag('span',_("Full screen")),
-    { :id=>"fullscreen-btn",
-      :onClick=>"toggle_fullwidth('#{itemId}')",
-      :class=>"button with-text icon-fullscreen",
-      :href=>"#",
-      :title=>_("Go to full screen mode")
-    })
+  def fullscreen_buttons(item_id)
+    content =  javascript_tag "fullscreenPageLoad('#{item_id}')"
+    content += content_tag('a', font_awesome(:fullscreen, _("Full screen")), { id: "fullscreen-btn",
+                                                    onclick: "toggle_fullwidth('#{item_id}')",
+                                                    href: "#",
+                                                    title: _("Go to full screen mode") })
 
-    content+=content_tag('a', content_tag('span',_("Exit full screen")),
-    { :style=>"display: none;",
-      :id=>"exit-fullscreen-btn",
-      :onClick=>"toggle_fullwidth('#{itemId}')",
-      :class=>"button with-text icon-fullscreen",
-      :href=>"#",
-      :title=>_("Exit full screen mode")
-    })
+    content += content_tag('a', font_awesome(:compress, _("Exit full screen")), { id: "exit-fullscreen-btn",
+                                                         onclick: "toggle_fullwidth('#{item_id}')",
+                                                         href: "#",
+                                                         title: _("Exit full screen mode"),
+                                                         style: "display: none;" })
     content.html_safe
   end
 
@@ -1315,7 +1319,8 @@ module ApplicationHelper
 
   def captcha_tags(action, user, environment, profile = nil)
     if environment.require_captcha?(action, user, profile)
-      content_tag('p', recaptcha_tags(:ajax => true))
+      content_tag('div', recaptcha_tags(:ajax => true, :script => true),
+                  class: 'recaptcha-wrapper')
     end
   end
 end
