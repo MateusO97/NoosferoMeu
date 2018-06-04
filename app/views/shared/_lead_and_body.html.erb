@@ -5,14 +5,13 @@
 <% body_method ||= :body %>
 <% editor_type = current_editor %>
 <% lead_id ||= 0%>
-<% f ||= false%>
+<% f ||= false %>
 
 <% if @article %>
-  <%= file_field_or_thumbnail(_('Image:'), @article.image, 'article[image_builder]') %>
+        <%= file_field_or_thumbnail(_('Image:'), @article.image, 'article[image_builder]', 'article') %>
 <% end %>
 
-<br style="clear: both;"/>
-<%= button :add, _("Lead"), '#', :class => "lead-button", :article_id => "#article-lead-"+lead_id.to_s, :style => "margin-left: 0px;" %>
+<%= button :add, _("Add Lead"), '#', :class => "lead-button", :article_id => "#article-lead-"+lead_id.to_s, :style => "margin-left: 0px;" %>
 <em><%= _('Used when a short version of your text is needed.') %></em>
 
 <div class='article-lead' id="article-lead-<%=lead_id.to_s%>">

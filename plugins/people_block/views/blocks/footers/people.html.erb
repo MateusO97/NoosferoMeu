@@ -1,1 +1,1 @@
-<%= link_to c_('View all'), {:controller => 'search', :action => 'people'}, :class => 'view-all' %>
+<%= render partial: 'blocks/footers/view_all', locals: {:controller => 'search', :action => 'people', :block_elements => block.profile_list} unless block.profile_count == 0 %>

@@ -270,42 +270,6 @@ class PeopleTest < ActiveSupport::TestCase
     assert_equal Api::Status::Http::UNPROCESSABLE_ENTITY, last_response.status
   end
 
-  should 'display permissions' do
-    login_api
-    community = fast_create(Community)
-    community.add_member(fast_create(Person))
-    community.add_member(person)
-    permissions = Profile::Roles.member(person.environment.id).permissions
-    get "/api/v1/people/#{person.id}/permissions?#{params.to_query}"
-    json = JSON.parse(last_response.body)
-
-    assert_equal json[community.identifier], permissions
-  end
-
-  should 'display permissions if self' do
-    login_api
-    get "/api/v1/people/#{person.id}/permissions?#{params.to_query}"
-    assert_equal 200, last_response.status
-  end
-
-  should 'display permissions if admin' do
-    login_api
-    environment = person.environment
-    environment.add_admin(person)
-    some_person = fast_create(Person)
-
-    get "/api/v1/people/#{some_person.id}/permissions?#{params.to_query}"
-    assert_equal 200, last_response.status
-  end
-
-  should 'not display permissions if not admin or self' do
-    login_api
-    some_person = fast_create(Person)
-
-    get "/api/v1/people/#{some_person.id}/permissions?#{params.to_query}"
-    assert_equal 403, last_response.status
-  end
-
   should 'not update another person' do
     login_api
     person = fast_create(Person, :environment_id => environment.id)
@@ -328,7 +292,7 @@ class PeopleTest < ActiveSupport::TestCase
     login_api
     CustomField.create!(:name => "Custom Blog", :format => "string", :customized_type => "Person", :active => true, :environment => environment)
     some_person = User.create!(:login => 'user1', :password => 'USER_PASSWORD', :password_confirmation => 'USER_PASSWORD', :email => 'test2@test.org', :environment => environment).person
-    some_person.user.activate
+    some_person.user.activate!
     some_person.reload
 
     some_person.custom_values = { "Custom Blog" => { "value" => "www.blog.org", "public" => "true"} }
@@ -346,7 +310,7 @@ class PeopleTest < ActiveSupport::TestCase
     some_person = User.create!(:login => 'user1', :password => 'USER_PASSWORD', :password_confirmation => 'USER_PASSWORD', :email => 'test2@test.org', :environment => environment).person
     some_person.custom_values = { "Custom Blog" => { "value" => "www.blog.org", "public" => "0"} }
     some_person.save!
-    some_person.user.activate
+    some_person.user.activate!
 
     get "/api/v1/people/#{some_person.id}?#{params.to_query}"
     json = JSON.parse(last_response.body)
@@ -388,7 +352,7 @@ class PeopleTest < ActiveSupport::TestCase
     login_api
     CustomField.create!(:name => "Custom Blog", :format => "string", :customized_type => "Person", :active => true, :environment => environment)
     some_person = User.create!(:login => 'user1', :password => 'USER_PASSWORD', :password_confirmation => 'USER_PASSWORD', :email => 'test2@test.org', :environment => environment).person
-    some_person.user.activate
+    some_person.user.activate!
     some_person.reload
 
     some_person.custom_values = { "Custom Blog" => { "value" => "www.blog.org", "public" => "0"} }
@@ -437,11 +401,11 @@ class PeopleTest < ActiveSupport::TestCase
     profile = fast_create(Community)
     post "/api/v1/profiles/#{profile.id}/members?#{params.to_query}"
     json = JSON.parse(last_response.body)
-    assert_equal json['pending'], false
+    assert_equal json['code'], Api::Status::Membership::MEMBER
     assert person.is_member_of?(profile)
   end
 
-  should 'create task when add logged person as member of a moderated profile' do
+  should 'create pending task when add logged person as member of a moderated profile' do
     login_api
     profile = fast_create(Community, public_profile: false)
     profile.add_member(create_user.person)
@@ -449,8 +413,19 @@ class PeopleTest < ActiveSupport::TestCase
     profile.save!
     post "/api/v1/profiles/#{profile.id}/members?#{params.to_query}"
     json = JSON.parse(last_response.body)
-    assert_equal json['pending'], true
+    assert_equal json['code'], Api::Status::Membership::WAITING_FOR_APPROVAL
     assert !person.is_member_of?(profile)
+  end
+
+  should 'create return true on task creation when add logged person as member of a moderated profile' do
+    login_api
+    profile = fast_create(Community, public_profile: false)
+    profile.add_member(create_user.person)
+    profile.closed = true
+    profile.save!
+    post "/api/v1/profiles/#{profile.id}/members?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal json['success'], true
   end
 
   should 'remove logged person as member of a profile' do
@@ -667,24 +642,63 @@ class PeopleTest < ActiveSupport::TestCase
     assert_equal 3, json['count']
   end
 
-  should 'add a new person friend' do
+  should 'add a new person friend return success' do
     login_api
     friend = create_user('friend').person
     person.add_friend(friend)
     friend.add_friend(person)
     post "/api/v1/people/#{friend.id}/friends?#{params.to_query}"
     json = JSON.parse(last_response.body)
-    assert_equal json['message'], 'WAITING_APPROVAL'
+    assert_equal json['success'], true
   end
-  
-  should 'remove person friend' do
+
+  should 'add a new person friend return waiting for approval code' do
+    login_api
+    friend = create_user('friend').person
+    person.add_friend(friend)
+    friend.add_friend(person)
+    post "/api/v1/people/#{friend.id}/friends?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal json['code'], Api::Status::Friendship::WAITING_FOR_APPROVAL
+  end
+
+  should 'remove person friend should return https status 200' do
+    login_api
+    friend = fast_create(Person)
+    person.add_friend(friend)
+    friend.add_friend(person)
+    delete "/api/v1/people/#{friend.id}/friends?#{params.to_query}"
+    assert_equal 200, last_response.status
+  end  
+
+  should 'remove person friend return success' do
     login_api
     friend = fast_create(Person)
     person.add_friend(friend)
     friend.add_friend(person)
     delete "/api/v1/people/#{friend.id}/friends?#{params.to_query}"
     json = JSON.parse(last_response.body)
-    assert_equal json['message'], "Friend successfuly removed"
+    assert_equal json['success'], true
+  end
+
+  should 'remove person friend return  no content noosfero status code' do
+    login_api
+    friend = fast_create(Person)
+    person.add_friend(friend)
+    friend.add_friend(person)
+    delete "/api/v1/people/#{friend.id}/friends?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal json['code'], Api::Status::Http::NO_CONTENT 
+  end
+
+  should 'remove person friend remove the relationship from database' do
+    login_api
+    friend = fast_create(Person)
+    person.add_friend(friend)
+    friend.add_friend(person)
+    delete "/api/v1/people/#{friend.id}/friends?#{params.to_query}"
+    person.reload
+    assert !person.friends.include?(friend)
   end  
 
   should 'list a person friend' do

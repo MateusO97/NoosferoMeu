@@ -40,15 +40,11 @@ if bundle exec rake db:exists; then
   bundle exec rake db:migrate
 else
   echo ">>>>> NO DATABASE DETECTED CREATING A NEW ONE <<<<<"
-  bundle exec rake db:create
   bundle exec rake db:schema:load
   bundle exec rake db:migrate
 
-  echo ">>>>> DEFAULT ENVIRONMENT <<<<<"
-  RAILS_ENV=production rails runner config/docker/prod/default_env_config.rb
-
-  echo ">>>>> ADMIN ACCOUNT <<<<<"
-  RAILS_ENV=production rails runner config/docker/prod/default_adminuser_config.rb
+  echo ">>>>> CREATING DEFAULT ENVIRONMENT AND ADMIN USER <<<<<"
+  bundle exec rake db:data:minimal
 fi
 
 echo ">>>>> PID VERIFICATION <<<<<"
