@@ -34,7 +34,7 @@ gitlab-unstable-deploy:
   environment: development
   tags:
     - docker
-    
+
 gitlab-stable-deploy:
   before_script:
     - ''
@@ -84,104 +84,78 @@ specs-models:
   script: bundle exec rake spec SPEC=spec/models
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 api:
   <<: *retriable
   script: bundle exec rake test:api
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 units:
   <<: *retriable
   script: bundle exec rake test:units
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 functionals:
   <<: *retriable
   script: bundle exec rake test:functionals
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 integration:
   <<: *retriable
   script: bundle exec rake test:integration
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 cucumber-1:
   <<: *retriable
   script: SLICE=1/2 bundle exec rake cucumber
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 cucumber-2:
   <<: *retriable
   script: SLICE=2/2 bundle exec rake cucumber
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 selenium-1:
   <<: *retriable
   script: SLICE=1/6 bundle exec rake selenium
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 selenium-2:
   <<: *retriable
   script: SLICE=2/6 bundle exec rake selenium
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 selenium-3:
   <<: *retriable
   script: SLICE=3/6 bundle exec rake selenium
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 selenium-4:
   <<: *retriable
   script: SLICE=4/6 bundle exec rake selenium
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 selenium-5:
   <<: *retriable
   script: SLICE=5/6 bundle exec rake selenium
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 selenium-6:
   <<: *retriable
   script: SLICE=6/6 bundle exec rake selenium
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 # # NOOSFERO_BUNDLE_OPTS=install makes migrations fails
 # # probably because of rubygems-integration
@@ -190,37 +164,27 @@ plugins-1:
   script: SLICE=1/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 plugins-2:
   <<: *retriable
   script: SLICE=2/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 plugins-3:
   <<: *retriable
   script: SLICE=3/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 plugins-4:
   <<: *retriable
   script: SLICE=4/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
 
 plugins-5:
   <<: *retriable
   script: SLICE=5/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
   image: noosfero/ci
-  except:
-    - unstable_deploy
