@@ -3,7 +3,11 @@
 }
 
 .controller-users .search-field #q {
-  width: 85%;
+  width: 100%;
+}
+
+.controller-users .search-field a.button {
+  margin: 0;
 }
 
 .controller-users .search-field input[type='submit'] {
@@ -35,7 +39,4 @@
 }
 .environment-profiles-results-footer {
   float: right;
-}
-#environment-profiles-filter-filter {
-  background-color: blue;
 }
