@@ -38,6 +38,12 @@ class CustomFormsPluginProfileController < ProfileController
     end
   end
 
+  def edit
+    profile = Profile.find_by(identifier: params[:profile])
+    @form = profile.forms.find_by(identifier: params[:id])
+    @submission = CustomFormsPlugin::Submission.find_by form_id: @form.id, profile_id: user.id
+  end
+
   def review
     profile = Profile.find_by(identifier: params[:profile])
     @form = profile.forms.find_by(identifier: params[:id])

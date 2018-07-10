@@ -35,6 +35,9 @@
       <%= render partial: 'shared/form_submission',
                locals: { f: f, form: @form, submission: @submission } %>
     <% end %>
+
+    <%= button "Edit", _("Edit response"),{action: 'edit' ,controller: 'custom_forms_plugin_profile'}   %>
+
   <% end %>
 
 </div><!-- end id="custom-forms-plugin_submission" -->

@@ -31,6 +31,13 @@ class CustomFormsPlugin < Noosfero::Plugin
     Noosfero::Application.routes.draw do
       match "/profile/:profile/query/:id" => 'custom_forms_plugin_profile#show',
         via: [:get, :post]
+
+      match "/profile/:profile/query/:id/edit" => 'custom_forms_plugin_profile#edit',
+        via: [:get]
+
+      match "/profile/:profile/query/:id" => 'custom_forms_plugin_profile#update',
+        via: [:patch]
+
       get "/profile/:profile/query/:id/results" => 'custom_forms_plugin_profile#review'
     end
   end
