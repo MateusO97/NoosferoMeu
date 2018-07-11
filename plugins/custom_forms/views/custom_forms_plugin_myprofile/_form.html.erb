@@ -49,6 +49,9 @@
   </p>
 <% end %>
 
+<%= content_tag('h4', _('Responses')) %>
+  <%= labelled_check_box _('Make the response editable'), 'form[is_editable]', '1', @form.is_editable %>
+
 <%= content_tag('h4', _('Description')) %>
 <div class='formfieldline'>
   <%= f.text_area(:description, :style => 'width: 100%', :class => current_editor('simple')) %>
