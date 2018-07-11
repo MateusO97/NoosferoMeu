@@ -1,8 +1,14 @@
 <% self.extend(CustomFormsPlugin::Helper) %>
 <div class='form-submission'>
 
+  <% if action == 'update' %>
+    <% can_edit = true %>
+  <% else %>
+    <% can_edit = false %>
+  <% end %>
+
   <% form.fields.each do |field| %>
-    <%= display_custom_field(field, submission, f.object_name).html_safe %>
+    <%= display_custom_field(field, submission, f.object_name, can_edit).html_safe %>
   <% end %>
 
   <% if submission.id.present? %>

@@ -44,6 +44,37 @@ class CustomFormsPluginProfileController < ProfileController
     @submission = CustomFormsPlugin::Submission.find_by form_id: @form.id, profile_id: user.id
   end
 
+  def update
+      profile = Profile.find_by(identifier: params[:profile])
+      @form = profile.forms.find_by(identifier: params[:id])
+      @submission = CustomFormsPlugin::Submission.find_by form_id: @form.id, profile_id: user.id
+
+      new_answers = params[:submission]
+      builded_answers = {}
+
+      new_answers.each do |key, value|
+        final_answer = ''
+
+        if value.kind_of?(String)
+                final_answer = value
+        elsif value.kind_of?(Array)
+                final_answer = value.join(',')
+        elsif value.kind_of?(Hash)
+                final_answer = value.map {|option, present| present == '1' ? option : nil}.compact.join(',')
+        end
+        answer_id = CustomFormsPlugin::Answer.find_by(field_id: key, submission_id: @submission.id).id
+        builded_answers.merge!(answer_id => {'value' => final_answer})
+
+      end
+
+      if CustomFormsPlugin::Answer.update(builded_answers.keys, builded_answers.values)
+        redirect_to :action => 'show'
+      else
+        render :action => 'edit'
+      end
+
+  end
+
   def review
     profile = Profile.find_by(identifier: params[:profile])
     @form = profile.forms.find_by(identifier: params[:id])

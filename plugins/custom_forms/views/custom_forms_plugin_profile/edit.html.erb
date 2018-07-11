@@ -1,6 +1,6 @@
 <h1><%= _('Edit form') %></h1>
 
-<%= form_for @submission, :as => :submission, :url => { :action => 'show', :id => params[:id] } do |f| %>
+<%= form_for @submission, :as => :submission, :url => { :action => 'update', :id => params[:id] } do |f| %>
  <%= render partial: 'shared/form',
-            locals: { form: @form, submission: @submission } %>
+            locals: { form: @form, submission: @submission, action: 'update' } %>
 <% end %>

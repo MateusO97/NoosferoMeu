@@ -23,7 +23,8 @@ class CustomFormsPlugin::Form < ApplicationRecord
 
   attr_accessible :name, :profile, :for_admission, :access, :begining, :kind,
                   :ending, :description, :fields_attributes, :profile_id,
-                  :on_membership, :identifier, :access_result_options, :image
+                  :on_membership, :identifier, :access_result_options, :image,
+                  :is_editable
 
   attr_accessor :remove_image
 
@@ -167,7 +168,7 @@ class CustomFormsPlugin::Form < ApplicationRecord
     (result_access.blank?) ||
     (result_access == 'public') ||
     (
-      result_access == 'public_after_ends' && 
+      result_access == 'public_after_ends' &&
       ((ending.present? && (ending < DateTime.now)) || can_view?(person))
     ) ||
     ((result_access == 'private') && can_view?(person))

@@ -71,10 +71,10 @@ module CustomFormsPlugin::Helper
     type.to_s.split(':').last.underscore
   end
 
-  def display_custom_field(field, submission, form)
+  def display_custom_field(field, submission, form, is_editable)
     sanitized_name = ActionView::Base.white_list_sanitizer.sanitize field.name
     answer = submission.answers.select{|answer| answer.field == field}.first
-    field_tag = send("display_#{type_for_options(field.class)}",field, answer, form).html_safe
+    field_tag = send("display_#{type_for_options(field.class)}",field, answer, form, is_editable).html_safe
     if field.mandatory? && submission.id.nil?
       required(labelled_form_field(sanitized_name, field_tag))
     else
@@ -82,16 +82,16 @@ module CustomFormsPlugin::Helper
     end
   end
 
-  def display_disabled?(field, answer)
-    (answer.present? && answer.id.present?) || field.form.expired?
+  def display_disabled?(field, answer, is_editable)
+    (answer.present? && answer.id.present? && !is_editable) || field.form.expired?
   end
 
-  def display_text_field(field, answer, form)
+  def display_text_field(field, answer, form, is_editable)
     value = answer.present? ? answer.value : field.default_value
     if field.show_as == 'textarea'
-      text_area(form, "#{field.id}", :value => value, :disabled => display_disabled?(field, answer))
+      text_area(form, "#{field.id}", :value => value, :disabled => display_disabled?(field, answer, is_editable))
     else
-      text_field(form, "#{field.id}", :value => value, :disabled => display_disabled?(field, answer))
+      text_field(form, "#{field.id}", :value => value, :disabled => display_disabled?(field, answer, is_editable))
     end
   end
 
@@ -99,14 +99,14 @@ module CustomFormsPlugin::Helper
     answer.present? ? answer.value.split(',') : field.alternatives.select {|a| a.selected_by_default}.map{|a| a.id.to_s}
   end
 
-  def display_select_field(field, answer, form)
+  def display_select_field(field, answer, form, is_editable)
     case field.show_as
     when 'select'
       selected = default_selected(field, answer)
       select_tag form.to_s + "[#{field.id}]",
                  options_for_select([['','']] +
                    field.alternatives.map {|a| [a.label, a.id.to_s]}, selected),
-                 :disabled => display_disabled?(field, answer)
+                 :disabled => display_disabled?(field, answer, is_editable)
 
     when 'multiple_select'
       selected = default_selected(field, answer)
@@ -114,7 +114,7 @@ module CustomFormsPlugin::Helper
                  options_for_select(field.alternatives.map{|a| [a.label, a.id.to_s]}, selected),
                  :multiple => true, :title => _('Hold down Ctrl to select options'),
                  :size => field.alternatives.size,
-                 :disabled => display_disabled?(field, answer)
+                 :disabled => display_disabled?(field, answer, is_editable)
 
     when 'check_box'
       field.alternatives.map do |alternative|
@@ -127,7 +127,7 @@ module CustomFormsPlugin::Helper
                            form.to_s + "[#{field.id}][#{alternative.id}]",
                            '1',
                            default,
-                           :disabled => display_disabled?(field, answer)),
+                           :disabled => display_disabled?(field, answer, is_editable)),
                     :class => 'labelled-check field-alternative-row')
       end.join("\n")
     when 'radio'
@@ -142,7 +142,7 @@ module CustomFormsPlugin::Helper
                            form.to_s + "[#{field.id}]",
                            alternative.id,
                            default,
-                           :disabled => display_disabled?(field, answer)),
+                           :disabled => display_disabled?(field, answer, is_editable)),
                     :class => 'labelled-check field-alternative-row')
       end.join("\n")
     end

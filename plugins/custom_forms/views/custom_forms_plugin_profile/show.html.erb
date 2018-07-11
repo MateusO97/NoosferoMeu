@@ -28,16 +28,15 @@
     <% end %>
 
     <%= render partial: 'shared/form',
-               locals: { form: @form, submission: @submission } %>
+               locals: { form: @form, submission: @submission, action: 'show' } %>
 
   <% else %>
     <%= fields_for :submission, @submission do |f| %>
       <%= render partial: 'shared/form_submission',
-               locals: { f: f, form: @form, submission: @submission } %>
+               locals: { f: f, form: @form, submission: @submission, action: 'show' } %>
     <% end %>
 
-    <%= button "Edit", _("Edit response"),{action: 'edit' ,controller: 'custom_forms_plugin_profile'}   %>
-
+      <%= button "Edit", _("Edit response"),{action: 'edit' ,controller: 'custom_forms_plugin_profile'}   %>
   <% end %>
 
 </div><!-- end id="custom-forms-plugin_submission" -->

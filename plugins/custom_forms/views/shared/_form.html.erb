@@ -1,14 +1,14 @@
 <%= error_messages_for :submission %>
 
 <%= form_for :submission, url: { controller: :custom_forms_plugin_profile,
-                                 action: :show, id: form.identifier }, :html => { :class => 'query-form' } do |f| %>
+                                 action: action, id: form.identifier }, :html => { :class => 'query-form' } do |f| %>
   <% if !user %>
     <%= required labelled_form_field _('Name'), text_field_tag(:author_name, submission.author_name) %>
     <%= required labelled_form_field _('Email'), text_field_tag(:author_email, submission.author_email) %>
   <% end %>
 
   <%= render :partial => 'shared/form_submission',
-             :locals => { form: form, submission: submission, f: f } %>
+             :locals => { form: form, submission: submission, f: f, action: action } %>
 
   <div class="notify"><%= _("Your e-mail will be visible to this form's owners.") %></div>
   <%= button_bar do %>
