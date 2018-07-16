@@ -52,26 +52,37 @@ class CustomFormsPluginProfileController < ProfileController
       new_answers = params[:submission]
       builded_answers = {}
 
-      new_answers.each do |key, value|
-        final_answer = ''
+      begin
+        new_answers.each do |key, value|
+          answer = CustomFormsPlugin::Answer.find_by(field_id: key, submission_id: @submission.id)
 
-        if value.kind_of?(String)
-                final_answer = value
-        elsif value.kind_of?(Array)
-                final_answer = value.join(',')
-        elsif value.kind_of?(Hash)
-                final_answer = value.map {|option, present| present == '1' ? option : nil}.compact.join(',')
+          if answer.field.mandatory && value.blank?
+            raise 'Submission field cannot be blank'
+          else
+
+            final_answer = ''
+
+            if value.kind_of?(String)
+              final_answer = value
+            elsif value.kind_of?(Array)
+              final_answer = value.join(',')
+            elsif value.kind_of?(Hash)
+              final_answer = value.map {|option, present| present == '1' ? option : nil}.compact.join(',')
+            end
+            builded_answers.merge!(answer.id => {'value' => final_answer})
+          end
         end
-        answer_id = CustomFormsPlugin::Answer.find_by(field_id: key, submission_id: @submission.id).id
-        builded_answers.merge!(answer_id => {'value' => final_answer})
 
-      end
-
-      if CustomFormsPlugin::Answer.update(builded_answers.keys, builded_answers.values)
-        redirect_to :action => 'show'
-      else
-        render :action => 'edit'
-      end
+          if CustomFormsPlugin::Answer.update(builded_answers.keys, builded_answers.values)
+            session[:notice] = _('Submission edited')
+            redirect_to :action => 'show'
+          else
+            raise 'Submission update error'
+          end
+    rescue Exception => e
+      session[:notice] = e.message
+      render :action => 'edit'
+    end
 
   end
 

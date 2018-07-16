@@ -43,4 +43,3 @@ class CustomFormsPlugin::Answer < ApplicationRecord
   end
 
 end
-
