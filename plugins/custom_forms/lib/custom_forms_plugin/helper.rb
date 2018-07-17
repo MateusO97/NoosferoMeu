@@ -3,6 +3,24 @@ module CustomFormsPlugin::Helper
 
   protected
 
+  def convert_answer(value)
+    final_value = ''
+      if value.kind_of?(String)
+        final_value = value
+        # validate(value, String)
+      elsif value.kind_of?(Array)
+        final_value = value.join(',')
+        # validate(value, Array)
+      elsif value.kind_of?(Hash)
+        final_value = value.map {|option, present| present == '1' ? option : nil}.compact.join(',')
+        # validate(value, Hash)
+      end
+  end
+
+  def is_valid
+    
+  end
+
   def html_for_field(builder, association, klass)
     new_object = klass.new
     builder.fields_for(association, new_object, :child_index => "new_#{association}") do |f|

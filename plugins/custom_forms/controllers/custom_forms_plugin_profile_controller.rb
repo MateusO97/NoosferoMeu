@@ -56,19 +56,10 @@ class CustomFormsPluginProfileController < ProfileController
         new_answers.each do |key, value|
           answer = CustomFormsPlugin::Answer.find_by(field_id: key, submission_id: @submission.id)
 
-          if answer.field.mandatory && value.blank?
+          if answer.field.mandatory && (value.blank? || value.empty?)
             raise 'Submission field cannot be blank'
           else
-
-            final_answer = ''
-
-            if value.kind_of?(String)
-              final_answer = value
-            elsif value.kind_of?(Array)
-              final_answer = value.join(',')
-            elsif value.kind_of?(Hash)
-              final_answer = value.map {|option, present| present == '1' ? option : nil}.compact.join(',')
-            end
+            convert_answer(value)
             builded_answers.merge!(answer.id => {'value' => final_answer})
           end
         end

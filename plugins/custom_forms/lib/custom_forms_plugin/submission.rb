@@ -35,14 +35,7 @@ class CustomFormsPlugin::Submission < ApplicationRecord
     self.form.fields.each do |field|
       next unless value = submission[field.id.to_s]
 
-      final_value = ''
-      if value.kind_of?(String)
-        final_value = value
-      elsif value.kind_of?(Array)
-        final_value = value.join(',')
-      elsif value.kind_of?(Hash)
-        final_value = value.map {|option, present| present == '1' ? option : nil}.compact.join(',')
-      end
+      convert_answer(value)
 
       self.answers.build :field => field, :value => final_value
     end
