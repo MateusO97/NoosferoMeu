@@ -2,6 +2,7 @@ class CustomFormsPlugin::Submission < ApplicationRecord
 
   belongs_to :form, :class_name => 'CustomFormsPlugin::Form'
   belongs_to :profile
+  include CustomFormsPlugin::Helper
 
   # validation is done manually, see below
   has_many :answers, :class_name => 'CustomFormsPlugin::Answer', :dependent => :destroy, :validate => false
@@ -35,7 +36,7 @@ class CustomFormsPlugin::Submission < ApplicationRecord
     self.form.fields.each do |field|
       next unless value = submission[field.id.to_s]
 
-      convert_answer(value)
+      final_value = convert_answer(value)
 
       self.answers.build :field => field, :value => final_value
     end
