@@ -55,21 +55,21 @@ class CustomFormsPluginProfileController < ProfileController
       begin
         new_answers.each do |key, value|
           answer = CustomFormsPlugin::Answer.find_by(field_id: key, submission_id: @submission.id)
-
-          if answer.field.mandatory && (value.blank? || value.empty?)
-            raise 'Submission field cannot be blank'
-          else
-            convert_answer(value)
+          #
+          # if answer.field.mandatory && (value.blank? || value.empty?)
+          #   raise 'Submission field cannot be blank'
+          # else
+            final_answer = convert_answer(value)
             builded_answers.merge!(answer.id => {'value' => final_answer})
-          end
+          # end
         end
 
-          if CustomFormsPlugin::Answer.update(builded_answers.keys, builded_answers.values)
-            session[:notice] = _('Submission edited')
-            redirect_to :action => 'show'
-          else
-            raise 'Submission update error'
-          end
+        if CustomFormsPlugin::Answer.update(builded_answers.keys, builded_answers.values)
+          session[:notice] = _('Submission edited')
+          redirect_to :action => 'show'
+        else
+          raise 'Submission update error'
+        end
     rescue Exception => e
       session[:notice] = e.message
       render :action => 'edit'

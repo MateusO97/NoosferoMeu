@@ -50,15 +50,32 @@ class CustomFormsPluginMyprofileController < MyProfileController
     @kind = @form.kind
   end
 
+  def update_submissions(old_form,new_form)
+    new_form.fields.each do |field|
+      if old_form.fields.find_by(id: field.id)
+        old_form.submissions.each do |submission|
+          answer = CustomFormsPlugin::Answer.new
+          answer.submission_id = submission.id
+          answer.field_id = field.id
+          answer.value = ''
+          submission.answers << answer
+          answer.save!
+        end
+      end
+    end
+  end
+
   def update
     @form = CustomFormsPlugin::Form.find(params[:id])
     uploaded_data = params[:form].delete(:image)
     should_remove_image = params[:form].delete(:remove_image)
+    old_form =  @form
     @form.attributes = params[:form]
     normalize_positions(@form)
 
     form_with_image = add_gallery_in_form(@form, profile,
                                           uploaded_data, should_remove_image)
+    update_submissions(old_form, @form)
     respond_to do |format|
       if form_with_image
         session[:notice] = _("%s was successfully updated") % @form.name
