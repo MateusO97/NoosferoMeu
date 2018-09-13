@@ -81,7 +81,7 @@ trigger-noosfero-fga-unstable:
 
 specs-models:
   <<: *retriable
-  script: bundle exec rake spec SPEC=spec/models
+  script: bundle exec rake test:specs
   stage: all-tests
   image: noosfero/ci
 
@@ -188,3 +188,9 @@ plugins-5:
   script: SLICE=5/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
   image: noosfero/ci
+
+cypress:
+  <<: *retriable
+  script: bundle exec rake cypress:run
+  stage: all-tests
+

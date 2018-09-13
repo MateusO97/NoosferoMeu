@@ -34,6 +34,8 @@ input, textarea {
 
 .button {
   border-radius: 4px;
+  color: #346392;
+  border-color: #346392;
 }
 
 /* ==> layout.css <== */
@@ -273,6 +275,8 @@ body, th, td, input {
           margin-top: 38px;
           right: 0px;
           max-height: 400px;
+          @media only screen and (max-width:319px) { right: -40px; }
+
           form {
             width: 320px;
             @media only screen and (max-width: 540px) { width: 260px; }
@@ -331,16 +335,6 @@ body, th, td, input {
               }
             }
 
-            .task-actions.button-bar {
-              a.accept-task, a.reject-task {
-                font-size: 0.9em !important;
-                font-weight: 700;
-              }
-            }
-
-            .task-decisions {
-              display: none;
-            }
           }
         }
       }
@@ -504,7 +498,6 @@ body, th, td, input {
   font-weight: 500;
   margin-top: 10px;
   text-align: left;
-  text-transform: capitalize;
   padding-bottom: 5px;
 }
 
@@ -596,7 +589,6 @@ div#notice {
 
 #content .block-title {
   font-size: 18px;
-  text-transform: capitalize;
   text-align: left;
   border-bottom: 2px solid #212e3c;
   padding-bottom: 2px;
@@ -623,6 +615,8 @@ div#notice {
     display: flex;
     a.button {
       flex-grow: 1;
+      border-color: #346392;
+      color: #346392;
     }
   }
 }
@@ -759,7 +753,8 @@ div#notice {
   }
   p {
     color: #212e3c;
-    font-size: 1.8em;
+    font-size: 1.3em;
+    text-align: center;
   }
   ul {
     margin: 10px 0px 0px 0px;
@@ -828,7 +823,6 @@ div#notice {
   a {
     background: none;
     box-sizing: border-box;
-    color: #212e3c;
     display: inline-block;
     font-size: 1.2em;
     line-height: 28px;
@@ -1133,6 +1127,7 @@ div#notice {
 
 .portal-news-item {
   display: flex;
+  align-items: center;
 
   .post-date {
     flex: 1;
@@ -1164,6 +1159,17 @@ div#notice {
 
   &:hover .order-options {
     visibility: visible;
+  }
+}
+
+#portal-news li.portal-news-item .order-options {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin-left: 5px;
+
+  a:not(:last-child) {
+    margin-right: 0;
   }
 }
 
@@ -1868,9 +1874,8 @@ a.menu-toggle {
     &:nth-child(n + 2) { border-top: 1px solid #e8e8e8; }
     &:hover { background-color: #e9ebee; }
     > a {
-      background: none;
-      box-sizing: border-box;
       color: #212e3c !important;
+      box-sizing: border-box;
       display: inline-block;
       font-size: 1em;
       height: 100%;

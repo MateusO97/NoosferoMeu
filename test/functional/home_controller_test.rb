@@ -263,30 +263,14 @@ class HomeControllerTest < ActionController::TestCase
     assert_response 403
   end
 
-  should 'initialize orders for all portal news' do
-    login_as @admin.identifier
-    community = fast_create(Community)
-    fast_create(TextArticle, profile_id: community.id, highlighted: true)
-    fast_create(TextArticle, profile_id: community.id, highlighted: true)
-    fast_create(TextArticle, profile_id: community.id, highlighted: true)
-
-    env = Environment.default
-    env.portal_community = community
-    env.save!
-
-    get :reorder, index: 0, direction: 'down'
-    news = community.news(3, true)
-    assert news.all? { |a| a.metadata['order'].present? }
-  end
-
   should 'move an article up' do
     login_as @admin.identifier
     community = fast_create(Community)
-    article1 = fast_create(TextArticle, profile_id: community.id, highlighted: true,
+    article1 = create(TextArticle, profile_id: community.id, highlighted: true,
                                         published_at: 3.hours.ago)
-    article2 = fast_create(TextArticle, profile_id: community.id, highlighted: true,
+    article2 = create(TextArticle, profile_id: community.id, highlighted: true,
                                         published_at: 2.hours.ago)
-    article3 = fast_create(TextArticle, profile_id: community.id, highlighted: true,
+    article3 = create(TextArticle, profile_id: community.id, highlighted: true,
                                         published_at: 1.hours.ago)
 
     env = Environment.default
@@ -301,11 +285,11 @@ class HomeControllerTest < ActionController::TestCase
   should 'move an article down' do
     login_as @admin.identifier
     community = fast_create(Community)
-    article1 = fast_create(TextArticle, profile_id: community.id, highlighted: true,
+    article1 = create(TextArticle, profile_id: community.id, highlighted: true,
                                         published_at: 3.hours.ago)
-    article2 = fast_create(TextArticle, profile_id: community.id, highlighted: true,
+    article2 = create(TextArticle, profile_id: community.id, highlighted: true,
                                         published_at: 2.hours.ago)
-    article3 = fast_create(TextArticle, profile_id: community.id, highlighted: true,
+    article3 = create(TextArticle, profile_id: community.id, highlighted: true,
                                         published_at: 1.hours.ago)
 
     env = Environment.default
