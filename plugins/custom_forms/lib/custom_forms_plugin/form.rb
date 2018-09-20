@@ -2,7 +2,7 @@ class CustomFormsPlugin::Form < ApplicationRecord
 
   belongs_to :profile
 
-  has_many :fields, -> { order 'position' },
+  has_many :fields, -> { order 'custom_forms_plugin_fields.position' },
     class_name: 'CustomFormsPlugin::Field', dependent: :destroy
   accepts_nested_attributes_for :fields, :allow_destroy => true
 
@@ -120,27 +120,6 @@ class CustomFormsPlugin::Form < ApplicationRecord
 
   def image_url
     image.present? ? image.full_path : default_img_url
-  end
-
-  def duration_in_days
-    if begining == nil and ending == nil
-      return _("This query has no ending date")
-    end
-    seconds_to_days = 86400
-    days = (ending.to_i - begining.to_i) / seconds_to_days
-    if days < 1
-      return _("Ends today")
-    end
-
-    if days >= 1 && days < 2
-      return _("Ends tomorow")
-    end
-
-    if days < 0
-      return _("Already closed")
-    end
-
-    return _("%s days left") % days
   end
 
   def status

@@ -751,7 +751,7 @@ class Environment < ApplicationRecord
 
   # returns an array with the top level categories for this environment.
   def top_level_categories
-    Category.top_level_for(self).where(type: 'Category')
+		Category.top_level_for(self).where("type = ? or type = ?", "Category", "Region")
   end
 
   # returns an array with the top level regions for this environment.
@@ -777,7 +777,10 @@ class Environment < ApplicationRecord
     { :controller => 'admin_panel', :action => 'index' }
   end
 
-  def top_url(scheme = 'http')
+  attr_accessor :request_scheme
+  def top_url(scheme = nil)
+    scheme ||= request_scheme ? request_scheme : 'http'
+
     url = scheme + '://'
     url << (Noosfero.url_options.key?(:host) ? Noosfero.url_options[:host] : default_hostname)
     url << ':' << Noosfero.url_options[:port].to_s if Noosfero.url_options.key?(:port)
