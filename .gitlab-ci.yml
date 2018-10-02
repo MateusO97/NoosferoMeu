@@ -1,3 +1,5 @@
+image: noosfero/ci
+
 before_script:
   - mkdir -p locale # makes quick-start skip compiling translations
   - ./script/set-apt-proxy
@@ -8,73 +10,10 @@ stages:
   #FIXME Selenium tests are randomly failing and this avoid other tests to run.
   #- smoke-tests
   - all-tests
-  - build
-  - trigger-noosfero-fga
+
 #smoke:
 #  script: bundle exec rake ci:smoke
 #  stage: smoke-tests
-
-gitlab-unstable-deploy:
-  before_script:
-    - ''
-  image: docker:17.04-git
-  services:
-    - docker:17.04-dind
-  stage: build
-  variables:
-    NOOSFERO_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/noosfero:$CI_BUILD_REF_NAME
-  script:
-    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build -f config/docker/prod/Dockerfile -t $NOOSFERO_RELEASE_IMAGE .
-    - docker tag $NOOSFERO_RELEASE_IMAGE "$CI_REGISTRY_IMAGE/noosfero:unstable_deploy"
-    - docker push $NOOSFERO_RELEASE_IMAGE
-    - docker push "$CI_REGISTRY_IMAGE/noosfero:unstable_deploy"
-  only:
-    - unstable_deploy
-  environment: development
-  tags:
-    - docker
-
-gitlab-stable-deploy:
-  before_script:
-    - ''
-  image: docker:17.04-git
-  services:
-    - docker:17.04-dind
-  stage: build
-  variables:
-    NOOSFERO_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/noosfero:$CI_BUILD_REF_NAME
-  script:
-    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build -f config/docker/prod/Dockerfile -t $NOOSFERO_RELEASE_IMAGE .
-    - docker tag $NOOSFERO_RELEASE_IMAGE "$CI_REGISTRY_IMAGE/noosfero:stable_deploy"
-    - docker push $NOOSFERO_RELEASE_IMAGE
-    - docker push "$CI_REGISTRY_IMAGE/noosfero:stable_deploy"
-  only:
-    - stable_deploy
-  environment: development
-  tags:
-    - docker
-
-trigger-noosfero-fga-stable:
-  before_script:
-    - ''
-  stage: trigger-noosfero-fga
-  environment: development
-  only:
-    - stable_deploy
-  script:
-    - curl -X POST -F token=dd7cbf437e98ca22af602fc5af96cf -F ref=develop https://gitlab.com/api/v4/projects/3779528/trigger/pipeline
-
-trigger-noosfero-fga-unstable:
-  before_script:
-    - ''
-  stage: trigger-noosfero-fga
-  environment: development
-  only:
-    - unstable_deploy
-  script:
-    - curl -X POST -F token=dd7cbf437e98ca22af602fc5af96cf -F ref=unstable_deploy https://gitlab.com/api/v4/projects/3779528/trigger/pipeline
 
 .retriable-template: &retriable
   retry: 2
@@ -83,111 +22,83 @@ specs-models:
   <<: *retriable
   script: bundle exec rake test:specs
   stage: all-tests
-  image: noosfero/ci
 
 api:
   <<: *retriable
   script: bundle exec rake test:api
   stage: all-tests
-  image: noosfero/ci
 
 units:
   <<: *retriable
   script: bundle exec rake test:units
   stage: all-tests
-  image: noosfero/ci
 
 functionals:
   <<: *retriable
   script: bundle exec rake test:functionals
   stage: all-tests
-  image: noosfero/ci
 
 integration:
   <<: *retriable
   script: bundle exec rake test:integration
   stage: all-tests
-  image: noosfero/ci
 
 cucumber-1:
   <<: *retriable
   script: SLICE=1/2 bundle exec rake cucumber
   stage: all-tests
-  image: noosfero/ci
-
 cucumber-2:
   <<: *retriable
   script: SLICE=2/2 bundle exec rake cucumber
   stage: all-tests
-  image: noosfero/ci
 
 selenium-1:
   <<: *retriable
   script: SLICE=1/6 bundle exec rake selenium
   stage: all-tests
-  image: noosfero/ci
-
 selenium-2:
   <<: *retriable
   script: SLICE=2/6 bundle exec rake selenium
   stage: all-tests
-  image: noosfero/ci
-
 selenium-3:
   <<: *retriable
   script: SLICE=3/6 bundle exec rake selenium
   stage: all-tests
-  image: noosfero/ci
-
 selenium-4:
   <<: *retriable
   script: SLICE=4/6 bundle exec rake selenium
   stage: all-tests
-  image: noosfero/ci
-
 selenium-5:
   <<: *retriable
   script: SLICE=5/6 bundle exec rake selenium
   stage: all-tests
-  image: noosfero/ci
-
 selenium-6:
   <<: *retriable
   script: SLICE=6/6 bundle exec rake selenium
   stage: all-tests
-  image: noosfero/ci
 
-# # NOOSFERO_BUNDLE_OPTS=install makes migrations fails
-# # probably because of rubygems-integration
+# NOOSFERO_BUNDLE_OPTS=install makes migrations fails
+# probably because of rubygems-integration
 plugins-1:
   <<: *retriable
   script: SLICE=1/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
-  image: noosfero/ci
-
 plugins-2:
   <<: *retriable
   script: SLICE=2/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
-  image: noosfero/ci
-
 plugins-3:
   <<: *retriable
   script: SLICE=3/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
-  image: noosfero/ci
-
 plugins-4:
   <<: *retriable
   script: SLICE=4/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
-  image: noosfero/ci
-
 plugins-5:
   <<: *retriable
   script: SLICE=5/5 bundle exec rake test:noosfero_plugins NOOSFERO_BUNDLE_OPTS=install
   stage: all-tests
-  image: noosfero/ci
 
 cypress:
   <<: *retriable
