@@ -44,18 +44,17 @@ class UsersController < AdminController
   end
 
   def download
+    fields = filter_fields_to_export params[:fields]
     users = filter_users(per_page: environment.users.count, page: nil)
-    exporter = Exporter.new(users, Person.exportable_fields(environment))
+    exporter = Exporter.new(users, fields)
     date = Time.current.strftime('%Y-%m-%d %Hh%Mm')
     filename = _('%s people list - %s') % [environment.name, date]
 
-    respond_to do |format|
-      format.xml do
-        send_data exporter.to_xml, type: 'text/xml', filename: "#{filename}.xml"
-      end
-      format.csv do
-        send_data exporter.to_csv, type: 'text/csv', filename: "#{filename}.csv"
-      end
+    case params[:format]
+    when 'csv'
+      send_data exporter.to_csv, type: 'text/csv', filename: "#{filename}.csv"
+    when 'xml'
+      send_data exporter.to_xml, type: 'text/xml', filename: "#{filename}.xml"
     end
   end
 
@@ -107,9 +106,26 @@ class UsersController < AdminController
       end
     end
 
-    scope = scope.order('name ASC')
+    scope = scope.order('profiles.name ASC')
     find_by_contents(:people, environment, scope, params[:q],
                      pagination_opts)[:results]
+  end
+
+  def filter_fields_to_export fields
+    base_fields = []
+    data_fields = []
+    user_fields = ['last_login_at']
+    fields.each do |field|
+      case Person.get_field_origin field
+      when 'user'
+        user_fields << field
+      when 'data'
+        data_fields << field
+      else
+        base_fields << field
+      end
+    end
+    { base: base_fields, user: user_fields, methods: data_fields }
   end
 
   def set_person

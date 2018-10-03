@@ -112,15 +112,16 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   should 'response as XML to export users' do
-    create_user('maryjane')
-    get :download, :format => 'xml'
+    create_user('maryjane', :email => 'maryjane@mail.com')
+    get :download, :format => 'xml', :fields => ['name', 'email']
     assert_equal 'text/xml', @response.content_type
     assert_match 'maryjane', @response.body
+    assert_match 'maryjane@mail.com', @response.body
   end
 
   should 'response as CSV to export users' do
     create_user('maryjane')
-    get :download, :format => 'csv'
+    get :download, :format => 'csv', :fields => ['name']
     assert_equal 'text/csv', @response.content_type
     assert_match 'maryjane', @response.body
   end
@@ -130,10 +131,19 @@ class UsersControllerTest < ActionController::TestCase
     create_user('jhonbaz')
     create_user('maryjane')
 
-    get :download, format: 'csv', q: 'jhon'
+    get :download, format: 'csv', :fields => ['name'], q: 'jhon'
     assert_match 'jhondoe', @response.body
     assert_match 'jhonbaz', @response.body
     assert_no_match 'maryjane', @response.body
+  end
+
+  should 'include only selected fields' do
+    create_user('jhondoe')
+
+    get :download, :format => 'csv', :fields => ['email']
+    assert_match 'jhondoe@noosfero.org', @response.body
+    assert_match 'Last login at', @response.body
+    assert_no_match 'name', @response.body
   end
 
   should 'be able to remove a person' do
@@ -182,5 +192,4 @@ class UsersControllerTest < ActionController::TestCase
       process_delayed_job_queue
     end
   end
-
 end

@@ -40,6 +40,11 @@ gem 'honeypot-captcha'
 gem 'font-awesome-sass'
 gem 'rpush'
 gem 'http-cookie'
+gem 'acts_as_list'
+gem 'activerecord-import'
+gem 'childprocess'
+gem 'rubyzip'
+
 
 # API dependencies
 gem 'grape'
@@ -64,6 +69,7 @@ gem 'protected_attributes'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
+gem 'scenic'
 
 
 gem 'sass-listen'

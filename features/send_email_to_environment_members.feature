@@ -15,7 +15,7 @@ Feature: send emails to environment members users
       | ultraje |
     And I am logged in as "ultraje"
     When I go to /admin/users/send_mail
-    Then I should see "Access Denied"
+    Then I should see "Access denied"
 
   @selenium
   Scenario: Send e-mail to members
@@ -47,7 +47,7 @@ Feature: send emails to environment members users
     Given I am logged in as admin
     And I go to /admin/users/send_mail
     Then I should be on /admin/users/send_mail
-    When I follow "Cancel e-mail"
+    When I follow "Cancel"
     Then I should be on /admin/users
 
   @selenium

@@ -12,7 +12,7 @@ class Block < ApplicationRecord
 
   delegate :environment, :to => :box, :allow_nil => true
 
-  acts_as_list scope: -> block { where box_id: block.box_id }
+  acts_as_list scope: :box_id
 
   belongs_to :box
   belongs_to :mirror_block, :class_name => "Block"
@@ -95,7 +95,7 @@ class Block < ApplicationRecord
   def visible_to_user?(user)
     visible = self.display_to_user?(user)
     if self.owner.kind_of?(Profile)
-      visible &= self.owner.display_info_to?(user)
+      visible &= self.owner.display_to?(user)
       visible &= (self.visible? || user && user.has_permission?(:edit_profile_design, self.owner))
     elsif self.owner.kind_of?(Environment)
       visible &= (self.visible? || user && user.has_permission?(:edit_environment_design, self.owner))
@@ -322,6 +322,8 @@ class Block < ApplicationRecord
   end
 
   def api_content=(values = {})
+    settings[:display] = values[:display]
+    settings[:display_user] = values[:display_user]
   end
 
   def display_api_content_by_default?

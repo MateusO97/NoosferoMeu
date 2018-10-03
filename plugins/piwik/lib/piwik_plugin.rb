@@ -33,9 +33,8 @@ class PiwikPlugin < Noosfero::Plugin
       path = context.environment.piwik_path
       id_site = context.environment.piwik_site_id
       proc do
-        protocol = request.ssl? ? 'https' : 'http'
-        link = "#{protocol}://#{domain}/#{path}?idSite=#{id_site}"
-        {:title => _('Piwik'), :icon => 'line-chart', :url => link,
+        link = "//#{domain}/#{path}?idSite=#{id_site}"
+        {:title => _('Piwik'), :icon => 'chart-line', :url => link,
          :html_options => {:target => '_blank'}}
       end
     end

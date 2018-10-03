@@ -1,6 +1,7 @@
 module FormsHelper
 
   include ButtonsHelper
+  include Entitlement::SliderHelper
 
   def labelled_radio_button( human_name, name, value, checked = false, options = {} )
     options[:id] ||= 'radio-' + FormsHelper.next_id_number
@@ -29,7 +30,7 @@ module FormsHelper
   end
 
   def submit_button(type, label, html_options = {})
-    bt_cancel = html_options[:cancel] ? button("ban" , _('Cancel'), html_options[:cancel], class: 'btn-red') : ''
+    bt_cancel = html_options[:cancel] ? button(:cancel, _('Cancel'), html_options[:cancel], class: 'btn-red') : ''
 
     html_options[:class] = [html_options[:class], 'submit'].compact.join(' ')
 
@@ -292,20 +293,16 @@ module FormsHelper
     return result
   end
 
-  def access_slider_field_tag(id, field_name, profile, value=AccessLevels.levels[:self], levels=AccessLevels.options, html_options={})
-    keys = AccessLevels.levels
-    labels = AccessLevels.labels(profile)
+  def access_slider_field_tag(id, field_name, profile, value=slider_levels[:self], levels=Entitlement::Levels.range_options, html_options={})
+    keys = slider_levels
+    labels = Entitlement::Levels.labels(profile)
     range = 'max'
 
     slider_field_tag(id, field_name, value, keys, labels, levels, range, html_options={})
   end
 
-  def restriction_slider_field_tag(id, field_name, profile, value=RestrictionLevels.levels[:self], levels=RestrictionLevels.options, html_options={})
-    keys = RestrictionLevels.levels
-    labels = RestrictionLevels.labels(profile)
-    range = 'min'
-
-    slider_field_tag(id, field_name, value, keys, labels, levels, range, html_options={})
+  def restriction_slider_field_tag(id, field_name, profile, value=slider_levels[:self], levels=Entitlement::Levels.range_options, html_options={})
+    access_slider_field_tag(id, field_name, profile, value, levels, html_options)
   end
 
   def slider_field_tag(id, field_name, value, keys, labels, levels, range, html_options={})
@@ -322,7 +319,21 @@ module FormsHelper
     hidden_field_tag(field_name, value, :id => id)
   end
 
-protected
+  def exportable_fields_selector(name, title, profile, selected_fields = [])
+    label = content_tag('label', title)
+    fields = content_tag('div', { class: 'exportable-fields' }) do
+      profile.exportable_fields.map do |field|
+        checked = field.in? selected_fields
+        content = check_box_tag(name, field, checked) + _(field.humanize)
+        content_tag('label', content.html_safe)
+      end.join("\n").html_safe
+    end
+
+    content_tag('div', label + fields, { class: 'exportable-fields-selector' })
+  end
+
+  protected
+
   def self.next_id_number
     if defined? @@id_num
       @@id_num.next!

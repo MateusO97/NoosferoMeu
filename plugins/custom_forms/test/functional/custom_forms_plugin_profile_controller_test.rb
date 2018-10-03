@@ -18,8 +18,8 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
     assert_difference 'CustomFormsPlugin::Submission.count', 1 do
       post :show, :profile => profile.identifier, :id => form.identifier, :submission => {field1.id.to_s => 'Noosfero', field2.id.to_s => 'GPL'}
     end
-    refute session[:notice].include?('not saved')
-    assert_redirected_to :action => 'show'
+    assert_redirected_to :action => 'confirmation',
+                         :submission_id => assigns(:submission).id
   end
 
   should 'save submission if fields are ok and user is not logged in' do
@@ -30,7 +30,19 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
     assert_difference 'CustomFormsPlugin::Submission.count', 1 do
       post :show, :profile => profile.identifier, :id => form.identifier, :author_name => "john", :author_email => 'john@example.com', :submission => {field.id.to_s => 'Noosfero'}
     end
-    assert_redirected_to :action => 'show'
+    assert_redirected_to :action => 'confirmation',
+                         :submission_id => assigns(:submission).id
+  end
+
+  should 'not save empty submission' do
+    form = CustomFormsPlugin::Form.create!(profile: profile, name: 'Free Software', identifier: 'free-software', kind: 'poll')
+    field1 = CustomFormsPlugin::TextField.create(name: 'Name', form: form)
+
+    assert_no_difference 'CustomFormsPlugin::Submission.count' do
+      post :show, :profile => profile.identifier, :id => form.identifier, :submission => {field1.id.to_s => ''}
+    end
+
+    assert_tag :tag => 'div', :attributes => { :class => 'errorExplanation', :id => 'errorExplanation' }
   end
 
   should 'display errors if user is not logged in and author_name is not uniq' do
@@ -70,6 +82,63 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
     get :show, :profile => profile.identifier, :id => form.identifier
 
     assert_tag :tag => 'h2', :content => 'Sorry, you can\'t fill this form anymore'
+  end
+
+  should 'show submission confirmation with fields if user can access' do
+    form = CustomFormsPlugin::Form.create(:profile => profile, :name => 'Free Software', identifier: 'free-software')
+    form.fields << CustomFormsPlugin::TextField.create(name: 'Field Name', form: form, default_value: "First Field")
+    submission = CustomFormsPlugin::Submission.create(form: form, author_name: "john", author_email: 'john@example.com')
+
+    get :confirmation, profile: profile.identifier, submission_id: submission.id
+    assert_match /Field Name/, response.body
+  end
+
+  should 'show submission confirmation without fields if is a visitor and results are private' do
+    org = fast_create(Organization)
+    form = CustomFormsPlugin::Form.create(profile: org, name: 'Free Software', identifier: 'free-software', access_result_options: 'private')
+    form.fields << CustomFormsPlugin::TextField.create(name: 'Field Name', form: form, default_value: "First Field")
+    submission = CustomFormsPlugin::Submission.create(form: form, author_name: "john", author_email: 'john@example.com')
+
+    logout
+    get :confirmation, profile: org.identifier, submission_id: submission.id
+    assert_no_match /Field Name/, response.body
+  end
+
+  should 'show submission confirmation without fields if user cannout access' do
+    org = fast_create(Organization)
+    form = CustomFormsPlugin::Form.create(profile: org, name: 'Free Software', identifier: 'free-software', access_result_options: 'private')
+    form.fields << CustomFormsPlugin::TextField.create(name: 'Field Name', form: form, default_value: "First Field")
+
+    other_profile = fast_create(Person)
+    submission = CustomFormsPlugin::Submission.create(form: form, profile: other_profile)
+
+    get :confirmation, profile: org.identifier, submission_id: submission.id
+    assert_no_match /Field Name/, response.body
+  end
+
+  should 'show submission confirmation without fields if the current user made the submission' do
+    org = fast_create(Organization)
+    form = CustomFormsPlugin::Form.create(profile: org, name: 'Free Software', identifier: 'free-software', access_result_options: 'private')
+    form.fields << CustomFormsPlugin::TextField.create(name: 'Field Name', form: form, default_value: "First Field")
+    submission = CustomFormsPlugin::Submission.create(form: form, profile: profile)
+
+    get :confirmation, profile: org.identifier, submission_id: submission.id
+    assert_match /Field Name/, response.body
+  end
+
+  should 'show submission confirmation with fields to visitors if it is public' do
+    form = CustomFormsPlugin::Form.create(profile: profile, name: 'Free Software', identifier: 'free-software', access_result_options: 'public')
+    form.fields << CustomFormsPlugin::TextField.create(name: 'Field Name', form: form, default_value: "First Field")
+    submission = CustomFormsPlugin::Submission.create(form: form, author_name: "john", author_email: 'john@example.com')
+
+    logout
+    get :confirmation, profile: profile.identifier, submission_id: submission.id
+    assert_match /Field Name/, response.body
+  end
+
+  should 'return 404 if submission does not exist' do
+    get :confirmation, profile: profile.identifier, submission_id: 'nope'
+    assert_response :not_found
   end
 
   should 'show query review page' do
@@ -154,9 +223,15 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
   end
 
   should 'filter forms by query' do
-    space_wars = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Space Wars', :identifier => 'space-wars')
-    star_trek = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Star Trek', :identifier => 'star-trek')
-    star_wars = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Star Wars', :identifier => 'star-wars')
+    space_wars = CustomFormsPlugin::Form.create!(:profile => profile,
+                                                 :name => 'Space Wars',
+                                                 :identifier => 'space-wars')
+    star_trek = CustomFormsPlugin::Form.create!(:profile => profile,
+                                                :name => 'Star Trek',
+                                                :identifier => 'star-trek')
+    star_wars = CustomFormsPlugin::Form.create!(:profile => profile,
+                                                :name => 'Star Wars',
+                                                :identifier => 'star-wars')
 
     get :queries, :profile => profile.identifier, :q => 'star'
 
@@ -165,19 +240,25 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
     assert_not_includes assigns(:forms), space_wars
   end
 
-  should 'forbid access to form based on AccessLevels' do
+  should 'forbid access to form based on entitlement' do
     community = fast_create(Community)
-    form = CustomFormsPlugin::Form.create!(:profile => community, :name => 'Free Software', :identifier => 'free-software', :access => AccessLevels.levels[:visitors])
-    AccessLevels.expects(:can_access?).with(form.access, profile, community).returns(false)
+    form = CustomFormsPlugin::Form.create!(:profile => community,
+                                           :name => 'Free Software',
+                                           :identifier => 'free-software',
+                                           :access => Entitlement::Levels.levels[:related])
+
     get :show, :profile => community.identifier, :id => form.identifier
     assert_response :forbidden
     assert_template 'shared/access_denied'
   end
 
-  should 'allow access to form based on AccessLevels' do
+  should 'allow access to form based on entitlement' do
     community = fast_create(Community)
-    form = CustomFormsPlugin::Form.create!(:profile => community, :name => 'Free Software', :identifier => 'free-software', :access => AccessLevels.levels[:visitors])
-    AccessLevels.expects(:can_access?).with(form.access, profile, community).returns(true)
+    form = CustomFormsPlugin::Form.create!(:profile => community,
+                                           :name => 'Free Software',
+                                           :identifier => 'free-software',
+                                           :access => Entitlement::Levels.levels[:visitors])
+
     get :show, :profile => community.identifier, :id => form.identifier
     assert_response :success
     assert_template 'custom_forms_plugin_profile/show'
@@ -186,9 +267,15 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
   should 'filter forms for visitors' do
     logout
     community = fast_create(Community)
-    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => AccessLevels.levels[:visitors])
-    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => AccessLevels.levels[:users])
-    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => AccessLevels.levels[:related])
+    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors',
+                                         :profile => community,
+                                         :access => Entitlement::Levels.levels[:visitors])
+    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users',
+                                         :profile => community,
+                                         :access => Entitlement::Levels.levels[:users])
+    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members',
+                                         :profile => community,
+                                         :access => Entitlement::Levels.levels[:related])
 
     get :queries, :profile => community.identifier
 
@@ -199,9 +286,9 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
 
   should 'filter forms for logged users' do
     community = fast_create(Community)
-    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => AccessLevels.levels[:visitors])
-    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => AccessLevels.levels[:users])
-    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => AccessLevels.levels[:related])
+    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => Entitlement::Levels.levels[:visitors])
+    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => Entitlement::Levels.levels[:users])
+    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => Entitlement::Levels.levels[:related])
 
     get :queries, :profile => community.identifier
 
@@ -213,9 +300,9 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
   should 'filter forms for related users' do
     community = fast_create(Community)
     community.add_member(profile)
-    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => AccessLevels.levels[:visitors])
-    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => AccessLevels.levels[:users])
-    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => AccessLevels.levels[:related])
+    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => Entitlement::Levels.levels[:visitors])
+    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => Entitlement::Levels.levels[:users])
+    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => Entitlement::Levels.levels[:related])
 
     get :queries, :profile => community.identifier
 
@@ -238,15 +325,76 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
     assert_response :forbidden
     assert_template 'shared/access_denied'
   end
-
+ 
   should 'download csv with all submissions' do
-    form = CustomFormsPlugin::Form.create!(:profile => profile,
-                                            :name => 'Free Software',
-                                            :identifier => 'free')
+   form = CustomFormsPlugin::Form.create!(
+     :profile => profile,
+      :name => 'Free Software',
+      :identifier => 'free',
+      :kind => 'survey'
+    )
+    alternative_a = CustomFormsPlugin::Alternative.new(:label => 'A')
+    alternative_b = CustomFormsPlugin::Alternative.new(:label => 'B')
+    field = CustomFormsPlugin::SelectField.new(:name => 'Select Field', :form => form)
+    field.alternatives << [alternative_a, alternative_b]
+    field.save!
+    another_field = CustomFormsPlugin::TextField.create!(:name => 'Text Field',
+                                                          :form => form)
     submission = CustomFormsPlugin::Submission.create!(:form => form,
                                                        :profile => profile)
+    another_submission = CustomFormsPlugin::Submission.create!(:form => form,
+                                                        :profile => profile)
+    answer = CustomFormsPlugin::Answer.create!(:field => field,
+                                               :value => nil,
+                                               :submission => submission)
+    form_answer = CustomFormsPlugin::FormAnswer.create!(answer_id: answer,
+                                                        alternative_id: field.alternatives[0].id)
+    answer.form_answers << form_answer
+    answer.save!
+    another_answer = CustomFormsPlugin::Answer.create!(:field => another_field,
+                                                       :value => "my-another-answer",
+                                                       :submission => another_submission)
+
     get :review, :profile => profile.identifier, :id => form.identifier, :format => 'csv'
+
     assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    assert_match profile.name, @response.body
+    assert_match field.alternatives[0].label, @response.body
+    assert_match another_answer.value, @response.body
+  end
+
+  should 'download csv of a single field answers' do
+    form = CustomFormsPlugin::Form.create!(:profile => profile,
+                                           :name => 'Free Software',
+                                           :identifier => 'free')
+
+    field = CustomFormsPlugin::TextField.create!(:name => 'Field-1',
+                                            :form => form)
+
+    submission = CustomFormsPlugin::Submission.create!(:form => form,
+                                              :profile => profile)
+
+    another_profile = create_user('another-profile').person
+    another_submission = CustomFormsPlugin::Submission.create!(:form => form,
+                                                :profile => another_profile)
+
+    answer = CustomFormsPlugin::Answer.create!(:field => field,
+                                               :value => "my-answer",
+                                               :submission => submission)
+
+    empty_answer = CustomFormsPlugin::Answer.create!(:field => field,
+                                                :value => "",
+                                                :submission => another_submission)
+
+    get :download_field_answers, :profile => profile.identifier, :id => form.identifier,
+                                 :field_name => field.name, :format => 'csv'
+
+    assert_response :success
+    assert_equal 'text/csv', @response.content_type
+    assert_match profile.name, @response.body
+    assert_match answer.value, @response.body
+    assert_match another_profile.name, @response.body
   end
 
   should 'display form options to profile admin' do

@@ -1,4 +1,3 @@
-
 .controller-templates .template-kind {
   border-bottom: 1px solid #CCC;
 }
@@ -18,4 +17,9 @@
 
 .controller-templates .template-kind li a {
   font-size: 13px;
+}
+
+.controller-templates .template-kind span.default-template{
+  color: #777;
+  font-style: italic;
 }

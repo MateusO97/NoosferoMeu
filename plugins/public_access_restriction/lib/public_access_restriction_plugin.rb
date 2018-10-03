@@ -20,6 +20,7 @@ class PublicAccessRestrictionPlugin < Noosfero::Plugin
       (profile && environment.is_portal_community?(profile)) ||
       params['controller'] == 'account' ||
       params['controller'] == 'home' ||
+      params['controller'] == 'national_regions' ||
       params['controller'] == 'public_access_restriction_plugin_public_page' ||
       linked_on_portal_news(environment, params, profile) ||
       show_newsletter(environment, profile)
@@ -59,7 +60,7 @@ class PublicAccessRestrictionPlugin < Noosfero::Plugin
   def linked_on_portal_news(environment, params, profile)
     return false unless params['controller'] == 'content_viewer' && params['action'] == 'view_page'
     return false if params['page'].nil?
-    article = profile.articles.find_by(path: params['page'].join('/'))
+    article = profile.articles.find_by(path: params['page'])
     portal = environment.portal_community
     portal.articles.
       where(type: 'LinkArticle').
