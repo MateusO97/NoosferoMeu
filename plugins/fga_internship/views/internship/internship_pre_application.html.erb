@@ -1,0 +1,14 @@
+<div class="internship-box">
+	<div class="internship-card internship-main-card">
+		<h1>Pré-Matrícula em Estágio</h1>
+	  <div class="checklist-container">
+			<% @checklists.each do |checklist| %>
+				<%= link_to render(:partial => 'partials/checklist', locals: { :checklist => checklist }), {:controller => "internship", :action => "answer_form", :checklist_id => checklist.id, fga_internship_plugin_checklists: {checked: true}}, class: "internship-checklist-name" %>
+			<% end %>
+	  </div>
+	  <div class="button-container">
+			<%= button(:back, "Voltar", { :controller => "internship", :action => "index" } , { :class => "internship_button internship_main_button " }) %>
+			<%= button(:next, "Matrícula", { :controller => "internship", :action => "internship_application" } , { :class => "internship_button internship_main_button" }) %>
+	  </div>
+	</div>
+</div>

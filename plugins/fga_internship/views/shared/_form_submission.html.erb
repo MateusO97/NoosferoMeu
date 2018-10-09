@@ -1,0 +1,14 @@
+<% self.extend(CustomFormsPlugin::Helper) %>
+<div class="internship-box">
+  <div class='form-submission internship-card internship-main-card'>
+    <h1>Formulário de Estágio</h1>
+    <% form.fields.each do |field| %>
+      <%= display_custom_field(field, submission, f.object_name).html_safe %>
+    <% end %>
+
+    <% if submission.id.present? %>
+      <div class="reply-message"><%= _('This was your answer.')%></div>
+      <%= button(:back, "Voltar para o processo", { :controller => "internship", :action => "internship_pre_application" } , { :class => "internship_button internship_main_button" }) %>
+    <% end %>
+  </div>
+</div>

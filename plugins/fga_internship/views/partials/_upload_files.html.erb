@@ -1,0 +1,67 @@
+<% if @errors %>
+  <div class="errorExplanation" id="errorExplanation">
+    <h2><%= n_('This file couldn\'t be saved', 'These %{num} files couldn\'t be saved', @errors.size) % { :num => @errors.size } %></h2>
+    <p><%= _('There were problems with the following files:') %> </p>
+    <ul>
+      <% for file in @uploaded_files %>
+        <% for msg in file.errors.full_messages %>
+          <li><strong><%= file.name %></strong> : <%= msg %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="upload-container">
+  <div class="upload-box">
+    <h2><%= _('Publish media') %></h2>
+    <%= @target %>
+    <h3><%= _("Select the files you want to upload (max size %s):") % UploadedFile.max_size.to_humanreadable %></h3>
+    <h4><%= _('Documents, Images, Videos, Audio') %></h4>
+    <h5><%= (_('Uploading files to %s') % content_tag('code', @target)).html_safe%></h5>
+    <%= form_for('uploaded_file', :url => { :action => 'upload_files' }, :html => {:multipart => true}) do |f| %>
+
+    <%= safe_join(@plugins.dispatch(:upload_files_extra_fields, params[:parent_id]).collect { |content| instance_exec(&content) }, "") %>
+
+    <% if @parent %>
+    <%= hidden_field_tag('parent_id', @parent.id) %>
+    <% else %>
+    <%= select_profile_folder(_('Choose folder to upload files:'), @folder_tcc_submition, @tcc_community) %>
+    <% end %>
+
+    <div id='uploaded_files'>
+      <p><%= file_field_tag('uploaded_files[]', :multiple => true, :required =>true) %></p>
+    </div>
+
+    <%= hidden_field_tag('internship_community', @internship_community.id) %>
+    <%= hidden_field_tag('parent', @parent.id) %>
+
+   <%= button_bar do %>
+<!--       <%= button_to_function :add, _('More files'), "add_new_file_fields()",
+                              id:'add-more-files', class: "file-button" %>
+-->
+      <%= submit_button :save, _('Upload'), id:'submit_file_button' %>
+    <% end %>
+    <% end %>
+  </div>
+</div>
+
+<button type="button" class="tcc-button" name="button" id="back-course-choice" onclick="render_course_choice()">Voltar</button>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    var course_icon = $("#course-icon")
+    course_icon.removeClass("step-active")
+    course_icon.addClass("step-passed")
+
+    var upload_icon = $("#upload-icon")
+    upload_icon.addClass("step-active")
+
+    //$('#submit_file_button').bind("click", function(){
+      //var fileVariable = $('#uploaded_files').val();
+      //if($.trim(fileVariable.val().length) {
+        //confirm('Não foi selecionado nenhum arquivo')
+      //}
+    //})
+  });
+</script>

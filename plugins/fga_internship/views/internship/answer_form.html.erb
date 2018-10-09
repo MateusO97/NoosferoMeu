@@ -1,0 +1,27 @@
+<div id="custom-forms-plugin_submission">
+  <h3><%= @form.name %></h3>
+
+  <div class='form-description'>
+    <%= (@form.description || "").html_safe %>
+  </div>
+
+  <% if @submission.id.nil? %>
+    <% if @form.expired? %>
+      <% if @form.will_open? %>
+        <h2><%= _('Sorry, you can\'t fill this form yet').html_safe %></h2>
+      <% else %>
+        <h2><%= _('Sorry, you can\'t fill this form anymore').html_safe %></h2>
+      <% end %>
+    <% end %>
+
+    <%= render partial: 'shared/form',
+               locals: { form: @form, submission: @submission, :checklist_id => params[:checklist_id], fga_internship_plugin_checklists: {checked: true} } %>
+
+  <% else %>
+    <%= fields_for :submission, @submission do |f| %>
+      <%= render partial: 'shared/form_submission',
+               locals: { f: f, form: @form, submission: @submission, :checklist_id => params[:checklist_id], fga_internship_plugin_checklists: {checked: true} } %>
+    <% end %>
+  <% end %>
+
+</div><!-- end id="custom-forms-plugin_submission" -->

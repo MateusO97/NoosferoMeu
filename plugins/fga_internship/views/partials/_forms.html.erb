@@ -1,0 +1,35 @@
+<div class="textbox-container">
+  <h2>Bem vindo ao Processo de Estágio</h2>
+  <p>
+    Para realizar a inscrição no processo de estágio, o discente deve cumprir
+    os seguintes pré-requisitos:
+  </p>
+
+  <h3>Estágio Não Obrigatório</h3>
+  <ul>
+    <li>Ter cursado no mínimo o segundo semestre</li>
+  </ul>
+
+  <h3>Estágio Obrigatório</h3>
+  <ul>
+    <li>Ter obtido no mínimo 70% dos créditos</li>
+    <li>Estágio com carga horária total de no mínimo 210 horas</li>
+    <li>
+      Estágio com carga horária de 20 horas semanais + 18 Créditos
+      no máximo, ou
+    </li>
+    <li>
+      Estágio com carga horária de 30 horas semanais + 8 Créditos no
+      máximo, ou
+    </li>
+    <li>Ser provável formando</li>
+  </ul>
+
+  <p>
+  	Caso cumpra todos os requisitos, e deseje se inscrever no
+  	processo de estágio, clique no botão abaixo
+  </p>
+</div>
+<div class="button-container">
+  <%= button(:add, "Realizar Inscrição", {:controller => "internship", :action => "internship_pre_application", :community_id => params[:community_id] } , { :class => "internship_button internship_main_button" }) %>
+</div>
