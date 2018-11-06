@@ -424,7 +424,7 @@
 
 .search-article-categories .search-article-category {
   background: #B1DFEF;
-  color: #000;
+  color: $black;
 }
 
 .search-article-categories a:hover.search-article-category {
@@ -714,7 +714,7 @@ li.search-product-item {
 
 .facet-selected {
   display: block;
-  color: #000;
+  color: $black;
   font-size: 0.9em;
   float: left;
   padding: 4px 4px 4px 4px;
@@ -755,7 +755,7 @@ li.search-product-item {
 }
 
 #facets-menu .facet-menu {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid $black;
   margin-bottom: 15px;
   padding-bottom: 10px;
 }
@@ -790,7 +790,7 @@ li.search-product-item {
 .facet-menu-less-options .facet-result-link-selected a {
   border-left: 4px solid #000000;
   padding-left: 4px;
-  color: #000 !important;
+  color: $black !important;
 }
 
 .facet-menu-more-options .facet-result-link-selected a {
@@ -806,7 +806,7 @@ li.search-product-item {
 
 .facet-result-extra-label {
   font-size: 0.9em;
-  color: #000;
+  color: $black;
 }
 
 .facet-result-count {
@@ -1038,7 +1038,7 @@ li.search-product-item hr {
 }
 
 .facet-menu a.facet-options-toggle {
-  color: #000;
+  color: $black;
   background-image: url("../images/icon_more_options.png");
   background-repeat: no-repeat;
   padding: 0 0 0 20px;

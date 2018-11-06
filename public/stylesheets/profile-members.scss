@@ -1,3 +1,4 @@
+@import "color";
 .profile-members-tabs-container .ui-corner-all {
   overflow: auto;
 }
@@ -59,7 +60,7 @@
 
 #last-admin-message {
   background-color: #CCC;
-  color: #000;
+  color: $black;
   font-size: 14px;
   padding: 20px 15px;
   -moz-border-radius: 10px;

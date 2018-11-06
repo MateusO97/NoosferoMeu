@@ -1,7 +1,8 @@
+@import "color";
 #theme-test-panel {
   z-index: 150;
   position: absolute;
-  width: 300px;
+  width: 300px;$black
   height: 180;
   right: 50px;
   top: 50px;
@@ -43,7 +44,7 @@
   padding: 5px 2px 4px 5px;
   margin: 0px 35px 0px 20px;
   float: left;
-  color: #000;
+  color: $black;
   text-decoration: none;
   border-radius: 10px;
   -moz-border-radius: 10px;
