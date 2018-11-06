@@ -1,3 +1,4 @@
+@import "color";
 .zoomable-image {
   position: relative;
   display: inline-block;
@@ -38,7 +39,7 @@
 
 #article .zoomify-image {
   text-decoration: none;
-  color: #fff;
+  color: $white;
 }
 
 .zoomify-image span {
@@ -48,5 +49,5 @@
   border-bottom: 1px solid #eee;
   display: block;
   background: transparent url(../images/zoom.png) left center no-repeat;
-  color: #fff;
+  color: $white;
 }

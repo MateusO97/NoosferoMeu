@@ -1,4 +1,6 @@
-$basic_button_color: #fff;
+@import "color";
+
+$basic_button_color: $white;
 $default_button: #346392;
 $default_button_hover: #27496d;
 $default_button_border: #6496c8;

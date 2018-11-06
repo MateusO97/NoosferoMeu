@@ -1,3 +1,5 @@
+@import "color";
+
 body {
   background-color: #000;
   color: white;
@@ -16,7 +18,7 @@ ul#slideshow {
 a,
 a:link,
 a:visited {
-  color: #FFF;
+  color: $white;
   text-decoration: bold;
 }
 
