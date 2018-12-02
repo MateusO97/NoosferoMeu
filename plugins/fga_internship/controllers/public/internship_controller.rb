@@ -105,7 +105,6 @@ class InternshipController < PublicController
 
     if request.post?
       begin
-        raise SubmissionError, 'Submission already present!' if user.present? && CustomFormsPlugin::Submission.find_by(form_id: @form.id, profile_id: user.id)
         raise SubmissionError, 'Form expired!' if @form.expired?
 
         if !user
