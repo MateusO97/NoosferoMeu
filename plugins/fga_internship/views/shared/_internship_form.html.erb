@@ -1,13 +1,13 @@
 <%= error_messages_for :submission %>
 
-<%= form_for :submission, url: custom_forms_plugin_profile_show_path(id: form.identifier, profile: profile), :html => { :class => 'query-form' } do |f| %>
+<%= form_for :submission, url: internship_plugin_answer_form_path(id: form.identifier, profile: profile), :html => { :class => 'query-form' } do |f| %>
 
   <% if !user %>
     <%= required labelled_form_field _('Name'), text_field_tag(:author_name, submission.author_name) %>
     <%= required labelled_form_field _('Email'), text_field_tag(:author_email, submission.author_email) %>
   <% end %>
 
-  <%= render :partial => 'shared/form_submission',
+  <%= render :partial => 'shared/internship_form_submission',
              :locals => { form: form, submission: submission, f: f } %>
 
   <div class="notify"><%= _("Your e-mail will be visible to this form's owners.") %></div>

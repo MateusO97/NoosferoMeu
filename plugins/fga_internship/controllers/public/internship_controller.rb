@@ -95,7 +95,7 @@ class InternshipController < PublicController
       @submission = CustomFormsPlugin::Submission.new(:form => @form)
     end
 
-    update_checklist
+    # update_checklist
 
     # build the answers
     @answers = if params[:submission] then @submission.build_answers params[:submission] else @submission.answers end

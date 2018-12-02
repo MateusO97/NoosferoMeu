@@ -17,7 +17,7 @@
 
 
     <%= render partial: 'shared/internship_form',
-               locals: { profile: @profile, form: @form, submission: @submission, :checklist_id => params[:checklist_id], fga_internship_plugin_checklists: {checked: true} } %>
+               locals: { form: @form, submission: @submission, :checklist_id => params[:checklist_id], fga_internship_plugin_checklists: {checked: true} } %>
 
   <% else %>
     <%= fields_for :submission, @submission do |f| %>

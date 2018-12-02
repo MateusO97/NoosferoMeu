@@ -3,7 +3,7 @@
 		<h1>Pré-Matrícula em Estágio</h1>
 	  <div class="checklist-container">
 			<% @checklists.each do |checklist| %>
-				<%= link_to render(:partial => 'partials/checklist', locals: { :checklist => checklist }), {:controller => "internship", :action => "answer_form", :checklist_id => checklist.id, fga_internship_plugin_checklists: {checked: true}}, class: "internship-checklist-name" %>
+                <%= link_to render(:partial => 'partials/checklist', locals: { :checklist => checklist }), {:controller => "internship", :action => "answer_form", :checklist_id => checklist.id, :community_id => params[:community_id], fga_internship_plugin_checklists: {checked: true}}, class: "internship-checklist-name" %>
 			<% end %>
 	  </div>
 	  <div class="button-container">
