@@ -87,8 +87,8 @@ class InternshipController < PublicController
   end
 
   def answer_form
-    profile = Profile.find_by(identifier: params[:profile])
-    @form = CustomFormsPlugin::Form.find_by(identifier: 'estágio')
+    internship_form_identifier = 'estágio'
+    @form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
     @community = Community.find_by(id: params[:community_id])
 
     if user
