@@ -1,6 +1,6 @@
 <%= error_messages_for :submission %>
 
-<%= form_for :submission, url: internship_plugin_answer_form_path(id: form.identifier, profile: profile), :html => { :class => 'query-form' } do |f| %>
+<%= form_for :submission, url: internship_plugin_answer_form_path(id: form.identifier, profile: @community), :html => { :class => 'query-form' } do |f| %>
 
   <% if !user %>
     <%= required labelled_form_field _('Name'), text_field_tag(:author_name, submission.author_name) %>

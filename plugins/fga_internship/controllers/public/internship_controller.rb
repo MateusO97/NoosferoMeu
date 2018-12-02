@@ -1,5 +1,6 @@
 class InternshipController < PublicController
   require 'securerandom'
+  require 'exceptions'
 
   include FgaInternshipPlugin::ProcessCreator
   include CustomFormsPlugin::Helper
@@ -88,6 +89,8 @@ class InternshipController < PublicController
   def answer_form
     profile = Profile.find_by(identifier: params[:profile])
     @form = CustomFormsPlugin::Form.find_by(identifier: 'estágio')
+    @community = Community.find_by(id: params[:community_id])
+
     if user
       @submission = CustomFormsPlugin::Submission.find_by form_id: @form.id, profile_id: user.id
       @submission ||= CustomFormsPlugin::Submission.new(:form => @form, :profile => user)
@@ -102,21 +105,22 @@ class InternshipController < PublicController
 
     if request.post?
       begin
-        raise 'Submission already present!' if user.present? && CustomFormsPlugin::Submission.find_by(form_id: @form.id, profile_id: user.id)
-        raise 'Form expired!' if @form.expired?
+        raise SubmissionError, 'Submission already present!' if user.present? && CustomFormsPlugin::Submission.find_by(form_id: @form.id, profile_id: user.id)
+        raise SubmissionError, 'Form expired!' if @form.expired?
 
         if !user
           @submission.author_name = params[:author_name]
           @submission.author_email = params[:author_email]
         end
 
-        if not @submission.save
-          raise 'Submission failed: answers not valid'
+        unless @submission.save
+          raise SubmissionError, 'Submission failed: answers not valid'
         end
+
         session[:notice] = _('Submission saved')
         redirect_to :controller => :internship, :action => :internship_pre_application, :checklist_id => params[:checklist_id], :fga_internship_plugin_checklists => {checked: true}
-      rescue
-        session[:notice] = _('Submission could not be saved')
+      rescue SubmissionError => err
+        session[:notice] = _(err.message)
       end
     end
   end
