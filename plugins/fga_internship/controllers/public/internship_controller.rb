@@ -34,6 +34,17 @@ class InternshipController < PublicController
         @checklists << checklist
       end
     end
+    
+    community = @process.community_id
+    active_processes = Folder.find_by(:name => 'processos ativos', :profile_id => community.id)
+
+    unless Folder.find_by(:name => self.current_user.name , :profile_id => community.id, :parent_id =>active_processes.id)
+      user_folder = Folder.new
+      user_folder.name = self.current_user.name
+      user_folder.profile_id = community.id
+      user_folder.parent_id = active_processes.id
+      user_folder.save
+    end
   end
 
   # call here the creation of supervisor's tmp user
