@@ -1,3 +1,4 @@
+@import "color";
 // FIXME: move to more specific places
 .profile-list {
   margin: 0px;
@@ -35,7 +36,7 @@
 .controller-friends .profile-list a.profile-link:hover,
 .controller-followers .profile-list a.profile-link:hover,
 .profiles-suggestions .profile-list a.profile-link:hover {
-  color: #FFF;
+  color: $white;
 }
 
 .controller-favorite_enterprises .profile-list .profile_link span,
@@ -338,7 +339,7 @@
       }
       &:hover .menu-submenu-trigger {
         display: block;
-        background: #fff url(../images/top-arrow.png) center center no-repeat;
+        background: $white url(../images/top-arrow.png) center center no-repeat;
         border: 1px solid #CCC;
       }
     }
@@ -389,7 +390,7 @@
   top: 3px;
   right: 2px;
   text-transform: uppercase;
-  color: #FFF;
+  color: $white;
   font-size: 9px;
   background: #66CC33;
   padding: 2px;

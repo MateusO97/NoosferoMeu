@@ -1,3 +1,5 @@
+@import "color";
+
 .controller-templates .template-kind {
   border-bottom: 1px solid #CCC;
 }
@@ -12,7 +14,7 @@
 }
 
 .controller-templates .template-kind li:hover {
-  background-color: #f0f0f0;
+  background-color: $light_gray;
 }
 
 .controller-templates .template-kind li a {
