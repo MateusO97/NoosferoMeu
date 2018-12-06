@@ -18,4 +18,11 @@ class FgaInternshipPlugin < Noosfero::Plugin
     true
   end
 
+  def self.load_custom_routes
+    Noosfero::Application.routes.draw do
+      match "/profile/:profile/internship_query/:id" => 'internship#answer_form',
+        via: [:get, :post], as: 'internship_plugin_answer_form'
+    end
+  end
+
 end

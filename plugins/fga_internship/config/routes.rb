@@ -1,0 +1,1 @@
+FgaInternshipPlugin.load_custom_routes

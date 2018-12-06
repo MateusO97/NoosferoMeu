@@ -14,12 +14,14 @@
       <% end %>
     <% end %>
 
-    <%= render partial: 'shared/form',
+
+
+    <%= render partial: 'shared/internship_form',
                locals: { form: @form, submission: @submission, :checklist_id => params[:checklist_id], fga_internship_plugin_checklists: {checked: true} } %>
 
   <% else %>
     <%= fields_for :submission, @submission do |f| %>
-      <%= render partial: 'shared/form_submission',
+      <%= render partial: 'shared/internship_form_submission',
                locals: { f: f, form: @form, submission: @submission, :checklist_id => params[:checklist_id], fga_internship_plugin_checklists: {checked: true} } %>
     <% end %>
   <% end %>
