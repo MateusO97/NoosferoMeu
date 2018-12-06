@@ -1,3 +1,5 @@
+@import "color";
+
 #profile-wall,
 #profile-network,
 #person-profile {
@@ -81,7 +83,7 @@
   display: flex;
   padding: 12px 0px 20px 0px;
   margin-bottom: 3px;
-  background-color: #fff;
+  background-color: $white;
   border-bottom: 1px solid #e8e8e8;
   width: 100%;
   .profile-activity-image a img {
@@ -825,7 +827,7 @@ ul.profile-network-activities-comments {
   bottom: auto;
   right: 0;
   border: 1px solid;
-  background: #fff;
+  background: $white;
 }
 
 .article-translations .menu-submenu-list {

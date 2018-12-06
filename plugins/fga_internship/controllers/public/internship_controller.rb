@@ -14,6 +14,18 @@ class InternshipController < PublicController
 
   def index
     @community_id = params[:community_id]
+    unless Folder.find_by(:name => 'processos ativos', :profile_id => @community_id)
+      active_processes = Folder.new
+      active_processes.name = 'processos ativos'
+      active_processes.profile_id = @community_id
+      active_processes.save
+    end
+    unless Folder.find_by(:name => 'processos inativos', :profile_id => @community_id)
+      inactive_processes = Folder.new
+      inactive_processes.name = 'processos inativos'
+      inactive_processes.profile_id = @community_id
+      inactive_processes.save
+    end
   end
 
   def internship_pre_application
@@ -22,6 +34,17 @@ class InternshipController < PublicController
       if(checklist.document.phase == "pre-application")
         @checklists << checklist
       end
+    end
+    
+    community = @process.community_id
+    active_processes = Folder.find_by(:name => 'processos ativos', :profile_id => community.id)
+
+    unless Folder.find_by(:name => self.current_user.name , :profile_id => community.id, :parent_id =>active_processes.id)
+      user_folder = Folder.new
+      user_folder.name = self.current_user.name
+      user_folder.profile_id = community.id
+      user_folder.parent_id = active_processes.id
+      user_folder.save
     end
   end
 

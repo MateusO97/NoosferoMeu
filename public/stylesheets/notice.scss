@@ -1,7 +1,8 @@
 /* Notice box */
+@import "color";
 
 div#notice {
-  background-color: #000;
+  background-color: $black;
   color: white;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;

@@ -1,3 +1,4 @@
+@import "color";
 #public-profile-search,
 #profile-search-results form,
 .profile-search-block form {
@@ -44,7 +45,7 @@
 }
 
 #profile-search-results .article-details {
-  color: #000;
+  color: $black;
   text-decoration: none;
 }
 
