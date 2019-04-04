@@ -7,7 +7,7 @@ class Image < ApplicationRecord
 
   attr_accessor :remove_image
 
-  belongs_to :owner, polymorphic: true
+  belongs_to :owner, polymorphic: true, optional: true
 
   def self.max_size
     Image.attachment_options[:max_size]
@@ -26,8 +26,8 @@ class Image < ApplicationRecord
                  processor: 'Rmagick'
   validates_attachment :size => N_("{fn} of uploaded file was larger than the maximum size of 5.0 MB").fix_i18n
 
-  extend DelayedAttachmentFu::ClassMethods
-  delay_attachment_fu_thumbnails
+  extend AttachmentFuAssistant::ClassMethods
+  attachment_fu_thumbnails
 
   postgresql_attachment_fu
 

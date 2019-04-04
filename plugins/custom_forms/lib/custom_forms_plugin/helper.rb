@@ -15,14 +15,14 @@ module CustomFormsPlugin::Helper
   end
 
   def period_range(form)
-    if form.begining.blank? && form.ending.blank?
+    if form.beginning.blank? && form.ending.blank?
       _('Always')
-    elsif form.begining.present? && form.ending.blank?
-      ('From %s') % time_format(form.begining)
-    elsif form.begining.blank? && form.ending.present?
+    elsif form.beginning.present? && form.ending.blank?
+      ('From %s') % time_format(form.beginning)
+    elsif form.beginning.blank? && form.ending.present?
       _('Until %s') % time_format(form.ending)
-    elsif form.begining.present? && form.ending.present?
-      _('From %s until %s') % [time_format(form.begining), time_format(form.ending)]
+    elsif form.beginning.present? && form.ending.present?
+      _('From %s until %s') % [time_format(form.beginning), time_format(form.ending)]
     end
   end
 
@@ -110,11 +110,14 @@ module CustomFormsPlugin::Helper
 
     when 'multiple_select'
       selected = default_selected(field, answer)
-      select_tag form.to_s + "[#{field.id}]",
-                 options_for_select(field.alternatives.map{|a| [a.label, a.id.to_s]}, selected),
-                 :multiple => true, :title => _('Hold down Ctrl to select options'),
-                 :size => field.alternatives.size,
-                 :disabled => display_disabled?(field, answer)
+      input_name = form.to_s + "[#{field.id}]"
+      
+      inputs = hidden_field_tag(input_name, '0')
+      inputs += select_tag input_name, options_for_select(field.alternatives.map{|a| [a.label, a.id.to_s]}, selected),
+              :multiple => true, :title => _('Hold down Ctrl to select options'),
+              :size => field.alternatives.size,
+              :disabled => display_disabled?(field, answer)
+      inputs.html_safe
 
     when 'check_box'
       answers = answer.alternatives.map { |alt| alt.id } if (answer.present?)
@@ -133,20 +136,24 @@ module CustomFormsPlugin::Helper
                     :class => 'labelled-check field-alternative-row')
       end.join("\n")
     when 'radio'
-      field.alternatives.map do |alternative|
+      input_name = form.to_s + "[#{field.id}]"
+      inputs = hidden_field_tag(input_name, '0')
+      inputs += field.alternatives.map do |alternative|
         default = if answer.present?
-                    answer.alternatives.first.id.to_s == alternative.id.to_s
+                    unless answer.alternatives.empty?
+                      answer.alternatives.first.id == alternative.id
+                    end
                   else
                     alternative.selected_by_default
                   end
 
         content_tag(:div, (labelled_radio_button alternative.label,
-                           form.to_s + "[#{field.id}]",
+                           input_name,
                            alternative.id,
                            default,
                            :disabled => display_disabled?(field, answer)),
-                    :class => 'labelled-check field-alternative-row')
-      end.join("\n")
+                           :class => 'labelled-check field-alternative-row')
+      end.join("\n").html_safe
     end
   end
 
@@ -167,17 +174,17 @@ module CustomFormsPlugin::Helper
   end
 
   def time_status(form)
-    if form.begining.present? && form.ending.present?
-      if Time.now < form.begining
-        _('%s left to open') % distance_of_time_in_words(Time.now, form.begining)
+    if form.beginning.present? && form.ending.present?
+      if Time.now < form.beginning
+        _('%s left to open') % distance_of_time_in_words(Time.now, form.beginning)
       elsif Time.now < form.ending
         _('%s left to close') % distance_of_time_in_words(Time.now, form.ending)
       else
         _('Closed')
       end
-    elsif form.begining.present?
-      if Time.now < form.begining
-        _('%s left to open') % distance_of_time_in_words(Time.now, form.begining)
+    elsif form.beginning.present?
+      if Time.now < form.beginning
+        _('%s left to open') % distance_of_time_in_words(Time.now, form.beginning)
       else
         _('Always open')
       end

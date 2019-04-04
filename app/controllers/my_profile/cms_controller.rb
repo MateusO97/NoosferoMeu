@@ -8,7 +8,7 @@ class CmsController < MyProfileController
   include Captcha
 
   def self.protect_if(*args)
-    before_filter(*args) do |c|
+    before_action(*args) do |c|
       user, profile = c.send(:user), c.send(:profile)
       if yield(c, user, profile)
         true
@@ -20,13 +20,13 @@ class CmsController < MyProfileController
     end
   end
 
-  before_filter :login_required, :except => [:suggest_an_article]
-  before_filter :load_recent_files, :only => [:new, :edit]
+  before_action :login_required, :except => [:suggest_an_article]
+  before_action :load_recent_files, :only => [:new, :edit]
 
   helper_method :file_types
 
   protect_if :except => [:suggest_an_article, :set_home_page, :edit, :destroy, :publish, :publish_on_portal_community, :publish_on_communities, :search_communities_to_publish, :upload_files, :new] do |c, user, profile|
-    user && (user.has_permission?('post_content', profile) || user.has_permission?('publish_content', profile))
+    user && user.has_permission?('post_content', profile)
   end
 
   protect_if :only => [:new, :upload_files] do |c, user, profile|
@@ -64,6 +64,7 @@ class CmsController < MyProfileController
   end
 
   def edit
+    params[:article] ||= {}
     @success_back_to = params[:success_back_to]
     @article = profile.articles.find(params[:id])
     version = params[:version]
@@ -84,15 +85,14 @@ class CmsController < MyProfileController
     refuse_blocks
     record_coming
     if request.post?
-      if @article.image.present? && params[:article][:image_builder] &&
-        params[:article][:image_builder][:label]
+      if @article.image.present? && params[:article][:image_builder] && params[:article][:image_builder][:label]
         @article.image.label = params[:article][:image_builder][:label]
         @article.image.save!
       end
       params_metadata = params[:article].try(:delete, :metadata) || {}
       custom_fields = params_metadata.try(:delete, :custom_fields) || {}
       @article.metadata = @article.metadata.merge(params_metadata)
-      @article.metadata[:custom_fields] = custom_fields
+      @article.metadata["custom_fields"] = custom_fields
       @article.last_changed_by = user
       @article.update_access_level(params[:article][:access])
       params[:article].delete(:access)
@@ -111,7 +111,6 @@ class CmsController < MyProfileController
 
   def new
     # FIXME this method should share some logic with edit !!!
-
     @success_back_to = params[:success_back_to]
     # user must choose an article type first
 
@@ -178,7 +177,7 @@ class CmsController < MyProfileController
         else
           respond_to do |format|
             format.html { success_redirect }
-            format.json { render :text => {:id => @article.id, :full_name => profile.identifier + '/' + @article.full_name}.to_json }
+            format.json { render plain: {:id => @article.id, :full_name => profile.identifier + '/' + @article.full_name}.to_json }
           end
         end
         return
@@ -190,8 +189,7 @@ class CmsController < MyProfileController
   post_only :set_home_page
   def set_home_page
     return render_access_denied unless user.can_change_homepage?
-
-    article = params[:id].nil? ? nil : profile.articles.find(params[:id])
+    article = (params[:id].nil? || params[:id].blank?) ? nil : profile.articles.find(params[:id])
     profile.update_attribute(:home_page, article)
 
     if article.nil?
@@ -267,8 +265,7 @@ class CmsController < MyProfileController
   def search_communities_to_publish
     scope = user.memberships.distinct(false).where.not(id: profile)
     results = find_by_contents(:profiles, environment, scope, params['q'], {:page => 1}, {:fields => ['name']})[:results]
-  
-    render :text => results.map {|community| {:id => community.id, :name => community.name} }
+    render plain: results.map {|community| {:id => community.id, :name => community.name} }
                            .uniq {|c| c[:id] }.to_json
   end
 
@@ -374,7 +371,7 @@ class CmsController < MyProfileController
   def search
     query = params[:q]
     results = find_by_contents(:uploaded_files, profile, profile.files.published, query)[:results]
-    render :text => article_list_to_json(results).html_safe, :content_type => 'application/json'
+    render plain: article_list_to_json(results).html_safe, :content_type => 'application/json'
   end
 
   def media_upload
@@ -392,7 +389,7 @@ class CmsController < MyProfileController
           format.js
         end
       rescue Exception => exception
-        render :text => exception.to_s, :status => :bad_request
+        render plain: :exception.to_s, status: :bad_request
       end
     end
   end

@@ -266,8 +266,7 @@ class ProfilesTest < ActiveSupport::TestCase
     CustomField.create!(:name => "Rating", :format => "string", :customized_type => "Community", :active => true, :environment => Environment.default)
     some_profile = fast_create(Community)
     some_profile.custom_values = { "Rating" => { "value" => "Five stars", "public" => "true"} }
-    some_profile.save!
-    set_profile_field_privacy(some_profile,'Rating', 'public')
+    set_profile_field_privacy(some_profile, 'Rating', 'public')
 
     params[:optional_fields] = 'additional_data'
     get "/api/v1/profiles/#{some_profile.id}?#{params.to_query}"
@@ -372,7 +371,7 @@ class ProfilesTest < ActiveSupport::TestCase
     assert_includes json["permissions"], 'allow_post_content'
   end
 
-  should 'list permissions allow_edit_design if ther person has it on profile' do
+  should 'list permissions allow_edit_design if there person has it on profile' do
     login_api
     profile = fast_create(Community)
     give_permission(person, 'edit_profile_design', profile)

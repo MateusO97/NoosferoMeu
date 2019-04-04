@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.3~rc2-1-ga15645d\n"
-"PO-Revision-Date: 2016-10-03 18:21+0000\n"
-"Last-Translator: Aurélio A. Heckert <aurelio@colivre.coop.br>\n"
+"PO-Revision-Date: 2019-01-08 14:07+0000\n"
+"Last-Translator: Rebeca Moura <bcasamo@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/noosfero/"
 "plugin-custom-forms/pt/>\n"
 "Language: pt\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: ../controllers/custom_forms_plugin_admin_controller.rb:12
 msgid "There is no data to be downloaded"
@@ -49,7 +49,7 @@ msgstr "A consulta não pode ser removida"
 
 #: ../controllers/custom_forms_plugin_myprofile_controller.rb:127
 msgid "Maximum file size exceeded"
-msgstr "Tamanho máximo do arquivo excedido"
+msgstr "Tamanho máximo do ficheiro excedido"
 
 #: ../controllers/custom_forms_plugin_myprofile_controller.rb:181
 msgid "Query Gallery"
@@ -79,11 +79,11 @@ msgid "Opened"
 msgstr "Abertos"
 
 #: ../controllers/custom_forms_plugin_profile_controller.rb:93
-#: ../lib/custom_forms_plugin/helper.rb:176
-#: ../lib/custom_forms_plugin/helper.rb:188
+#: ../lib/custom_forms_plugin/helper.rb:183
+#: ../lib/custom_forms_plugin/helper.rb:195
 #: ../lib/custom_forms_plugin/list_block.rb:9
 msgid "Closed"
-msgstr "Fechados"
+msgstr "Fechado"
 
 #: ../controllers/custom_forms_plugin_profile_controller.rb:94
 msgid "To come"
@@ -137,7 +137,7 @@ msgstr "não aceita múltiplas respostas"
 
 #: ../lib/custom_forms_plugin/control_panel/all_queries.rb:6
 msgid "View All"
-msgstr "Ver Todas"
+msgstr "Ver Todos(as)"
 
 #: ../lib/custom_forms_plugin/control_panel/new_poll.rb:6
 msgid "New Poll"
@@ -213,7 +213,7 @@ msgstr "Nome"
 
 #: ../lib/custom_forms_plugin/form.rb:47
 msgid "Slug"
-msgstr "Slug"
+msgstr "Texto curto"
 
 #: ../lib/custom_forms_plugin/form.rb:48
 msgid "identifier"
@@ -269,22 +269,22 @@ msgstr "Campo de texto"
 msgid "Select field"
 msgstr "Campo de seleção"
 
-#: ../lib/custom_forms_plugin/helper.rb:115
+#: ../lib/custom_forms_plugin/helper.rb:117
 msgid "Hold down Ctrl to select options"
 msgstr "Segure Ctrl para selecionar as opções"
 
-#: ../lib/custom_forms_plugin/helper.rb:172
-#: ../lib/custom_forms_plugin/helper.rb:180
+#: ../lib/custom_forms_plugin/helper.rb:179
+#: ../lib/custom_forms_plugin/helper.rb:187
 msgid "%s left to open"
 msgstr "%s até abrir"
 
-#: ../lib/custom_forms_plugin/helper.rb:174
-#: ../lib/custom_forms_plugin/helper.rb:186
+#: ../lib/custom_forms_plugin/helper.rb:181
+#: ../lib/custom_forms_plugin/helper.rb:193
 msgid "%s left to close"
 msgstr "%s até fechar"
 
-#: ../lib/custom_forms_plugin/helper.rb:182
-#: ../lib/custom_forms_plugin/helper.rb:191
+#: ../lib/custom_forms_plugin/helper.rb:189
+#: ../lib/custom_forms_plugin/helper.rb:198
 msgid "Always open"
 msgstr "Sempre aberta"
 
@@ -346,7 +346,7 @@ msgstr "Esse block mostra os últimios questionários realizados no perfil."
 
 #: ../views/blocks/_form_list_block.html.erb:1
 msgid "View all"
-msgstr "Ver todas"
+msgstr "Ver todos(as)"
 
 #: ../views/blocks/_form_list_block.html.erb:13
 #: ../views/blocks/_queries_block.html.erb:7
@@ -392,7 +392,7 @@ msgstr "Exportar consultas do ambiente"
 
 #: ../views/custom_forms_plugin_admin/index.html.erb:8
 msgid "Export one file with several queries at once."
-msgstr "Exportar um arquivo com várias consultas de uma vez."
+msgstr "Exportar um ficheiro com várias consultas de uma vez."
 
 #: ../views/custom_forms_plugin_admin/index.html.erb:14
 msgid "Select the user fields to be included in the submissions report"
@@ -440,7 +440,7 @@ msgstr "Endereço"
 
 #: ../views/custom_forms_plugin_myprofile/_form.html.erb:6
 msgid "Change picture"
-msgstr "Mudar imagem"
+msgstr "Mudar foto"
 
 #: ../views/custom_forms_plugin_myprofile/_form.html.erb:11
 msgid "Remove image"
@@ -534,7 +534,7 @@ msgstr "Múltipla escolha"
 
 #: ../views/custom_forms_plugin_myprofile/_poll.html.erb:18
 msgid "Checkboxes"
-msgstr "Checkboxes"
+msgstr "Caixas de seleção"
 
 #: ../views/custom_forms_plugin_myprofile/_poll.html.erb:27
 #: ../views/custom_forms_plugin_myprofile/_poll.html.erb:39
@@ -590,7 +590,7 @@ msgstr "Radio"
 
 #: ../views/custom_forms_plugin_myprofile/custom_forms_plugin/_select_field.html.erb:7
 msgid "Checkbox"
-msgstr "Checkbox"
+msgstr "Caixa de seleção"
 
 #: ../views/custom_forms_plugin_myprofile/custom_forms_plugin/_select_field.html.erb:9
 msgid "Drop down"
@@ -639,13 +639,13 @@ msgid ""
 "recommended that you follow the generated template. Note that a file with "
 "header is expected."
 msgstr ""
-"Você deve escolher um arquivo CSV que siga uma estrutura específica. É "
-"recomendado que você siga o modelo gerado. Note que um arquivo com cabeçalho "
-"é experado."
+"Você deve escolher um ficheiro CSV que siga uma estrutura específica. É "
+"recomendado que você siga o modelo gerado. Note que um ficheiro com "
+"cabeçalho é experado."
 
 #: ../views/custom_forms_plugin_myprofile/import.html.erb:11
 msgid "Download Template"
-msgstr "Baixar Modelo"
+msgstr "Descarregar Modelo"
 
 #: ../views/custom_forms_plugin_myprofile/import.html.erb:16
 msgid "Take note"
@@ -668,11 +668,11 @@ msgstr ""
 
 #: ../views/custom_forms_plugin_myprofile/import.html.erb:26
 msgid "Choose a CSV file to import submissions from"
-msgstr "Escolha um arquivo CSV para importar as submissões"
+msgstr "Escolha um ficheiro CSV para importar as submissões"
 
 #: ../views/custom_forms_plugin_myprofile/import.html.erb:29
 msgid "Maximum file size: %s"
-msgstr "Tamanho máximo do arquivo: %s"
+msgstr "Tamanho máximo do ficheiro: %s"
 
 #: ../views/custom_forms_plugin_myprofile/import.html.erb:33
 #: ../views/custom_forms_plugin_myprofile/report.html.erb:65
@@ -682,7 +682,7 @@ msgstr "Voltar"
 
 #: ../views/custom_forms_plugin_myprofile/import.html.erb:34
 msgid "Import file"
-msgstr "Importar arquivo"
+msgstr "Importar ficheiro"
 
 #: ../views/custom_forms_plugin_myprofile/index.html.erb:1
 msgid "Manage queries"
@@ -766,15 +766,15 @@ msgstr "%s Sumissões Falhas.csv"
 
 #: ../views/custom_forms_plugin_myprofile/report.html.erb:71
 msgid "Import another file"
-msgstr "Importar outro arquivo"
+msgstr "Importar outro ficheiro"
 
 #: ../views/custom_forms_plugin_myprofile/show_submission.html.erb:10
 msgid "Submission date"
-msgstr "Data da submissão"
+msgstr "Data de submissão"
 
 #: ../views/custom_forms_plugin_myprofile/show_submission.html.erb:14
 msgid "Author"
-msgstr "Autor"
+msgstr "Nome do autor(a)"
 
 #: ../views/custom_forms_plugin_myprofile/show_submission.html.erb:26
 msgid "Unauthenticated"
@@ -916,27 +916,21 @@ msgstr "Tem certeza de que você deseja submeter seu voto?"
 msgid "This was your answer."
 msgstr "Essa foi a sua resposta."
 
-#: ../controllers/custom_forms_plugin_profile_controller.rb:33
 #~ msgid "Submission saved"
 #~ msgstr "Submissão salva"
 
-#: ../lib/custom_forms_plugin/form.rb:127
 #~ msgid "This query has no ending date"
 #~ msgstr "Essa consulta não possui data de finalização"
 
-#: ../lib/custom_forms_plugin/form.rb:132
 #~ msgid "Ends today"
 #~ msgstr "Termina hoje"
 
-#: ../lib/custom_forms_plugin/form.rb:136
 #~ msgid "Ends tomorow"
 #~ msgstr "Termina amanhã"
 
-#: ../lib/custom_forms_plugin/form.rb:140
 #~ msgid "Already closed"
 #~ msgstr "Finalizada"
 
-#: ../lib/custom_forms_plugin/form.rb:143
 #~ msgid "%s days left"
 #~ msgstr "%s dias restantes"
 

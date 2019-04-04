@@ -111,7 +111,7 @@ module Api
       expose :blocks, :using => Block do |box, options|
         box.blocks.select {|block| block.visible_to_user?(options[:current_person]) || block.allow_edit?(options[:current_person]) }
       end
-   end
+    end
 
     class Profile < Entity
       expose :identifier, :name, :id
@@ -240,6 +240,7 @@ module Api
       expose :type
       expose :comments, using: CommentBase, :if => lambda{|comment,options| Entities.expose_optional_field?(:comments, options)}
       expose :published
+      expose :access
       expose :accept_comments?, as: :accept_comments
       expose :mime_type
       expose :size, :if => lambda { |article, options| article.kind_of?(UploadedFile)}
@@ -252,14 +253,14 @@ module Api
     end
 
     class Article < ArticleBase
-      expose :parent, :using => ArticleBase
+      expose :parent, :using => ArticleBase, :if => lambda {|article, options| Entities.expose_optional_field?(:parent, options)}
+      expose :parent_id
       expose :children, :using => ArticleBase do |article, options|
         article.children.published.limit(V1::Articles::MAX_PER_PAGE)
       end
       expose :permissions do |article, options|
         Entities.permissions_for_entity(article, options[:current_person],
-          :allow_edit?, :allow_post_content?, :allow_delete?, :allow_create?,
-          :allow_publish_content?)
+          :allow_edit?, :allow_post_content?, :allow_delete?, :allow_create?)
       end
     end
 
@@ -286,6 +287,7 @@ module Api
 
     class UserLogin < User
       expose :private_token, documentation: {type: 'String', desc: 'A valid authentication code for post/delete api actions'}, if: lambda {|object, options| object.activated? }
+      expose :activation_code
     end
 
     class Task < Entity
@@ -315,7 +317,14 @@ module Api
       expose :layout_template
       expose :signup_intro
       expose :terms_of_use
-      expose :top_url, as: :host, :if => lambda {|instance, options| Entities.expose_optional_field?(:host, options)}
+      expose :contact_email
+      expose :captcha_site_key do |environment, options|
+        Recaptcha.configuration.site_key
+      end
+      expose :captcha_signup_enable do |environment, options|
+        environment.require_captcha?(:signup, nil, environment)
+      end
+      expose :top_url, as: :host
       expose :type do |environment, options|
         "Environment"
       end

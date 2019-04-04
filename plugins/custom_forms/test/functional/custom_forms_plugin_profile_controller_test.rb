@@ -35,14 +35,21 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
   end
 
   should 'not save empty submission' do
-    form = CustomFormsPlugin::Form.create!(profile: profile, name: 'Free Software', identifier: 'free-software', kind: 'poll')
-    field1 = CustomFormsPlugin::TextField.create(name: 'Name', form: form)
+    form = CustomFormsPlugin::Form.create!(profile: profile, name: 'Free Software', identifier: 'free-software', kind: 'survey')
+    field1 = CustomFormsPlugin::TextField.create!(name: 'Name', form: form, mandatory: true)
+    alternative_a = CustomFormsPlugin::Alternative.new(:label => 'A')
+    alternative_b = CustomFormsPlugin::Alternative.new(:label => 'B')
+    field2 = CustomFormsPlugin::SelectField.new(name: 'Select Field', form: form, mandatory: true)
+    field2.alternatives << [alternative_a, alternative_b]
+    field2.save!
 
     assert_no_difference 'CustomFormsPlugin::Submission.count' do
-      post :show, :profile => profile.identifier, :id => form.identifier, :submission => {field1.id.to_s => ''}
+      post :show, :profile => profile.identifier, :id => form.identifier, :submission => {field1.id.to_s => '', field2.id.to_s => '0'}
     end
 
-    assert_tag :tag => 'div', :attributes => { :class => 'errorExplanation', :id => 'errorExplanation' }
+    assert_tag :tag => 'div', attributes: { class: 'errorExplanation', id: 'errorExplanation' }
+    assert_tag :tag => 'li', content: "#{field1.name} is mandatory."
+    assert_tag :tag => 'li', content: "#{field2.name} is mandatory."
   end
 
   should 'display errors if user is not logged in and author_name is not uniq' do
@@ -59,7 +66,7 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
   end
 
   should 'disable fields if form expired' do
-    form = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Free Software', :begining => Time.now + 1.day, :identifier => 'free-software')
+    form = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Free Software', :beginning => Time.now + 1.day, :identifier => 'free-software')
     form.fields << CustomFormsPlugin::TextField.create(:name => 'Field Name', :form => form, :default_value => "First Field")
 
     get :show, :profile => profile.identifier, :id => form.identifier
@@ -68,14 +75,14 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
   end
 
   should 'show expired message' do
-    form = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Free Software', :begining => Time.now + 1.day, :identifier => 'free-software')
+    form = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Free Software', :beginning => Time.now + 1.day, :identifier => 'free-software')
     form.fields << CustomFormsPlugin::TextField.create(:name => 'Field Name', :form => form, :default_value => "First Field")
 
     get :show, :profile => profile.identifier, :id => form.identifier
 
     assert_tag :tag => 'h2', :content => 'Sorry, you can\'t fill this form yet'
 
-    form.begining = Time.now - 2.days
+    form.beginning = Time.now - 2.days
     form.ending = Time.now - 1.days
     form.save
 
@@ -211,9 +218,9 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
   end
 
   should 'filter forms by status' do
-    opened_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Opened Survey', :identifier => 'opened-survey', :begining => Time.now - 1.day)
+    opened_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Opened Survey', :identifier => 'opened-survey', :beginning => Time.now - 1.day)
     closed_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Closed Survey', :identifier => 'closed-survey', :ending => Time.now - 1.day)
-    to_come_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'To Come Survey', :identifier => 'to-come-survey', :begining => Time.now + 1.day)
+    to_come_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'To Come Survey', :identifier => 'to-come-survey', :beginning => Time.now + 1.day)
 
     get :queries, :profile => profile.identifier, :status => 'opened'
 
@@ -347,7 +354,7 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
     answer = CustomFormsPlugin::Answer.create!(:field => field,
                                                :value => nil,
                                                :submission => submission)
-    form_answer = CustomFormsPlugin::FormAnswer.create!(answer_id: answer,
+    form_answer = CustomFormsPlugin::FormAnswer.create!(answer_id: answer.id,
                                                         alternative_id: field.alternatives[0].id)
     answer.form_answers << form_answer
     answer.save!
@@ -420,6 +427,6 @@ class CustomFormsPluginProfileControllerTest < ActionController::TestCase
     form = community.forms.create!(name: 'Free Software')
 
     get :show, :profile => community.identifier, :id => form.identifier
-    assert_no_tag tag: 'div', attributes: { class: 'custom-form-options' }
+    !assert_tag tag: 'div', attributes: { class: 'custom-form-options' }
   end
 end

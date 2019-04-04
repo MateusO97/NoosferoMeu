@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-30 18:45+0000\n"
-"PO-Revision-Date: 2018-08-30 18:45+0000\n"
+"POT-Creation-Date: 2018-12-12 13:31+0000\n"
+"PO-Revision-Date: 2018-12-12 13:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -74,8 +74,8 @@ msgid "Opened"
 msgstr ""
 
 #: ../controllers/custom_forms_plugin_profile_controller.rb:93
-#: ../lib/custom_forms_plugin/helper.rb:176
-#: ../lib/custom_forms_plugin/helper.rb:188
+#: ../lib/custom_forms_plugin/helper.rb:183
+#: ../lib/custom_forms_plugin/helper.rb:195
 #: ../lib/custom_forms_plugin/list_block.rb:9
 msgid "Closed"
 msgstr ""
@@ -260,22 +260,22 @@ msgstr ""
 msgid "Select field"
 msgstr ""
 
-#: ../lib/custom_forms_plugin/helper.rb:115
+#: ../lib/custom_forms_plugin/helper.rb:117
 msgid "Hold down Ctrl to select options"
 msgstr ""
 
-#: ../lib/custom_forms_plugin/helper.rb:172
-#: ../lib/custom_forms_plugin/helper.rb:180
+#: ../lib/custom_forms_plugin/helper.rb:179
+#: ../lib/custom_forms_plugin/helper.rb:187
 msgid "%s left to open"
 msgstr ""
 
-#: ../lib/custom_forms_plugin/helper.rb:174
-#: ../lib/custom_forms_plugin/helper.rb:186
+#: ../lib/custom_forms_plugin/helper.rb:181
+#: ../lib/custom_forms_plugin/helper.rb:193
 msgid "%s left to close"
 msgstr ""
 
-#: ../lib/custom_forms_plugin/helper.rb:182
-#: ../lib/custom_forms_plugin/helper.rb:191
+#: ../lib/custom_forms_plugin/helper.rb:189
+#: ../lib/custom_forms_plugin/helper.rb:198
 msgid "Always open"
 msgstr ""
 

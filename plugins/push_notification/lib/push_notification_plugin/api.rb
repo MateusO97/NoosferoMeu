@@ -3,7 +3,7 @@ require_relative 'api_entities'
 # Can't be called Api as will result in:
 # warning: toplevel constant Api referenced by PushNotificationPlugin::Api
 # To fix this PushNotificationPlugin should be a module
-class PushNotificationPlugin::API < Grape::API
+class PushNotificationPlugin::API < Grape::API::Instance
 
   include Api::Helpers
 
@@ -52,7 +52,8 @@ class PushNotificationPlugin::API < Grape::API
       authenticate!
       target_user = target
 
-      PushNotificationPlugin::DeviceToken.delete_all(["token = ? AND user_id = (?)", params[:token],target_user.id])
+      PushNotificationPlugin::DeviceToken.where("token = ? AND user_id = (?)", params[:token],target_user.id)
+                                         .delete_all
 
       present target_user, :with => PushNotificationPlugin::Entities::DeviceUser
     end

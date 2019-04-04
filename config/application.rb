@@ -24,6 +24,9 @@ require_relative '../lib/noosfero/multi_tenancy'
 module Noosfero
   class Application < Rails::Application
 
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.1
+
     # The plugin xss_terminator(located in vendor/plugins/xss_terminator) and the helper
     # SanitizeHelper(located in app/helpers/sanitize_helper.rb) use
     # ALLOWED_TAGS and ALLOWED_ATTRIBUTES to make a sanitize with html.
@@ -111,6 +114,36 @@ module Noosfero
     config.action_controller.permit_all_parameters = true
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    initializer 'setup_asset_pipeline', :group => :all  do |app|
+      # We don't want the default of everything that isn't js or css, because it pulls too many things in
+      app.config.assets.precompile.shift
+
+      # Explicitly register the extensions we are interested in compiling
+      app.config.assets.precompile.push(Proc.new do |path|
+        File.extname(path).in? [
+      #    '.html', '.erb', '.haml',                 # Templates
+          '.png',  '.gif', '.jpg', '.jpeg',         # Images
+          '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
+        ]
+      end)
+
+      # Add extra assets
+      app.config.assets.precompile += Dir.glob('public/plugins/*/**/*.js').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/javascripts/*').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/javascripts/*/**/*.js').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/designs/icons/*/**/*.js').map{|path| path.gsub('public/', '')}
+
+      app.config.assets.precompile += Dir.glob('public/stylesheets/*/**/*.css').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/stylesheets/*/**/*.scss').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/stylesheets/*').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/plugins/*/*.css').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/plugins/*/**/*.css').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/plugins/*/**/*.scss').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/designs/themes/*/**/*.css').map{|path| path.gsub('public/', '')}
+      app.config.assets.precompile += Dir.glob('public/designs/icons/*/**/*.css').map{|path| path.gsub('public/', '')}
+
+    end
 
     config.sass.preferred_syntax = :scss
     config.sass.cache = true

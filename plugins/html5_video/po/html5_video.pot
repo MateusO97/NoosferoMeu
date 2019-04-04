@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-30 18:45+0000\n"
-"PO-Revision-Date: 2018-08-30 18:45+0000\n"
+"POT-Creation-Date: 2018-12-12 13:31+0000\n"
+"PO-Revision-Date: 2018-12-12 13:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -38,45 +38,45 @@ msgstr ""
 msgid "Undefined"
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:32
+#: ../lib/video_processor/ffmpeg.rb:33
 msgid "Unknow error"
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:35
+#: ../lib/video_processor/ffmpeg.rb:36
 msgid "No such file or directory \"%s\"."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:38
+#: ../lib/video_processor/ffmpeg.rb:39
 msgid "No output defined."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:41
+#: ../lib/video_processor/ffmpeg.rb:42
 msgid "Unknown encoder \"%s\"."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:44
+#: ../lib/video_processor/ffmpeg.rb:45
 msgid ""
 "Error while opening encoder for output - maybe incorrect parameters such as bi"
 "t rate, frame rate, width or height."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:47
+#: ../lib/video_processor/ffmpeg.rb:48
 msgid "Could not open \"%s\"."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:50
+#: ../lib/video_processor/ffmpeg.rb:51
 msgid "Unsupported codec %{codec} for %{act} stream %{id}."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:54
+#: ../lib/video_processor/ffmpeg.rb:55
 msgid "Unable to find a suitable output format for %{file}."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:58
+#: ../lib/video_processor/ffmpeg.rb:59
 msgid "Invalid data found when processing input."
 msgstr ""
 
-#: ../lib/video_processor/ffmpeg.rb:197
+#: ../lib/video_processor/ffmpeg.rb:202
 msgid "Success."
 msgstr ""
 
@@ -121,45 +121,53 @@ msgid "%sº video in the queue"
 msgstr ""
 
 #: ../views/content_viewer/video_channel.html.erb:78
-msgid "This video will be enqueued soon"
+msgid "This video is being processed, it might take a while"
 msgstr ""
 
 #: ../views/content_viewer/video_channel.html.erb:80
+msgid "This video will be enqueued soon"
+msgstr ""
+
+#: ../views/content_viewer/video_channel.html.erb:82
 msgid "Conversion couldn't be completed"
 msgstr ""
 
-#: ../views/content_viewer/video_channel.html.erb:91
+#: ../views/content_viewer/video_channel.html.erb:93
 msgid "Non video files"
 msgstr ""
 
 #: ../views/file_presenter/_video.html.erb:22
+msgid "This video is currently being processed. It might take a while."
+msgstr ""
+
+#: ../views/file_presenter/_video.html.erb:27
 msgid "Queued to generate the web version."
 msgstr ""
 
-#: ../views/file_presenter/_video.html.erb:23
+#: ../views/file_presenter/_video.html.erb:28
 msgid "This is the %sº video in the queue. Come back soon"
 msgstr ""
 
-#: ../views/file_presenter/_video.html.erb:28
+#: ../views/file_presenter/_video.html.erb:33
 msgid "This video will be enqueued for conversion soon. Come back later."
 msgstr ""
 
-#: ../views/file_presenter/_video.html.erb:33
+#: ../views/file_presenter/_video.html.erb:38
 msgid "It was not possible to convert this video, contact an administator."
 msgstr ""
 
-#: ../views/file_presenter/_video.html.erb:49
+#: ../views/file_presenter/_video.html.erb:54
 msgid "Video conversion errors"
 msgstr ""
 
-#: ../views/file_presenter/_video.html.erb:59
+#: ../views/file_presenter/_video.html.erb:64
 msgid "Error while converting %{orig_type} to %{new_type}, %{size} size."
 msgstr ""
 
-#: ../views/file_presenter/_video.html.erb:62
+#: ../views/file_presenter/_video.html.erb:67
 msgid "Code %s"
 msgstr ""
 
-#: ../views/file_presenter/_video.html.erb:64
+#: ../views/file_presenter/_video.html.erb:69
 msgid "display full output"
 msgstr ""

@@ -105,6 +105,7 @@ module ApplicationHelper
   # textile, into HTML). It defaults to <tt>:html</tt>.
   #
   # TODO: implement correcly the 'Help' button click
+
   def help(content = nil, link_name = nil, options = {}, &block)
     link_name ||= font_awesome(:help, _('Help'))
 
@@ -147,7 +148,7 @@ module ApplicationHelper
 
   def link_to_profile(text, profile = nil, options = {})
     profile ||= current_user.login
-    link_to text, profile_path(:profile => profile) , options
+    link_to text, profile_path(profile) , options
   end
 
   def link_to_homepage(text, profile, options = {})
@@ -565,7 +566,7 @@ module ApplicationHelper
   #
   # If +field_id+ is not given, the underlying implementation will try to guess
   # it from +field_html+ using a regular expression. In this case, make sure
-  # that the first ocurrance of id=['"]([^'"]*)['"] in +field_html+ if the one
+  # that the first occurrence of id=['"]([^'"]*)['"] in +field_html+ if the one
   # you want (i.e. the correct id for the control )
   def labelled_form_field(label, field_html, field_id = nil)
     NoosferoFormBuilder::output_field(label, field_html, field_id)
@@ -838,18 +839,18 @@ module ApplicationHelper
   def search_people_options
     host = environment.default_hostname
     [
-      (link_to s_('people|More recent'), controller: 'search', action: 'people', filter: 'more_recent'),
-      (link_to s_('people|More active'), controller: 'search', action: 'people', filter: 'more_active'),
-      (link_to s_('people|More popular'), controller: 'search', action: 'people', filter: 'more_popular')
+      (link_to s_('people|More recent'), controller: 'search', action: 'people', order: 'more_recent'),
+      (link_to s_('people|More active'), controller: 'search', action: 'people', order: 'more_active'),
+      (link_to s_('people|More popular'), controller: 'search', action: 'people', order: 'more_popular')
     ]
   end
 
   def search_community_options
     host = environment.default_hostname
     [
-      (link_to s_('communities|More recent'), controller: 'search', action: 'communities', filter: 'more_recent'),
-      (link_to s_('communities|More active'), controller: 'search', action: 'communities', filter: 'more_active'),
-      (link_to s_('communities|More popular'), controller: 'search', action: 'communities', filter: 'more_popular')
+      (link_to s_('communities|More recent'), controller: 'search', action: 'communities', order: 'more_recent'),
+      (link_to s_('communities|More active'), controller: 'search', action: 'communities', order: 'more_active'),
+      (link_to s_('communities|More popular'), controller: 'search', action: 'communities', order: 'more_popular')
     ]
   end
 
@@ -861,7 +862,7 @@ module ApplicationHelper
 
   def search_events_menu
     @search_events_url = content_tag(:a, content_tag(:i, "", :class => 'fa fa-calendar') + _('Events'), :class => 'icon-menu-events', :href => "/search/events", :id => 'submenu-events')
-    render :text => @search_events_url
+    render plain: @search_events_url
   end
   alias :browse_events_menu :search_events_menu
 
@@ -1341,4 +1342,13 @@ module ApplicationHelper
                   class: 'recaptcha-wrapper')
     end
   end
+
+  def silenced
+    $stdout = StringIO.new
+
+    yield
+  ensure
+    $stdout = STDOUT
+  end
+
 end

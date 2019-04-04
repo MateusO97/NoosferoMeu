@@ -1,10 +1,10 @@
 class CustomFormsPlugin::Submission < ApplicationRecord
 
-  belongs_to :form, :class_name => 'CustomFormsPlugin::Form'
-  belongs_to :profile
+  belongs_to :form, class_name: 'CustomFormsPlugin::Form', optional: true
+  belongs_to :profile, optional: true
 
   # validation is done manually, see below
-  has_many :answers, :class_name => 'CustomFormsPlugin::Answer', :dependent => :destroy, :validate => false
+  has_many :answers, class_name:  'CustomFormsPlugin::Answer', dependent: :destroy, :validate => false
 
   attr_accessible :form, :profile, :author_name, :author_email
 
@@ -22,7 +22,8 @@ class CustomFormsPlugin::Submission < ApplicationRecord
     end
   end
   class << self
-    alias_method_chain :human_attribute_name, :customization
+    alias_method :human_attribute_name_without_customization, :human_attribute_name
+    alias_method :human_attribute_name, :human_attribute_name_with_customization
   end
 
   before_create do |submission|
@@ -37,31 +38,33 @@ class CustomFormsPlugin::Submission < ApplicationRecord
       chosen_alternatives = chosen_alternatives_from_value(value)
       #keeping the value field for text answers.
       answer = self.answers.build :field => field, :value => value
-      answer.alternatives << chosen_alternatives
-      answer.save!
+
+      chosen_alternatives.each do |alternative|
+        form_answer = CustomFormsPlugin::FormAnswer.new(alternative_id: alternative.id, answer_id: answer.id)
+        answer.form_answers << form_answer
+      end
     end
     self.answers
   end
 
   def chosen_alternatives_from_value(value)
     begin
+      alternatives = []
+      
       if value.kind_of?(String)
-        return CustomFormsPlugin::Alternative.find(value)
+        alternatives << CustomFormsPlugin::Alternative.find(value) if (value.to_i > 0)
       end
       if value.kind_of?(Array)
-        alternatives = []
         value.each do |v|
           alternatives << CustomFormsPlugin::Alternative.find(v)  if (v.to_i > 0)
         end
-        return alternatives
       end
       if value.kind_of?(Hash)
-        alternatives = []
         value.each do |key, value|
           alternatives << CustomFormsPlugin::Alternative.find(key)  if (value.to_i > 0)
         end
-        return alternatives
       end
+      alternatives
     rescue ActiveRecord::RecordNotFound
       # the field is a text field.
       return []

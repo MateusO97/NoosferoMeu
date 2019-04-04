@@ -24,7 +24,7 @@ module TagsHelper
   #
   # * <tt>:max_size</tt>: font size for the tag with largest count
   # * <tt>:min_size</tt>: font size for the tag with smallest count
-  # * <tt>:show_count</tt>: whether to show the count of contents for each tag.   Defauls to <tt>false</tt>.
+  # * <tt>:show_count</tt>: whether to show the count of contents for each tag.   Defaults to <tt>false</tt>.
   #
   # The algorithm for generating the different sizes and positions is a
   # courtesy of Aurelio: http://www.colivre.coop.br/Aurium/Nuvem
@@ -46,16 +46,18 @@ module TagsHelper
     # at the end of the tag list.
     # Example: AA ÁA AB Z instead of AA AB Z ÁA
     tags.collect{ |k,v| [ActiveSupport::Inflector.transliterate(k).downcase, [k,v]] }.sort.collect { |ascii, t| t }.map do |tag,count|
+# FIXME see if merge could be done	    
       destination = url.merge(tagname_option => tag)
+#      destination = url
 
       if options[:show_count]
         display_count = options[:show_count] ? "<small><sup>(#{count})</sup></small>" : ""
         link_to (tag + display_count).html_safe, destination,
-                 :class => 'tag-cloud-item'
+                 {:class => 'tag-cloud-item', :data => { :items => count }}
       else
         link_to h(tag) , destination,
-          :title => n_( 'one item', '%d items', count ) % count,
-          :class => 'tag-cloud-item'
+          { :title => n_( 'one item', '%d items', count ) % count,
+            :class => 'tag-cloud-item', :data => { :items => count }}
       end
 
     end.join("\n").html_safe

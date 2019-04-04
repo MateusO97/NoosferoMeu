@@ -1,9 +1,9 @@
-FROM debian:jessie
+FROM ruby:2.4.4-jessie
 LABEL Maintainer="Noosfero Development Team <noosfero-dev@listas.softwarelivre.org>"
 
 LABEL Description="This dockerfile builds a noosfero production environment."
 
-EXPOSE 80
+EXPOSE 3000
 
 ENV RAILS_ENV production
 RUN apt-get update && apt-get install -y sudo cron nodejs postgresql-client

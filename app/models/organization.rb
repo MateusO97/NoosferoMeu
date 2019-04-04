@@ -3,7 +3,9 @@ class Organization < Profile
 
 include OrganizationHelper
 
-  attr_accessible :moderated_articles, :foundation_year, :contact_person, :acronym, :legal_form, :economic_activity, :management_information, :cnpj, :display_name, :enable_contact_us
+  attr_accessible :moderated_articles, :foundation_year, :contact_person,
+                  :acronym, :legal_form, :economic_activity, :management_information,
+                  :cnpj, :display_name, :enable_contact_us
   attr_accessible :requires_email
 
   settings_items :requires_email, type: :boolean
@@ -31,11 +33,11 @@ include OrganizationHelper
 
   has_one :validation_info
 
-  has_many :validations, :class_name => 'CreateEnterprise', :foreign_key => :target_id
+  has_many :validations, class_name:  'CreateEnterprise', foreign_key:  :target_id
 
-  has_many :mailings, :class_name => 'OrganizationMailing', :foreign_key => :source_id, :as => 'source'
+  has_many :mailings, class_name:  'OrganizationMailing', foreign_key:  :source_id, :as => 'source'
 
-  has_many :custom_roles, :class_name => 'Role', :foreign_key => :profile_id
+  has_many :custom_roles, class_name:  'Role', foreign_key:  :profile_id
 
   scope :more_popular, -> { order 'profiles.members_count DESC' }
 
@@ -48,7 +50,7 @@ include OrganizationHelper
   def presence_of_required_fieds
     self.required_fields.each do |field|
       if self.send(field).blank?
-        self.errors.add_on_blank(field)
+        self.errors.add(field, :blank)
       end
     end
   end
@@ -121,7 +123,7 @@ include OrganizationHelper
   validates_format_of :contact_email, :with => Noosfero::Constants::EMAIL_FORMAT, :if => (lambda { |org| !org.contact_email.blank? })
   validates_as_cnpj :cnpj
 
-  xss_terminate :only => [ :acronym, :contact_person, :contact_email, :legal_form, :economic_activity, :management_information ], :on => 'validation'
+  xss_terminate only: [ :acronym, :contact_person, :contact_email, :legal_form, :economic_activity, :management_information ], on: :validation
 
   # Yes, organizations have members.
   #

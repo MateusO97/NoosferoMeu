@@ -42,7 +42,7 @@ msgstr "Discussão de Comentários"
 msgid "Article with paragraph comments"
 msgstr "Artigo com parágrafos comentados"
 
-#: ../lib/comment_paragraph_plugin/discussion_block.rb:21
+#: ../lib/comment_paragraph_plugin/discussion_block.rb:22
 msgid "This block displays all profile's article discussion"
 msgstr "Este bloco mostra todos os debates neste perfil"
 

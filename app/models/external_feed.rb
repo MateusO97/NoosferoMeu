@@ -1,6 +1,6 @@
 class ExternalFeed < ApplicationRecord
 
-  belongs_to :blog
+  belongs_to :blog, optional: true
   validates_presence_of :blog_id
   validates_presence_of :address, :if => lambda {|efeed| efeed.enabled}
   validates_uniqueness_of :blog_id
@@ -26,7 +26,7 @@ class ExternalFeed < ApplicationRecord
     content = doc.to_s
 
     article = TextArticle.new
-    article.name = title
+    article.name = title[0..149]
     article.profile = blog.profile
     article.body = content
     article.published_at = date

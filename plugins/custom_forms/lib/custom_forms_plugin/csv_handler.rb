@@ -120,12 +120,12 @@ class CustomFormsPlugin::CsvHandler
       answer = CustomFormsPlugin::Answer.new(field: field, value: nil, imported: true)
 
       ids.each do |id|
-        form_answer = CustomFormsPlugin::FormAnswer.create!(answer_id: answer.id, alternative_id: id)
+        form_answer = CustomFormsPlugin::FormAnswer.new(answer: answer, alternative_id: id)
         answer.form_answers << form_answer
       end
       answer
     else
-      CustomFormsPlugin::Answer.create!(field: field, value: value, imported: true)
+      CustomFormsPlugin::Answer.create(field: field, value: value, imported: true)
     end
   end
 
