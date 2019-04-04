@@ -5,9 +5,9 @@ class InternshipController < PublicController
   include FgaInternshipPlugin::ProcessCreator
   include CustomFormsPlugin::Helper
 
-  before_filter :get_profile
-  before_filter :has_access, :only => [:show]
-  before_filter :get_internship_process, :only => [:internship_pre_application,
+  before_action :get_profile
+  before_action :has_access, :only => [:show]
+  before_action :get_internship_process, :only => [:internship_pre_application,
     :internship_application, :internship_in_progress, :internship_evaluation]
 
   no_design_blocks
@@ -35,7 +35,7 @@ class InternshipController < PublicController
         @checklists << checklist
       end
     end
-    
+
     community = @process.community_id
     active_processes = Folder.find_by(:name => 'processos ativos', :profile_id => community.id)
 
