@@ -1,0 +1,43 @@
+<div class="login-box" id="login-partial">
+  <% unless logged_in? %>
+
+  <h1><span><%= _('Login') %></span></h1>
+
+  <div class="login-box-content">
+
+    <% @user ||= User.new %>
+
+    <%= labelled_form_for :user, :url => { :controller => 'internship', :action => 'login' } do |f| %>
+
+    <%= f.text_field :login, :onchange => 'this.value = convToValidLogin( this.value )' %>
+
+    <%= f.password_field :password %>
+
+    <%= hidden_field_tag('community_id', @community_id) %>
+
+    <%= safe_join(@plugins.dispatch(:login_extra_contents).collect { |content| instance_eval(&content) }, "") %>
+
+    <%= button_bar do %>
+    <%= submit_button( 'login', _('Log in') )%>
+    <% end %>
+
+    <% end %>
+
+    <%= button_bar do %>
+    <% unless @plugins.dispatch(:allow_user_registration).include?(false) %>
+    <%= button :add, _("New user"), :controller => 'account', :action => 'signup' %>
+    <% end %>
+
+    <% unless @plugins.dispatch(:allow_password_recovery).include?(false) %>
+    <%= button :help, _("I forgot my password!"), :controller => 'account', :action => 'forgot_password' %>
+    <% end %>
+    <% end %>
+
+
+  </div>
+
+  <% else %>
+  <h2><%= user.identifier %></h2>
+  <% end %>
+
+</div><!-- end id="login-box" -->

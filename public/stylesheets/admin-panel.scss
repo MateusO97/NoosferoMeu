@@ -1,3 +1,5 @@
+@import "color";
+
 .admin-panel-items-list {
   list-style-type: none;
   padding-left: 0;
@@ -7,7 +9,7 @@
   padding: 10px;
   &:hover,
   &:active {
-    background-color: #f0f0f0;
+    background-color: $light_gray;
   }
 }
 

@@ -29,7 +29,9 @@ task :backup => :check_backup_support do
   database = $config[rails_env]['database']
   host = $config[rails_env]['host']
   host = host && "-h #{host}" || ""
-  sh "pg_dump #{host} #{database} > #{dump}"
+  user = $config[rails_env]['POSTGRES_USER']
+  user = user && "-U #{user}" || ""
+  sh "pg_dump #{user} #{host} #{database} > #{dump}"
 
   sh 'tar', 'chaf', backup_file, dump, *dirs
   rm_f dump

@@ -77,8 +77,8 @@ class FriendsBlockTest < ActionView::TestCase
 
   should 'count number of public and private friends' do
     owner = fast_create(Person)
-    private_p = fast_create(Person, {:public_profile => false})
-    public_p = fast_create(Person, {:public_profile => true})
+    private_p = fast_create(Person, access: Entitlement::Levels.levels[:related])
+    public_p = fast_create(Person)
 
     owner.add_friend(private_p)
     owner.add_friend(public_p)
@@ -86,7 +86,8 @@ class FriendsBlockTest < ActionView::TestCase
     block = FriendsBlock.new
     block.expects(:owner).returns(owner).at_least_once
 
-    assert_equal 2, block.profile_count
+    assert_equal 1, block.profile_count
+    assert_equal 2, block.profile_count(owner)
   end
 
   should 'not count number of invisible friends' do
@@ -135,6 +136,10 @@ require 'boxes_helper'
 class FriendsBlockViewTest < ActionView::TestCase
   include BoxesHelper
 
+  def setup
+    view.stubs(:user).returns(nil)
+  end
+
   should 'list friends from person' do
     owner = fast_create(Person)
     u = create_user
@@ -165,8 +170,8 @@ class FriendsBlockViewTest < ActionView::TestCase
 
   should 'link to "all friends"' do
     env = fast_create(Environment)
-    person1 = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
-    friend = fast_create(Person, :public_profile => true, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    person1 = fast_create(Person, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
+    friend = fast_create(Person, :environment_id => env.id, user_id: fast_create(User, activated_at: DateTime.now).id)
     person1.add_friend(friend)
     person1.save!
 
@@ -177,44 +182,45 @@ class FriendsBlockViewTest < ActionView::TestCase
     assert_tag_in_string render_block_footer(block), tag: 'a', attributes: {class: 'view-all', href: "/profile/#{person1.identifier}/friends" }
   end
 
-  should 'not have a linear increase in time to display friends block' do
-    owner = fast_create(Person)
-    owner.boxes<< Box.new
-    block = FriendsBlock.create!(:box => owner.boxes.first)
+  # FIXME: This test is currently not reliable in the CI. We should rewrite it.
+  # should 'not have a linear increase in time to display friends block' do
+  #   owner = fast_create(Person)
+  #   owner.boxes<< Box.new
+  #   block = FriendsBlock.create!(:box => owner.boxes.first)
 
-    ActionView::Base.any_instance.stubs(:profile_image_link).returns('some name')
-    ActionView::Base.any_instance.stubs(:block_title).returns("")
-    ActionView::Base.any_instance.stubs(:theme_option).returns(nil)
+  #   ActionView::Base.any_instance.stubs(:profile_image_link).returns('some name')
+  #   ActionView::Base.any_instance.stubs(:block_title).returns("")
+  #   ActionView::Base.any_instance.stubs(:theme_option).returns(nil)
 
-    # no people
-    block.reload
-    time0 = (Benchmark.measure { 10.times { render_block_content(block) } })
+  #   # no people
+  #   block.reload
+  #   time0 = (Benchmark.measure { 10.times { render_block_content(block) } })
 
-    # first 50
-    1.upto(50).map do |n|
-      p = create_user("user #{n}").person
-      owner.add_friend(p)
-    end
-    block.reload
-    time1 = (Benchmark.measure { 10.times { render_block_content(block) } })
+  #   # first 50
+  #   1.upto(50).map do |n|
+  #     p = create_user("user #{n}").person
+  #     owner.add_friend(p)
+  #   end
+  #   block.reload
+  #   time1 = (Benchmark.measure { 10.times { render_block_content(block) } })
 
-    # another 50
-    1.upto(50).map do |n|
-      p = create_user("user #{n}").person
-      owner.add_friend(p)
-    end
-    block.reload
-    time2 = (Benchmark.measure { 10.times { render_block_content(block) } })
+  #   # another 50
+  #   1.upto(50).map do |n|
+  #     p = create_user("user #{n}").person
+  #     owner.add_friend(p)
+  #   end
+  #   block.reload
+  #   time2 = (Benchmark.measure { 10.times { render_block_content(block) } })
 
-    # should not scale linearly, i.e. the inclination of the first segment must
-    # be a lot higher than the one of the segment segment. To compensate for
-    # small variations due to hardware and/or execution environment, we are
-    # satisfied if the the inclination of the first segment is at least twice
-    # the inclination of the second segment.
-    a1 = (time1.total - time0.total)/50.0
-    a2 = (time2.total - time1.total)/50.0
-    assert a1 > a2*NON_LINEAR_FACTOR, "#{a1} should be larger than #{a2} by at least a factor of #{NON_LINEAR_FACTOR}"
-  end
+  #   # should not scale linearly, i.e. the inclination of the first segment must
+  #   # be a lot higher than the one of the segment segment. To compensate for
+  #   # small variations due to hardware and/or execution environment, we are
+  #   # satisfied if the the inclination of the first segment is at least twice
+  #   # the inclination of the second segment.
+  #   a1 = (time1.total - time0.total)/50.0
+  #   a2 = (time2.total - time1.total)/50.0
+  #   assert a1 > a2*NON_LINEAR_FACTOR, "#{a1} should be larger than #{a2} by at least a factor of #{NON_LINEAR_FACTOR}"
+  # end
 
   should 'list friends in api content' do
     owner = fast_create(Person)
@@ -252,7 +258,8 @@ class FriendsBlockViewTest < ActionView::TestCase
     json_response_1 = block.api_content
     json_response_2 = block.api_content
     json_response_3 = block.api_content
-    assert !(json_response_1 == json_response_2 && json_response_2 == json_response_3)
+    assert_not_equal json_response_1, json_response_2
+    assert_not_equal json_response_2, json_response_3
   end
 
   should 'return friends in order of name in api content' do

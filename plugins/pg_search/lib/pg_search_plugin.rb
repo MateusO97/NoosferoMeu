@@ -56,7 +56,7 @@ class PgSearchPlugin < Noosfero::Plugin
 
     @asset, @base_scope = asset, scope
 
-    scope = scope.send(params[:filter]) if params[:filter] && params[:filter] != 'more_relevant'
+    scope = scope.send(params[:order]) if params[:order] && params[:order] != 'more_relevant'
 
     scope = filter_by_periods(scope, periods) if params[:periods].present?
     scope = filter_by_facets(scope, facets) if params[:facets].present?
@@ -234,7 +234,7 @@ class PgSearchPlugin < Noosfero::Plugin
   end
 
   def attribute_results(klass, scope, params)
-    results = klass.pg_search_plugin_attribute_facets(scope, params[:attribute]).count
+    results = klass.pg_search_plugin_attribute_facets(scope, params[:attribute]).count(:id)
     results.map do |name, count|
       {:name => name, :value => name, :count => count}
     end

@@ -1,3 +1,4 @@
+@import "color";
 .profile-members-tabs-container .ui-corner-all {
   overflow: auto;
 }
@@ -38,19 +39,10 @@
   }
 }
 
-.controller-profile_members .members-buttons-cell {
-  width: 60px;
-}
-
 .controller-profile_members .msie .members-buttons-cell a {
   position: relative;
   display: block;
   float: left;
-}
-
-.actions .members-buttons-cell {
-  display: block;
-  width: 100%;
 }
 
 .controller-profile_members .msie6 .button-bar a {
@@ -68,7 +60,7 @@
 
 #last-admin-message {
   background-color: #CCC;
-  color: #000;
+  color: $black;
   font-size: 14px;
   padding: 20px 15px;
   -moz-border-radius: 10px;

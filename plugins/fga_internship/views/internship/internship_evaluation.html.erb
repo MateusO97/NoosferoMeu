@@ -1,0 +1,13 @@
+<div class="internship-box">
+	<div class="internship-card internship-main-card">
+		<h1>Avaliação de Estágio</h1>
+	  <div class="checklist-container">
+			<% @checklists.each do |checklist| %>
+				<%= render partial: 'partials/checklist', locals: { :checklist => checklist } %>
+			<% end %>
+	  </div>
+	  <div class="button-container">
+			<%= button(:add, "Voltar", { :controller => "internship", :action => "internship_in_progress" } , { :class => "internship_button internship_main_button" }) %>
+	  </div>
+	</div>
+</div>

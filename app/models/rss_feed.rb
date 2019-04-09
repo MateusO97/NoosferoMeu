@@ -33,10 +33,11 @@ class RssFeed < Article
   def limit_with_body_change=(value)
     #UPGRADE Leandro: I add this line to save the serialize attribute
     self.body_will_change!
-    self.limit_without_body_change= value
+    self.limit_without_body_change = value
   end
 
-  alias_method_chain :limit=, :body_change
+  alias_method :limit_without_body_change=, :limit=
+  alias_method :limit=, :limit_with_body_change=
 
   # FIXME this should be validates_numericality_of, but Rails 2.0.2 does not
   # support validates_numericality_of with virtual attributes
@@ -73,7 +74,7 @@ class RssFeed < Article
   def fetch_articles
     if parent && parent.has_posts?
       language = self.language.blank? ? {} : { :language => self.language }
-      return parent.posts.where({published: true}.merge language).limit(self.limit).order('id desc')
+      return parent.posts.where({access: Entitlement::Levels.levels[:visitors], published: true}.merge language).limit(self.limit).order('id desc')
     end
 
     articles =

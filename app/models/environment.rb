@@ -24,10 +24,10 @@ class Environment < ApplicationRecord
     false
   end
 
-  has_many :tasks, :dependent => :destroy, :as => 'target'
+  has_many :tasks, dependent:  :destroy, :as => 'target'
   has_many :search_terms, :as => :context
-  has_many :email_templates, :foreign_key => :owner_id
-  has_many :custom_fields, :dependent => :destroy
+  has_many :email_templates, foreign_key:  :owner_id
+  has_many :custom_fields, dependent:  :destroy
   has_many :person_custom_fields, -> { where(customized_type: 'Person')}, class_name: 'CustomField'
   has_many :community_custom_fields, -> { where(customized_type: 'Community')}, class_name: 'CustomField'
   has_many :enterprise_custom_fields, -> { where(customized_type: 'Enterprise')}, class_name: 'CustomField'
@@ -228,7 +228,7 @@ class Environment < ApplicationRecord
 
   # One Environment can be reached by many domains
   has_many :domains, :as => :owner
-  has_many :profiles, :dependent => :destroy
+  has_many :profiles, dependent:  :destroy
 
   has_many :organizations
   has_many :enterprises
@@ -245,10 +245,10 @@ class Environment < ApplicationRecord
   has_many :states
   has_many :cities
 
-  has_many :roles, :dependent => :destroy
+  has_many :roles, dependent:  :destroy
   has_many :kinds
 
-  has_many :mailings, :class_name => 'EnvironmentMailing', :foreign_key => :source_id, :as => 'source'
+  has_many :mailings, class_name:  'EnvironmentMailing', foreign_key:  :source_id, :as => 'source'
 
   acts_as_accessible
 
@@ -279,7 +279,7 @@ class Environment < ApplicationRecord
   settings_items :organization_approval_method, :type => Symbol, :default => :admin
 
   # Whether this environment should force having 'www.' in its domain name or
-  # not. Defauls to false.
+  # not. Defaults to false.
   #
   # Sets the value of #force_www. <tt>value</tt> must be a boolean.
   #
@@ -296,7 +296,6 @@ class Environment < ApplicationRecord
     settings[:message_for_member_invitation] || InviteMember.mail_template
   end
 
-  settings_items :min_signup_delay, :type => Integer, :default => 3 #seconds
   settings_items :activation_blocked_text, :type => String
   settings_items :message_for_disabled_enterprise, :type => String,
                  :default => _('This enterprise needs to be enabled.')
@@ -345,7 +344,7 @@ class Environment < ApplicationRecord
     openstreetmap.org
   ] + ('a' .. 'z').map{|i| "#{i}.yimg.com"}
 
-  settings_items :enabled_plugins, :type => Array, :default => Noosfero::Plugin.available_plugin_names
+  settings_items :enabled_plugins, :type => Array, :default => Noosfero::Plugin.all
 
   settings_items :search_hints, :type => Hash, :default => {}
 
@@ -465,17 +464,22 @@ class Environment < ApplicationRecord
   store_accessor :metadata
   include MetadataScopes
 
-  CAPTCHA = {
-    create_comment: {label: _('Create a comment'), options: RestrictionLevels.range_options},
-    new_contact: {label: _('Make email contact'), options: RestrictionLevels.range_options},
-    report_abuse: {label: _('Report an abuse'), options: RestrictionLevels.range_options},
-    suggest_article: {label: _('Suggest a new article'), options: RestrictionLevels.range_options(0,1)},
-    forgot_password: {label: _('Recover forgotten password'), options: RestrictionLevels.range_options(0,1)},
-    signup: {label: _('Sign up'), options: RestrictionLevels.range_options(0,1)},
+  include Entitlement::SliderHelper
+  include Entitlement::EnvironmentJudge
+
+
+  CAPTCHA_REQUIREMENTS = {
+    suggest_article: {label: _('Suggest a new article'), options: Entitlement::Levels.range_options(0,1)},
+    forgot_password: {label: _('Recover forgotten password'), options: Entitlement::Levels.range_options(0,1)},
+    signup: {label: _('Sign up'), options: Entitlement::Levels.range_options(0,1)},
   }
 
+  def captcha_requirements
+    CAPTCHA_REQUIREMENTS.merge(Profile::CAPTCHA_REQUIREMENTS)
+  end
+
   def default_captcha_requirement
-    2
+    Entitlement::Levels.levels[:users]
   end
 
   def get_captcha_level(action)
@@ -483,7 +487,11 @@ class Environment < ApplicationRecord
   end
 
   def require_captcha?(action, user, profile = nil)
-    RestrictionLevels.is_restricted?(get_captcha_level(action), user, profile)
+    if profile.present?
+      profile.demands?(user, "#{action}_captcha")
+    else
+      demands?(user, "#{action}_captcha")
+    end
   end
 
   # returns <tt>true</tt> if this Environment has terms of use to be
@@ -721,7 +729,7 @@ class Environment < ApplicationRecord
 
   validates_format_of :contact_email, :noreply_email, :with => Noosfero::Constants::EMAIL_FORMAT, :allow_blank => true
 
-  xss_terminate :only => [ :message_for_disabled_enterprise ], :with => 'white_list', :on => 'validation'
+  xss_terminate only: [ :message_for_disabled_enterprise ], with: :white_list, on: :validation
 
   validates_presence_of :theme
   validates_numericality_of :reports_lower_bound, :allow_nil => false, :only_integer => true, :greater_than_or_equal_to => 0
@@ -743,7 +751,7 @@ class Environment < ApplicationRecord
 
   # returns an array with the top level categories for this environment.
   def top_level_categories
-    Category.top_level_for(self).where(type: 'Category')
+		Category.top_level_for(self).where("type = ? or type = ?", "Category", "Region")
   end
 
   # returns an array with the top level regions for this environment.
@@ -757,7 +765,7 @@ class Environment < ApplicationRecord
   # environment has not associated domains, returns 'localhost'.
   def default_hostname(email_hostname = false)
     domain = 'localhost'
-    domains = self.domains(true).order(:id)
+    domains = self.domains.order(:id)
     unless domains.empty?
       domain = (domains.detect{ |d| d.is_default } || domains.first).name
       domain = email_hostname ? domain : (force_www ? ('www.' + domain) : domain)
@@ -769,7 +777,10 @@ class Environment < ApplicationRecord
     { :controller => 'admin_panel', :action => 'index' }
   end
 
-  def top_url(scheme = 'http')
+  attr_accessor :request_scheme
+  def top_url(scheme = nil)
+    scheme ||= request_scheme ? request_scheme : 'http'
+
     url = scheme + '://'
     url << (Noosfero.url_options.key?(:host) ? Noosfero.url_options[:host] : default_hostname)
     url << ':' << Noosfero.url_options[:port].to_s if Noosfero.url_options.key?(:port)
@@ -781,15 +792,12 @@ class Environment < ApplicationRecord
     self.name || '?'
   end
 
-  has_many :articles, :through => :profiles
-  def recent_documents(limit = 10, options = {}, pagination = true)
-    self.articles.where.not(type: 'LinkArticle').recent(limit, options, pagination)
-  end
+  has_many :articles, through: :profiles
 
-  has_many :events, :through => :profiles, :source => :articles, :class_name => 'Event'
+  has_many :events, through: :profiles, source:  :articles, class_name: 'Event'
 
-  has_many :article_tags, :through => :articles, :source => :tags
-  has_many :profile_tags, :through => :profiles, :source => :tags
+  has_many :article_tags, through: :articles, source: :tags
+  has_many :profile_tags, through: :profiles, source: :tags
 
   include ScopeTool
   scope :tags, -> environment {ScopeTool.union(environment.article_tags, environment.profile_tags)}
@@ -1104,26 +1112,6 @@ class Environment < ApplicationRecord
     !reserved_identifiers.include?(identifier) && !profiles.exists?
   end
 
-  BLACKLIST_DURATION = 3 # hours
-
-  def on_signup_blacklist?(ip_address)
-    metadata['signup_blacklist'].present? && metadata['signup_blacklist'].include?(ip_address)
-  end
-
-  def add_to_signup_blacklist(ip_address)
-    metadata['signup_blacklist'] = [] if metadata['signup_blacklist'].nil?
-    unless metadata['signup_blacklist'].include?(ip_address)
-    self.metadata['signup_blacklist'] << ip_address
-    self.save!
-    Delayed::Job.enqueue(RemoveIpFromBlacklistJob.new(environment.id, ip_address), {:run_at => BLACKLIST_DURATION.hours.from_now})
-    end
-  end
-
-  def remove_from_signup_blacklist(ip_address)
-    self.metadata['signup_blacklist'].delete(ip_address)
-    self.save!
-  end
-
   def quota_for(klass)
     if metadata['quotas'].present?
       quota = metadata['quotas'][klass.to_s]
@@ -1135,6 +1123,14 @@ class Environment < ApplicationRecord
 
   def allow_edit_design?(person = nil )
     person.kind_of?(Profile) && person.has_permission?('edit_environment_design', self)
+  end
+
+  def method_missing(method, *args, &block)
+    if method.to_s =~ /^(.+)_captcha_requirement$/ && captcha_requirements.keys.include?($1.to_sym)
+      self.send(:captcha_requirement, $1)
+    else
+      super
+    end
   end
 
   private

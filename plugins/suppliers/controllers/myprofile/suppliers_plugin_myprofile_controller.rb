@@ -6,7 +6,7 @@ class SuppliersPluginMyprofileController < MyProfileController
 
   protect 'edit_profile', :profile
 
-  before_filter :load_new, only: [:index, :new]
+  before_action :load_new, only: [:index, :new]
 
   helper SuppliersPlugin::TranslationHelper
   helper SuppliersPlugin::DisplayHelper
@@ -58,7 +58,7 @@ class SuppliersPluginMyprofileController < MyProfileController
 
   def search
     @query = params[:query].downcase
-    @enterprises = environment.enterprises.enabled.is_public.limit(12).order('name ASC').
+    @enterprises = environment.enterprises.enabled.accessible_to(user).limit(12).order('name ASC').
       where('name ILIKE ? OR name ILIKE ? OR identifier LIKE ?', "#{@query}%", "% #{@query}%", "#{@query}%")
     @enterprises -= profile.suppliers.collect(&:profile)
   end

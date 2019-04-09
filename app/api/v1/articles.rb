@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Articles < Grape::API
+    class Articles < Grape::API::Instance
 
       ARTICLE_TYPES = Article.descendants.map{|a| a.to_s}
 
@@ -191,7 +191,7 @@ module Api
           #TODO make tests for this situation
           votes_order = params.delete(:order) if params[:order]=='votes_score'
           articles = select_filtered_collection_of(article, 'children', params)
-          articles = articles.display_filter(current_person, article.profile)
+          articles = articles.accessible_to(current_person)
 
           #TODO make tests for this situation
           if votes_order
@@ -259,7 +259,7 @@ module Api
       resource :profiles do
         get ':id/home_page' do
           profiles = environment.profiles
-          profiles = profiles.visible_for_person(current_person)
+          profiles = profiles.accessible_to(current_person)
           profile = profiles.find_by id: params[:id]
           present_partial profile.home_page, :with => Entities::Article
         end
@@ -281,19 +281,7 @@ module Api
               get do
                 profile = environment.send(kind.pluralize).find(params["#{kind}_id"])
 
-                if params[:path].present?
-                  article = profile.articles.find_by path: params[:path]
-                  if article && !article.display_to?(current_person)
-                    article = forbidden!
-                  end
-                  article ||= []
-                  status Api::Status::DEPRECATED
-
-                  present_partial article, :with => Entities::Article, current_person: current_person
-                else
-
-                  present_articles_for_asset(profile)
-                end
+                present_articles_for_asset(profile)
               end
 
               desc "Return a article associate with a profile of type #{kind}" do
@@ -305,7 +293,15 @@ module Api
               end
               get '/*id' do
                 profile = environment.send(kind.pluralize).find(params["#{kind}_id"])
-                present_article(profile)
+                key = (params[:key].present? && params[:key] == 'path') ? :path : :id
+
+                article = profile.articles.find_by(key => params[:id])
+                if article && !article.display_to?(current_person)
+                  article = forbidden!
+                end
+                article ||= not_found! 
+
+                present_partial article, :with => Entities::Article, current_person: current_person
               end
 
               # Example Request:

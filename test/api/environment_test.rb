@@ -6,25 +6,15 @@ class EnvironmentTest < ActiveSupport::TestCase
     create_and_activate_user
   end
 
-  should 'display host if optional_fields is passed as parameter' do
-    environment = Environment.default
-
-    params[:optional_fields] = ['host']
-    get "/api/v1/environments/default?#{params.to_query}"
-    json = JSON.parse(last_response.body)
-    assert_equal environment.id, json['id']
-
-    assert_not_nil json['host']
-  end
-
-  should 'not display host if optional_fields is not passed as parameter' do
-    environment = Environment.default
-
-    get "/api/v1/environments/default?#{params.to_query}"
-    json = JSON.parse(last_response.body)
-    assert_equal environment.id, json['id']
-
-    assert_nil json['host']
+  ENVIRONMENT_ATTRIBUTES = %w(name id description layout_template signup_intro terms_of_use captcha_site_key captcha_signup_enable host)
+  ENVIRONMENT_ATTRIBUTES.map do |attribute|
+    define_method "test_should_expose_#{attribute}_attribute_in_environment_enpoint" do
+      login_api
+      environment = Environment.default
+      get "/api/v1/environments/default?#{params.to_query}"
+      json = JSON.parse(last_response.body)
+      assert json.key?(attribute)
+    end
   end
 
   should "test_should_return_the_environments_default_environment" do

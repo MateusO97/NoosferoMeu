@@ -3,7 +3,7 @@
 # which by default is the one returned by Environment:default.
 class Profile < ApplicationRecord
 
-  attr_accessible :name, :identifier, :public_profile, :nickname,
+  attr_accessible :name, :identifier, :access, :nickname,
     :custom_footer, :custom_header, :address, :zip_code, :contact_phone,
     :image_builder, :top_image_builder, :description, :closed, :template_id, :environment, :lat,
     :lng, :is_template, :fields_privacy, :preferred_domain_id, :category_ids,
@@ -31,6 +31,12 @@ class Profile < ApplicationRecord
   SEARCH_FILTERS = {
     :order => %w[more_recent],
     :display => %w[compact]
+  }
+
+  CAPTCHA_REQUIREMENTS = {
+    create_comment: {label: _('Create a comment'), options: Entitlement::Levels.range_options(0, 3)},
+    new_contact: {label: _('Make email contact'), options: Entitlement::Levels.range_options(0,3)},
+    report_abuse: {label: _('Report an abuse'), options: Entitlement::Levels.range_options(0,3)},
   }
 
   NUMBER_OF_BOXES = 4
@@ -86,7 +92,7 @@ class Profile < ApplicationRecord
     'edit_profile'         => N_('Edit profile'),
     'destroy_profile'      => N_('Destroy profile'),
     'manage_memberships'   => N_('Manage memberships'),
-    'post_content'         => N_('Manage content'), # changed only presentation name to keep already given permissions
+    'post_content'         => N_('Manage/Publish content'), # changed only presentation name to keep already given permissions
     'edit_profile_design'  => N_('Edit profile design'),
     'manage_products'      => N_('Manage products'),
     'manage_friends'       => N_('Manage friends'),
@@ -96,7 +102,6 @@ class Profile < ApplicationRecord
     'moderate_comments'    => N_('Moderate comments'),
     'edit_appearance'      => N_('Edit appearance'),
     'view_private_content' => N_('View private content'),
-    'publish_content'      => N_('Publish content'),
     'invite_members'       => N_('Invite members'),
     'send_mail_to_members' => N_('Send e-Mail to members'),
     'manage_custom_roles'  => N_('Manage custom roles'),
@@ -105,12 +110,16 @@ class Profile < ApplicationRecord
 
   acts_as_accessible
 
+  prepend SetProfileRegionFromCityState
   include Customizable
   acts_as_customizable
 
   include Noosfero::Plugin::HotSpot
 
   include HasUploadQuota
+
+  include Entitlement::SliderHelper
+  include Entitlement::ProfileJudge
 
   scope :memberships_of, -> person {
     distinct.select('profiles.*').
@@ -155,7 +164,7 @@ class Profile < ApplicationRecord
     [ :city, :state, :country ].each do |place|
       unless params[place].blank?
        # ... So we must to find on this named location
-       # TODO: convert location attrs to a table collumn
+       # TODO: convert location attrs to a table column
        where_code << "(profiles.data like '%#{place}: #{params[place]}%')"
      end
    end
@@ -227,7 +236,6 @@ class Profile < ApplicationRecord
   end
 
   settings_items :redirect_l10n, :type => :boolean, :default => false
-  settings_items :public_content, :type => :boolean, :default => true
   settings_items :description
   settings_items :fields_privacy, :type => :hash, :default => {}
   settings_items :email_suggestions, :type => :boolean, :default => false
@@ -265,9 +273,8 @@ class Profile < ApplicationRecord
 
   scope :visible, -> { where visible: true, secret: false }
   scope :disabled, -> { where visible: false }
-  scope :is_public, -> { where visible: true, public_profile: true, secret: false }
   scope :enabled, -> { where enabled: true }
-  
+
   scope :higher_disk_usage, -> { order("metadata->>'disk_usage' DESC NULLS LAST") }
   scope :lower_disk_usage, -> { order("metadata->>'disk_usage' ASC NULLS LAST") }
 
@@ -290,32 +297,31 @@ class Profile < ApplicationRecord
     where('circles.id = ?', circle.id)
   }
 
-  settings_items :wall_access, :type => :integer, :default => AccessLevels.levels[:users]
+  settings_items :wall_access, :type => :integer, :default => Entitlement::Levels.levels[:users]
   settings_items :allow_followers, :type => :boolean, :default => true
   alias_method :allow_followers?, :allow_followers
 
-  acts_as_trackable :dependent => :destroy
+  acts_as_trackable dependent: :destroy
 
   has_many :profile_activities
-  has_many :action_tracker_notifications, :foreign_key => 'profile_id'
+  has_many :action_tracker_notifications, foreign_key: 'profile_id'
   has_many :tracked_notifications, -> { order 'updated_at DESC' }, through: :action_tracker_notifications, source: :action_tracker
   has_many :scraps_received, -> { order 'updated_at DESC' }, class_name: 'Scrap', foreign_key: :receiver_id, dependent: :destroy
-  belongs_to :template, :class_name => 'Profile', :foreign_key => 'template_id'
+  belongs_to :template, class_name: 'Profile', foreign_key: 'template_id', optional: true
 
-  has_many :comments_received, :class_name => 'Comment', :through => :articles, :source => :comments
 
-  has_many :email_templates, :foreign_key => :owner_id
+  has_many :email_templates, foreign_key: :owner_id
 
   has_many :profile_followers
-  has_many :followers, -> { uniq }, :class_name => 'Person', :through => :profile_followers, :source => :person
+  has_many :followers, -> { distinct }, class_name: 'Person', through:  :profile_followers, source:  :person
 
   # Although this should be a has_one relation, there are no non-silly names for
   # a foreign key on article to reference the template to which it is
   # welcome_page... =P
-  belongs_to :welcome_page, :class_name => 'Article', :dependent => :destroy
+  belongs_to :welcome_page, class_name: 'Article', dependent: :destroy, optional: true
 
   def welcome_page_content
-    welcome_page && welcome_page.published ? welcome_page.body : nil
+    welcome_page && welcome_page.access == Entitlement::Levels.levels[:visitors] ? welcome_page.body : nil
   end
 
   has_many :search_terms, :as => :context
@@ -332,45 +338,46 @@ class Profile < ApplicationRecord
 
   # These names cannot be used as identifiers for Profiles
   RESERVED_IDENTIFIERS = %w[
-  admin
-  system
-  myprofile
-  profile
-  cms
-  community
-  test
-  search
-  not_found
-  cat
-  tag
-  tags
-  environment
-  webmaster
-  info
-  root
-  assets
-  doc
-  chat
-  plugin
-  site
+    admin
+    system
+    myprofile
+    profile
+    cms
+    community
+    test
+    search
+    not_found
+    cat
+    tag
+    tags
+    environment
+    webmaster
+    info
+    root
+    assets
+    doc
+    chat
+    plugin
+    site
   ]
 
-  belongs_to :user
+  belongs_to :user, optional: true
 
   has_many :domains, :as => :owner
-  belongs_to :preferred_domain, :class_name => 'Domain', :foreign_key => 'preferred_domain_id'
-  belongs_to :environment
+  belongs_to :preferred_domain, class_name: 'Domain', foreign_key: 'preferred_domain_id', optional: true
+  belongs_to :environment, optional: true
 
-  has_many :articles, :dependent => :destroy
-  belongs_to :home_page, :class_name => Article.name, :foreign_key => 'home_page_id'
+  has_many :articles, dependent: :destroy
+  has_many :comments_received, class_name: 'Comment', through:  :articles, source:  :comments
+  belongs_to :home_page, class_name: Article.name, foreign_key: 'home_page_id', optional: true
 
-  has_many :files, :class_name => 'UploadedFile'
+  has_many :files, class_name: 'UploadedFile', dependent: :destroy
 
   extend ActsAsHavingImage::ClassMethods
   acts_as_having_image
   acts_as_having_image field: :top_image
 
-  has_many :tasks, :dependent => :destroy, :as => 'target'
+  has_many :tasks, dependent:  :destroy, :as => 'target'
 
   has_many :events, -> { order 'start_date' }, source: 'articles', class_name: 'Event'
 
@@ -383,15 +390,15 @@ class Profile < ApplicationRecord
   end
 
   has_many :profile_categorizations, -> { where 'categories_profiles.virtual = ?', false }
-  has_many :categories, :through => :profile_categorizations
-  has_many :regions, -> { where(:type => ['Region', 'State', 'City']) }, :through => :profile_categorizations, :source => :category
+  has_many :categories, through:  :profile_categorizations
+  has_many :regions, -> { where(:type => ['Region', 'State', 'City']) }, through:  :profile_categorizations, source:  :category
 
-  has_many :profile_categorizations_including_virtual, :class_name => 'ProfileCategorization'
-  has_many :categories_including_virtual, :through => :profile_categorizations_including_virtual, :source => :category
+  has_many :profile_categorizations_including_virtual, class_name:  'ProfileCategorization'
+  has_many :categories_including_virtual, through:  :profile_categorizations_including_virtual, source:  :category
 
-  has_many :abuse_complaints, :foreign_key => 'requestor_id', :dependent => :destroy
+  has_many :abuse_complaints, foreign_key:  'requestor_id', dependent:  :destroy
 
-  has_many :profile_suggestions, :foreign_key => :suggestion_id, :dependent => :destroy
+  has_many :profile_suggestions, foreign_key:  :suggestion_id, dependent:  :destroy
 
   has_and_belongs_to_many :kinds
 
@@ -406,15 +413,11 @@ class Profile < ApplicationRecord
     ret
   end
 
-  def wall_access_levels
-    AccessLevels.range_options(1, 3)
-  end
-
   def interests
     categories.select {|item| !item.is_a?(Region)}
   end
 
-  belongs_to :region
+  belongs_to :region, optional: true
 
   LOCATION_FIELDS = %w[address address_reference district city state country zip_code]
   metadata_items *(LOCATION_FIELDS - %w[address])
@@ -422,6 +425,20 @@ class Profile < ApplicationRecord
   before_save :save_old_region
   def save_old_region
     self.old_region_id = self.region_id_was || self.region_id
+  end
+
+  before_save :match_articles_access
+  def match_articles_access
+    if access_changed?
+      articles.where('access < ?', access).update_all(access: access)
+    end
+  end
+
+  before_validation :update_wall_access
+  def update_wall_access
+    if access > wall_access
+      self.wall_access = access
+    end
   end
 
   def location(separator = ' - ')
@@ -470,14 +487,14 @@ class Profile < ApplicationRecord
     @pending_categorizations ||= []
   end
 
-  def add_category(c, reload=false)
+  def add_category(c)
     if new_record?
       pending_categorizations << c
     else
       ProfileCategorization.add_category_to_profile(c, self)
-      self.categories(true)
+      self.categories
     end
-    self.categories(reload)
+    self.categories
   end
 
   def category_ids=(ids)
@@ -510,14 +527,11 @@ class Profile < ApplicationRecord
     environment.is_identifier_available?(identifier, profile_id)
   end
 
-  def self.visible_for_person(person)
-    self.all
-  end
-
   validates_presence_of :identifier, :name
   validates_length_of :nickname, :maximum => 16, :allow_nil => true
   validate :valid_template
   validate :valid_identifier
+  validate :wall_access_value
 
   def valid_identifier
     errors.add(:identifier, :invalid) unless identifier =~ IDENTIFIER_FORMAT
@@ -527,6 +541,12 @@ class Profile < ApplicationRecord
   def valid_template
     if template_id.present? && template && !template.is_template
       errors.add(:template, _('is not a template.'))
+    end
+  end
+
+  def wall_access_value
+    if wall_access < access
+      self.errors.add(:wall_access, _('can not be less restrictive than access which is: %s.') % Entitlement::Levels.label(access, self))
     end
   end
 
@@ -542,7 +562,7 @@ class Profile < ApplicationRecord
   after_create :create_default_set_of_boxes
 
   # creates the initial set of boxes when the profile is created. Can be
-  # overriden for each subclass to create a custom set of boxes for its
+  # overridden for each subclass to create a custom set of boxes for its
   # instances.
   def create_default_set_of_boxes
     if template
@@ -591,7 +611,8 @@ class Profile < ApplicationRecord
   def template_with_default
     template_without_default || default_template
   end
-  alias_method_chain :template, :default
+  alias_method :template_without_default, :template
+  alias_method :template, :template_with_default
 
   def apply_template(template, options = {:copy_articles => true})
     raise "#{template.identifier} is not a template" if !template.is_template
@@ -606,8 +627,9 @@ class Profile < ApplicationRecord
     self.theme = template.theme
     self.custom_footer = template[:custom_footer]
     self.custom_header = template[:custom_header]
-    self.public_profile = template.public_profile
-    self.image = template.image
+    self.access = template.access
+    self.fields_privacy = template.fields_privacy
+    self.image = template.image.dup if template.image
     # flush
     self.save(:validate => false)
   end
@@ -615,8 +637,8 @@ class Profile < ApplicationRecord
   def apply_type_specific_template(template)
   end
 
-  xss_terminate :only => [ :name, :nickname, :address, :contact_phone, :description ], :on => 'validation'
-  xss_terminate :only => [ :custom_footer, :custom_header ], :with => 'white_list'
+  xss_terminate only: [ :name, :nickname, :address, :contact_phone, :description ], on: :validation
+  xss_terminate only: [ :custom_footer, :custom_header ], with: :white_list
 
   include SanitizeTags
 
@@ -637,15 +659,6 @@ class Profile < ApplicationRecord
   # The implementation in this class just delegates to +contact_email+. Subclasse may override this method.
   def notification_emails
     [contact_email]
-  end
-
-  # gets recent documents in this profile, ordered from the most recent to the
-  # oldest.
-  #
-  # +limit+ is the maximum number of documents to be returned. It defaults to
-  # 10.
-  def recent_documents(limit = 10, options = {}, pagination = true)
-    self.articles.recent(limit, options, pagination)
   end
 
   def last_articles limit = 10
@@ -812,6 +825,7 @@ private :generate_url, :url_options
       default_set_of_articles.each do |article|
         article.profile = self
         article.advertise = false
+        article.access = access
         article.save!
       end
       self.save!
@@ -909,17 +923,6 @@ private :generate_url, :url_options
     end
   end
 
-  # returns +true+ if the given +user+ can see profile information about this
-  # +profile+, and +false+ otherwise.
-  def display_info_to?(user = nil)
-    if self.public?
-      true
-    else
-      display_private_info_to?(user)
-    end
-  end
-  alias_method :display_to?, :display_info_to?
-
   after_save :update_category_from_region
   def update_category_from_region
     ProfileCategorization.remove_region(self)
@@ -981,12 +984,8 @@ private :generate_url, :url_options
     end
   end
 
-  def public?
-    visible && public_profile
-  end
-
   def privacy_setting
-    self.public? ? _('Public profile') : _('Private profile')
+    _('Profile accessible to %s') % Entitlement::Levels.label(access, self)
   end
 
   def themes
@@ -999,9 +998,9 @@ private :generate_url, :url_options
 
   settings_items :layout_template, :type => String, :default => 'default'
 
-  has_many :blogs, :source => 'articles', :class_name => 'Blog'
-  has_many :forums, :source => 'articles', :class_name => 'Forum'
-  has_many :galleries, :source => 'articles', :class_name => 'Gallery'
+  has_many :blogs, source: 'articles', class_name: 'Blog'
+  has_many :forums, source: 'articles', class_name: 'Forum'
+  has_many :galleries, source: 'articles', class_name: 'Gallery'
 
   def blog
     self.has_blog? ? self.blogs.order(:id).first : nil
@@ -1078,12 +1077,12 @@ private :generate_url, :url_options
     end
   end
 
-  # FIXME: horrible workaround to circular dependancy in environment.rb
+  # FIXME: horrible workaround to circular dependency in environment.rb
   after_update do |profile|
     ProfileSweeper.new().after_update(profile)
   end
 
-  # FIXME: horrible workaround to circular dependancy in environment.rb
+  # FIXME: horrible workaround to circular dependency in environment.rb
   after_create do |profile|
     ProfileSweeper.new().after_create(profile)
   end
@@ -1193,11 +1192,12 @@ private :generate_url, :url_options
   end
 
   def may_display_field_to? field, user = nil
-    if not self.active_fields.include? field.to_s
-      self.send "may_display_#{field}_to?", user rescue true
-    else
-      not (!self.public_fields.include? field.to_s and (!user or (user != self and !user.is_a_friend?(self))))
-    end
+    # display if it isn't a field that can be enabled
+    return true if !self.class.fields.include?(field.to_s) &&
+                   !self.active_fields.include?(field.to_s)
+
+    self.public_fields.include?(field.to_s) ||
+      (user.present? && (user == self || user.is_a_friend?(self)))
   end
 
   # field => privacy (e.g.: "address" => "public")
@@ -1222,6 +1222,10 @@ private :generate_url, :url_options
     value
   end
 
+  def self.fields
+    []
+  end
+
   # abstract
   def active_fields
     []
@@ -1237,18 +1241,6 @@ private :generate_url, :url_options
 
   def in_social_circle?(person)
     (person == self) || (person.is_member_of?(self))
-  end
-
-  def display_private_info_to?(user)
-    if user.nil?
-      false
-    else
-      (user == self) || (user.is_admin?(self.environment)) || user.is_admin?(self) || user.memberships.include?(self)
-    end
-  end
-
-  def can_view_field? current_person, field
-    display_private_info_to?(current_person) || (public_fields.include?(field) && public?)
   end
 
   validates_inclusion_of :redirection_after_login, :in => Environment.login_redirection_options.keys, :allow_nil => true
@@ -1330,6 +1322,18 @@ private :generate_url, :url_options
     fields -= first_fields
     fields.sort!
     ordered_fields = first_fields + fields
+  end
+
+  def method_missing(method, *args, &block)
+    if method.to_s =~ /^(.+)_captcha_requirement$/
+      environment.send(method)
+    else
+      super
+    end
+  end
+
+  def display_private_info_to?(person)
+    person.present? && (person.is_admin? || (person == self))
   end
 
   private

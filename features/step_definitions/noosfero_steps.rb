@@ -668,15 +668,8 @@ Then /^the element "(.*)" has class "(.*)"$/ do |el_selector, el_class|
   class_list.should include(el_class)
 end
 
-When /^wait for the captcha signup time$/ do
-  environment = Environment.default
-  sleep environment.min_signup_delay + 1
-end
-
 Given /^there are no pending jobs$/ do
-  silence_stream(STDOUT) do
-    Delayed::Worker.new.work_off
-  end
+  Delayed::Worker.new(quiet: true).work_off
 end
 
 Given /^the field (.*) is public for all users$/ do |field|

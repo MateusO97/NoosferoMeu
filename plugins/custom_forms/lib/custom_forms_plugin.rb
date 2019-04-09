@@ -30,8 +30,10 @@ class CustomFormsPlugin < Noosfero::Plugin
   def self.load_custom_routes
     Noosfero::Application.routes.draw do
       match "/profile/:profile/query/:id" => 'custom_forms_plugin_profile#show',
-        via: [:get, :post]
+        via: [:get, :post], as: 'custom_forms_plugin_profile_show'
       get "/profile/:profile/query/:id/results" => 'custom_forms_plugin_profile#review'
+
+      get "/profile/:profile/query/:id/results/answers" => 'custom_forms_plugin_profile#download_field_answers', as: :download_field_answers
     end
   end
 

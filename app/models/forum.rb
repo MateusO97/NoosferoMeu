@@ -4,18 +4,19 @@ class Forum < Folder
   acts_as_having_posts -> { reorder 'updated_at DESC' }
 
   include PostsLimit
+  include Entitlement::ForumJudge
 
   attr_accessible :has_terms_of_use, :terms_of_use, :topic_creation
 
   settings_items :terms_of_use, :type => :string, :default => ""
   settings_items :has_terms_of_use, :type => :boolean, :default => false
-  settings_items :topic_creation, :type => :integer, :default => AccessLevels.levels[:self]
+  settings_items :topic_creation, :type => :integer, :default => Entitlement::Levels.levels[:self]
   has_and_belongs_to_many :users_with_agreement, :class_name => 'Person', :join_table => 'terms_forum_people'
 
   before_save do |forum|
     if forum.has_terms_of_use
       last_editor = forum.profile.environment.people.find_by(id: forum.last_changed_by_id)
-      if last_editor && !forum.users_with_agreement.exists?(last_editor)
+      if last_editor && !forum.users_with_agreement.exists?(last_editor.id)
         forum.users_with_agreement << last_editor
       end
     else
@@ -82,15 +83,15 @@ class Forum < Folder
   def agrees_with_terms?(user)
     return true unless self.has_terms_of_use
     return false unless user
-    self.users_with_agreement.exists? user
+    self.users_with_agreement.exists? user.id
   end
 
   def topic_creation_access
-    AccessLevels.range_options(1, 3)
+    Entitlement::Levels.range_options(1, 3)
   end
 
   def allow_create?(user)
-    super || AccessLevels.can_access?(topic_creation, user, profile)
+    super || entitles?(user, :topic_creation)
   end
 
   def icon

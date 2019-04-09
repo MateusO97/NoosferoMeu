@@ -18,8 +18,8 @@ msgstr ""
 "X-Generator: Weblate 2.9\n"
 
 #, fuzzy
-msgid "{fn} is already used by other user"
-msgstr "%{fn} արդեն օգտագործվում է մեկ այլ կատեգորիայի կողմից:"
+msgid "Custom education"
+msgstr "Կրթություն"
 
 #, fuzzy
 msgid "none"
@@ -60,20 +60,32 @@ msgid "Enterprise was created"
 msgstr "Կազմակերպություն Ձեռնարկություն"
 
 #, fuzzy
-msgid "Manage content"
-msgstr "Կառավարել բովանդակությունը:"
+msgid "Create a comment"
+msgstr "Մեկնաբանություն թողնել"
 
 #, fuzzy
-msgid "View tasks"
-msgstr "Մանրամասն"
+msgid "Publish content"
+msgstr "Հոդվածներ հրապարակել"
 
 #, fuzzy
 msgid "The comment was not removed."
 msgstr "Այս անհատական էջը"
 
 #, fuzzy
+msgid "View tasks"
+msgstr "Մանրամասն"
+
+#, fuzzy
 msgid "View private content"
 msgstr "Անհատական էջի բովանդակություն"
+
+#, fuzzy
+msgid "Invite members"
+msgstr "Հեռացնել անդամին"
+
+#, fuzzy
+msgid "Send e-Mail to members"
+msgstr "Հեռացնել անդամին"
 
 #, fuzzy
 msgid "An existing person cannot be renamed."
@@ -84,12 +96,12 @@ msgid "Feed address"
 msgstr "Հասցե"
 
 #, fuzzy
-msgid "Publish content"
-msgstr "Հոդվածներ հրապարակել"
+msgid "Manage custom roles"
+msgstr "Կառավարել մասնակիցների դերերը"
 
 #, fuzzy
-msgid "Invite members"
-msgstr "Հեռացնել անդամին"
+msgid "%s can't have members"
+msgstr "%s - ը անդամներ ունենալ չի կարող"
 
 #, fuzzy
 msgid "person"
@@ -100,36 +112,12 @@ msgid "Address reference"
 msgstr "Հասցե"
 
 #, fuzzy
-msgid "Send e-Mail to members"
-msgstr "Հեռացնել անդամին"
-
-#, fuzzy
-msgid "Manage custom roles"
-msgstr "Կառավարել մասնակիցների դերերը"
-
-#, fuzzy
-msgid "%s can't have members"
-msgstr "%s - ը անդամներ ունենալ չի կարող"
-
-#, fuzzy
-msgid "District"
-msgstr "Սահմանափակումներ"
+msgid "Since: "
+msgstr "Գին"
 
 #, fuzzy
 msgid "The profile '%s' was activated."
 msgstr "Այս անհատական էջը"
-
-#, fuzzy
-msgid "Private profile"
-msgstr "Փոփոխել անհատական էջը"
-
-#, fuzzy
-msgid "Region Code"
-msgstr "Տարածաշրջան"
-
-#, fuzzy
-msgid "Since: "
-msgstr "Գին"
 
 #, fuzzy
 msgid "no activity"
@@ -140,8 +128,32 @@ msgid "one activity"
 msgstr "Տնտեսական գործունեություն"
 
 #, fuzzy
+msgid "District"
+msgstr "Սահմանափակումներ"
+
+#, fuzzy
+msgid "%s activities"
+msgstr "Տնտեսական գործունեություն"
+
+#, fuzzy
+msgid "Region Code"
+msgstr "Տարածաշրջան"
+
+#, fuzzy
 msgid "Enterprise activation code"
 msgstr "Ձեռնարկության հաստատում"
+
+#, fuzzy
+msgid "no members"
+msgstr "Նոր անդամ"
+
+#, fuzzy
+msgid "one member"
+msgstr "Նոր անդամ"
+
+#, fuzzy
+msgid "%s members"
+msgstr "%s-ի անդամները"
 
 #, fuzzy
 msgid ""
@@ -159,44 +171,46 @@ msgstr ""
 "գործեք համակարգ:"
 
 #, fuzzy
-msgid "%s activities"
-msgstr "Տնտեսական գործունեություն"
-
-#, fuzzy
-msgid "%{sender} wants to register."
-msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
-
-#, fuzzy
-msgid "Visitors"
-msgstr "Պատմություն"
+msgid "Profile Image"
+msgstr "Անհատական էջ|Կայք"
 
 #, fuzzy
 msgid "Logged users"
 msgstr "Մուտք որպես %s"
 
 #, fuzzy
-msgid "Me / Administrators"
-msgstr "Կառավարման վահանակ"
+msgid "Visitors"
+msgstr "Պատմություն"
 
 #, fuzzy
 msgid "Friends / Members"
 msgstr "Ընկերներ"
 
 #, fuzzy
-msgid "no members"
-msgstr "Նոր անդամ"
+msgid "Me / Administrators"
+msgstr "Կառավարման վահանակ"
+
+#, fuzzy
+msgid "%{sender} wants to register."
+msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
+
+#, fuzzy
+msgid ""
+"Display profile image and links to access initial homepage, control panel "
+"and profile activities."
+msgstr "Ցուցադրել անունը"
 
 #, fuzzy
 msgid "Me"
 msgstr "Արական"
 
 #, fuzzy
-msgid "one member"
-msgstr "Նոր անդամ"
+msgid "Followers"
+msgstr "Պանակ"
 
 #, fuzzy
-msgid "%s members"
-msgstr "%s-ի անդամները"
+msgid "Show profile information"
+msgstr "Տրամադրած տեղեկություններ"
 
 #, fuzzy
 msgid "Administrators"
@@ -207,18 +221,16 @@ msgid "Environment settings updated"
 msgstr "Համակարգ|Պարամետրեր"
 
 #, fuzzy
+msgid "Profile Information"
+msgstr "Տրամադրած տեղեկություններ"
+
+#, fuzzy
 msgid "Activities"
 msgstr "Ակտիվացնել"
 
 #, fuzzy
-msgid "Profile Image"
-msgstr "Անհատական էջ|Կայք"
-
-#, fuzzy
-msgid ""
-"Display profile image and links to access initial homepage, control panel "
-"and profile activities."
-msgstr "Ցուցադրել անունը"
+msgid "Random profiles"
+msgstr "Փոփոխել անհատական էջը"
 
 #, fuzzy
 msgid "Category %s saved."
@@ -229,24 +241,24 @@ msgid "Could not save category."
 msgstr "Ընտրել կատեգորիա"
 
 #, fuzzy
+msgid "{#} People or Groups"
+msgstr "Մարդիկ և խմբեր"
+
+#, fuzzy
 msgid "Main Content"
 msgstr "Հիմնական բովանդակություն"
 
 #, fuzzy
-msgid "Show profile information"
-msgstr "Տրամադրած տեղեկություններ"
+msgid "All Users"
+msgstr "Բոլոր խմբերը"
 
 #, fuzzy
-msgid "Profile Information"
-msgstr "Տրամադրած տեղեկություններ"
+msgid "Display a form to search the profile"
+msgstr "Ցուցադրել համառոտ պրոֆայլը"
 
 #, fuzzy
 msgid "Login/logout"
 msgstr "Դուրս գալ:"
-
-#, fuzzy
-msgid "Random profiles"
-msgstr "Փոփոխել անհատական էջը"
 
 #, fuzzy
 msgid "Location map"
@@ -257,23 +269,27 @@ msgid "Link list"
 msgstr "Հղումներ"
 
 #, fuzzy
-msgid "{#} People or Groups"
-msgstr "Մարդիկ և խմբեր"
+msgid "Friends in common"
+msgstr "Համայնք"
 
 #, fuzzy
-msgid "All users"
-msgstr "Բոլոր խմբերը"
+msgid "Communities in common"
+msgstr "Համայնքներ"
 
 #, fuzzy
 msgid "New window"
 msgstr "Նոր ընկեր"
 
 #, fuzzy
+msgid "Kind successfully created"
+msgstr "Դերերը հաջողությամբ թարմացված են"
+
+#, fuzzy
 msgid "New tab"
 msgstr "Ամբողջ բովանդակությունը"
 
 #, fuzzy
-msgid "Kind successfully created"
+msgid "Kind successfully updated"
 msgstr "Դերերը հաջողությամբ թարմացված են"
 
 #, fuzzy
@@ -281,7 +297,7 @@ msgid "Same page"
 msgstr "Գլխավոր էջ"
 
 #, fuzzy
-msgid "Kind successfully updated"
+msgid "Kind sucessfully removed"
 msgstr "Դերերը հաջողությամբ թարմացված են"
 
 #, fuzzy
@@ -289,16 +305,8 @@ msgid "URL"
 msgstr "URL:"
 
 #, fuzzy
-msgid "Kind sucessfully removed"
-msgstr "Դերերը հաջողությամբ թարմացված են"
-
-#, fuzzy
 msgid "description"
 msgstr "Նկարագրություն"
-
-#, fuzzy
-msgid "title"
-msgstr "Վերնագիր"
 
 #, fuzzy
 msgid "License could not be created"
@@ -325,16 +333,18 @@ msgid "Organization profiles"
 msgstr "Կազմակերպությունը հաստատելու միջոց"
 
 #, fuzzy
+msgid "title"
+msgstr "Վերնագիր"
+
+#, fuzzy
 msgid "name"
 msgstr "Անվանում"
 
 #, fuzzy
-msgid "Display a form to search the profile"
-msgstr "Ցուցադրել համառոտ պրոֆայլը"
-
-#, fuzzy
-msgid "%{requestor} is inviting you to join \"%{community}\" on %{system}."
-msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
+msgid ""
+"Display the last content produced in the context where the block is "
+"available."
+msgstr "Ցուցադրել անունը"
 
 #, fuzzy
 msgid "%s enabled"
@@ -369,12 +379,16 @@ msgid "Plugins were not updated successfully."
 msgstr "Առանձնահատկությունները հաջողությամբ թարմացված են:"
 
 #, fuzzy
-msgid "%{requestor} invited you to join %{community}."
+msgid "%{requestor} is inviting you to join \"%{community}\" on %{system}."
 msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
 
 #, fuzzy
 msgid "All profiles"
 msgstr "Բոլոր հոդվածները"
+
+#, fuzzy
+msgid "%{requestor} invited you to join %{community}."
+msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
 
 #, fuzzy
 msgid "%{requestor} invited you to join %{linked_subject}."
@@ -389,12 +403,16 @@ msgid "Site name"
 msgstr "Ֆայլի անուն"
 
 #, fuzzy
-msgid "Friends in common"
-msgstr "Համայնք"
+msgid "Show last updates"
+msgstr "Վերջինը թարմացվել է %s"
 
 #, fuzzy
-msgid "Communities in common"
-msgstr "Համայնքներ"
+msgid "Recent Content"
+msgstr "Վերջին հոդվածներ"
+
+#, fuzzy
+msgid "RssFeed"
+msgstr "RSS հոսք"
 
 #, fuzzy
 msgid "Friend invitation"
@@ -412,12 +430,6 @@ msgid "Community not found. The template could no be changed."
 msgstr "Անհանատական էջի տվյալների բաժին"
 
 #, fuzzy
-msgid ""
-"Display the last content produced in the context where the block is "
-"available."
-msgstr "Ցուցադրել անունը"
-
-#, fuzzy
 msgid "Person not found. The template could no be changed."
 msgstr "Անհանատական էջի տվյալների բաժին"
 
@@ -426,8 +438,8 @@ msgid "Enterprise not found. The template could no be changed."
 msgstr "Անհանատական էջի տվյալների բաժին"
 
 #, fuzzy
-msgid "Show last updates"
-msgstr "Վերջինը թարմացվել է %s"
+msgid "Article suggestion"
+msgstr "Հոդված|Տարբերակ"
 
 #, fuzzy
 msgid "Failed to add trusted site."
@@ -458,38 +470,40 @@ msgid "Could not remove profile"
 msgstr "Ձեռնարկության թարմացումն անհնար է:"
 
 #, fuzzy
-msgid "Recent Content"
-msgstr "Վերջին հոդվածներ"
-
-#, fuzzy
-msgid "Invitation"
-msgstr "Կառավարման վահանակ"
-
-#, fuzzy
-msgid "Could not create the e-mail"
-msgstr "Սկզբնական նյութի ստեղծումը ձախողված է"
-
-#, fuzzy
-msgid "RssFeed"
-msgstr "RSS հոսք"
-
-#, fuzzy
-msgid "Article suggestion"
-msgstr "Հոդված|Տարբերակ"
-
-#, fuzzy
 msgid ""
 "%{requestor} suggested the publication %{target_detail} of the article: "
 "%{subject}."
 msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
 
 #, fuzzy
+msgid "%{requestor} suggested the publication of the article: %{article}."
+msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
+
+#, fuzzy
+msgid "Could not create the e-mail"
+msgstr "Սկզբնական նյութի ստեղծումը ձախողված է"
+
+#, fuzzy
+msgid "Invitation"
+msgstr "Կառավարման վահանակ"
+
+#, fuzzy
+msgid ""
+"<p>Display a tag cloud with the content produced where the block is applied."
+"</p> <p>The user could limit the number of tags will be displayed.</p>"
+msgstr "Ցուցադրել անունը"
+
+#, fuzzy
+msgid "Display a tag cloud about current content"
+msgstr "Ցուցադրել անունը"
+
+#, fuzzy
 msgid "The circle could not be saved"
 msgstr "Անհանատական էջի տվյալների բաժին"
 
 #, fuzzy
-msgid "{fn} of uploaded file was larger than the maximum size of 5.0 MB"
-msgstr "Ձեր բեռնած ֆայլի չափսն անցնում է առավելագույն սահմանված %s չափսից"
+msgid "Tag Cloud"
+msgstr "Պիտակների ցուցակ"
 
 #, fuzzy
 msgid "Homepage reseted."
@@ -512,8 +526,8 @@ msgid "You published this content successfully"
 msgstr "Ձեր գաղտնաբառը բարեհաջող փոխվել է:"
 
 #, fuzzy
-msgid "Creates image slideshow"
-msgstr "Ստեղծել"
+msgid "{fn} of uploaded file was larger than the maximum size of 5.0 MB"
+msgstr "Ձեր բեռնած ֆայլի չափսն անցնում է առավելագույն սահմանված %s չափսից"
 
 #, fuzzy
 msgid "Your publish request was sent successfully"
@@ -528,6 +542,10 @@ msgid "Your publish request couldn't be sent."
 msgstr "Ձեր գաղտնաբառը բարեհաջող փոխվել է:"
 
 #, fuzzy
+msgid "Creates image slideshow"
+msgstr "Ստեղծել"
+
+#, fuzzy
 msgid "A gallery, inside which you can put images."
 msgstr "Այս թղթապանակում կարող եք տեղադրել Ձեր հոդվածները:"
 
@@ -536,22 +554,16 @@ msgid "Gallery"
 msgstr "Նկարադարան"
 
 #, fuzzy
-msgid "%{requestor} suggested the publication of the article: %{article}."
-msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
-
-#, fuzzy
-msgid ""
-"<p>Display a tag cloud with the content produced where the block is applied."
-"</p> <p>The user could limit the number of tags will be displayed.</p>"
-msgstr "Ցուցադրել անունը"
-
-#, fuzzy
-msgid "Display a tag cloud about current content"
-msgstr "Ցուցադրել անունը"
-
-#, fuzzy
-msgid "Tag Cloud"
+msgid "Tags Cloud"
 msgstr "Պիտակների ցուցակ"
+
+#, fuzzy
+msgid "Task"
+msgstr "Պիտակներ"
+
+#, fuzzy
+msgid "Text article"
+msgstr "Նոր հոդված"
 
 #, fuzzy
 msgid "All decisions were applied successfully."
@@ -562,12 +574,12 @@ msgid "%s could not be uploaded"
 msgstr "Սկզբնական նյութի թարմացումը ձախողված է"
 
 #, fuzzy
-msgid "Files"
-msgstr "Ֆայլի անուն"
+msgid "Text article to create user content."
+msgstr "մասնակից"
 
 #, fuzzy
-msgid "Feed reader"
-msgstr "Հասցե"
+msgid "Files"
+msgstr "Ֆայլի անուն"
 
 #, fuzzy
 msgid "Email template was successfully created."
@@ -578,20 +590,24 @@ msgid "Email template was successfully updated."
 msgstr "Էլ. հասցե"
 
 #, fuzzy
-msgid "This block lists your favorite enterprises."
-msgstr "Ձեր նախընտրած ձեռնարկությունները ցուցադրող բաժին"
+msgid "Feed reader"
+msgstr "Հասցե"
 
 #, fuzzy
 msgid "Circles of %s updated successfully"
 msgstr "Առանձնահատկությունները հաջողությամբ թարմացված են:"
 
 #, fuzzy
-msgid "Tags Cloud"
-msgstr "Պիտակների ցուցակ"
+msgid "This block lists your favorite enterprises."
+msgstr "Ձեր նախընտրած ձեռնարկությունները ցուցադրող բաժին"
 
 #, fuzzy
-msgid "Task"
-msgstr "Պիտակներ"
+msgid "File"
+msgstr "Ֆայլի անուն"
+
+#, fuzzy
+msgid "{fn} of uploaded file was larger than the maximum size of %{size}"
+msgstr "Ձեր բեռնած ֆայլի չափսն անցնում է առավելագույն սահմանված %s չափսից"
 
 #, fuzzy
 msgid "This block presents the fans of an enterprise."
@@ -604,12 +620,12 @@ msgstr[0] "ընկերներ"
 msgstr[1] "ընկերներ"
 
 #, fuzzy
-msgid "Text article"
-msgstr "Նոր հոդված"
-
-#, fuzzy
 msgid "Address was updated successfully!"
 msgstr "Առանձնահատկությունները հաջողությամբ թարմացված են:"
+
+#, fuzzy
+msgid "Last topics"
+msgstr "Վերջինը թարմացվել է %s"
 
 #, fuzzy
 msgid "A calendar event."
@@ -618,10 +634,6 @@ msgstr "Օրացույց"
 #, fuzzy
 msgid "{fn} cannot come before end date."
 msgstr "%{fn} ամսաթվից առաջ լինել չի կարող:"
-
-#, fuzzy
-msgid "Text article to create user content."
-msgstr "մասնակից"
 
 #, fuzzy
 msgid "Could not delete profile"
@@ -648,12 +660,12 @@ msgid "Could not activate the profile."
 msgstr "Ձեռնարկության թարմացումն անհնար է:"
 
 #, fuzzy
-msgid "is not available."
-msgstr "Արտադրանք և ծառայություններ"
+msgid "{fn} must be checked in order to signup."
+msgstr "%{fn} պետք է ստուգվի մուտք գործելու համար:"
 
 #, fuzzy
-msgid "File"
-msgstr "Ֆայլի անուն"
+msgid "is not available."
+msgstr "Արտադրանք և ծառայություններ"
 
 #, fuzzy
 msgid "You can not destroy the profile."
@@ -676,8 +688,8 @@ msgid "Current admins"
 msgstr "Անդամներ"
 
 #, fuzzy
-msgid "Recover forgotten password"
-msgstr "Ես մոռացել եմ գաղտնաբառս:"
+msgid "does not match."
+msgstr "Մասնակից|Գաղտնաբառի հաստատում"
 
 #, fuzzy
 msgid "The members list was updated."
@@ -692,52 +704,40 @@ msgid "Failed to remove role!"
 msgstr "Դերի ստեղծումը ձախողված է"
 
 #, fuzzy
-msgid "Suggest a new article"
-msgstr "Նոր հոդված"
+msgid "Recover forgotten password"
+msgstr "Ես մոռացել եմ գաղտնաբառս:"
 
 #, fuzzy
-msgid "{fn} of uploaded file was larger than the maximum size of %{size}"
-msgstr "Ձեր բեռնած ֆայլի չափսն անցնում է առավելագույն սահմանված %s չափսից"
+msgid "Suggest a new article"
+msgstr "Նոր հոդված"
 
 #, fuzzy
 msgid "Task responsible successfully updated!"
 msgstr "Դերերը հաջողությամբ թարմացված են"
 
 #, fuzzy
-msgid "{fn} must be checked in order to signup."
-msgstr "%{fn} պետք է ստուգվի մուտք գործելու համար:"
-
-#, fuzzy
-msgid "Create a comment"
-msgstr "Մեկնաբանություն թողնել"
-
-#, fuzzy
 msgid "This enterprise needs to be enabled."
 msgstr "Ձեր ձեռնարկությունը արգելափակվել է:"
-
-#, fuzzy
-msgid "Your community (%s) was successfully created."
-msgstr "%s, Ձեր նոր գաղտնաբառը բարոհաջող ստեղծված է:"
 
 #, fuzzy
 msgid "Redirects the user to the environment welcome page."
 msgstr "Վերադառնալ կառավարման վահանակ"
 
 #, fuzzy
-msgid "does not match."
-msgstr "Մասնակից|Գաղտնաբառի հաստատում"
-
-#, fuzzy
 msgid "Image (%s)"
 msgstr "Նկար"
 
 #, fuzzy
-msgid "Redirects the user to his control panel."
-msgstr "Վերադառնալ կառավարման վահանակ"
+msgid "Your community (%s) was successfully created."
+msgstr "%s, Ձեր նոր գաղտնաբառը բարոհաջող ստեղծված է:"
 
 #, fuzzy
 msgid "File (%s)"
 msgstr "Գին %s"
+
+#, fuzzy
+msgid "Redirects the user to his control panel."
+msgstr "Վերադառնալ կառավարման վահանակ"
 
 #, fuzzy
 msgid "Feed"
@@ -756,16 +756,12 @@ msgid "Passwords don't match"
 msgstr "Մասնակից|Գաղտնաբառի հաստատում"
 
 #, fuzzy
-msgid "Show content only to members"
-msgstr "Ամբողջ բովանդակությունը"
-
-#, fuzzy
 msgid "Bad"
 msgstr "Մարտ"
 
 #, fuzzy
-msgid "Can not recover user password with blank value."
-msgstr "Դուք կարող եք վերականգնել Ձեր գաղտնաբառը` հետևյալ հղմանը սեղմելով:"
+msgid "Show content only to members"
+msgstr "Ամբողջ բովանդակությունը"
 
 #, fuzzy
 msgid "Full name"
@@ -774,6 +770,22 @@ msgstr "Ֆայլի անուն"
 #, fuzzy
 msgid "Invalid address"
 msgstr "Հասցե"
+
+#, fuzzy
+msgid "terms of use"
+msgstr "Օգտագործման կանոններն ու պայմանները"
+
+#, fuzzy
+msgid "Can not recover user password with blank value."
+msgstr "Դուք կարող եք վերականգնել Ձեր գաղտնաբառը` հետևյալ հղմանը սեղմելով:"
+
+#, fuzzy
+msgid "Send welcome e-mail to new users"
+msgstr "Հեռացնել անդամին"
+
+#, fuzzy
+msgid "Skip e-mail confirmation for new users"
+msgstr "Էլ. փոստի կոնֆիգուրացիա"
 
 #, fuzzy
 msgid "This login name is available"
@@ -788,12 +800,12 @@ msgid "This field can't be blank"
 msgstr "%{fn} չի կարող այդպես լինել"
 
 #, fuzzy
-msgid "Send welcome e-mail to new users"
-msgstr "Հեռացնել անդամին"
+msgid "I accept the %s"
+msgstr "Ես ընդունում եմ օգտագործման կանոնները"
 
 #, fuzzy
-msgid "Skip e-mail confirmation for new users"
-msgstr "Էլ. փոստի կոնֆիգուրացիա"
+msgid "Create my account"
+msgstr "Ստեղծել նոր համայնք"
 
 #, fuzzy
 msgid "Page not found."
@@ -808,8 +820,8 @@ msgid "Comment was rejected"
 msgstr "Մեկնաբանությունների հաշվարկում"
 
 #, fuzzy
-msgid "terms of use"
-msgstr "Օգտագործման կանոններն ու պայմանները"
+msgid "Welcome to %s!"
+msgstr "Փակ %s"
 
 #, fuzzy
 msgid "Comment successfully created."
@@ -820,18 +832,6 @@ msgid "You couldn't mark this comment as spam."
 msgstr "Վստա՞ք եք, որ ցականում եք այն հեռացնել:"
 
 #, fuzzy
-msgid "I accept the %s"
-msgstr "Ես ընդունում եմ օգտագործման կանոնները"
-
-#, fuzzy
-msgid "Create my account"
-msgstr "Ստեղծել նոր համայնք"
-
-#, fuzzy
-msgid "Notification of new comments to '%s' was successfully canceled"
-msgstr "Արտադրանքը հաջողությամբ հեռացված է"
-
-#, fuzzy
 msgid "Admin must approve registration of new users"
 msgstr "Բոլոր նոր կազմակերպությունները պետք է հաստատվեն ադմինիստրատորի կողմից:"
 
@@ -840,16 +840,25 @@ msgid "Admin must approve creation of communities"
 msgstr "Բոլոր նոր կազմակերպությունները պետք է հաստատվեն ադմինիստրատորի կողմից:"
 
 #, fuzzy
+msgid "Notification of new comments to '%s' was successfully canceled"
+msgstr "Արտադրանքը հաջողությամբ հեռացված է"
+
+#, fuzzy
 msgid "Allow profiles to change their URL"
 msgstr "Այս օգտագործողն աշխատում է հետևյալ կազմակերպություններում"
+
+#, fuzzy
+msgid "Searching..."
+msgstr "Որոնել..."
 
 #, fuzzy
 msgid "%s's contents tagged with \"%s\""
 msgstr "Հոդվածներում «%s» պիտակները"
 
 #, fuzzy
-msgid "Welcome to %s!"
-msgstr "Փակ %s"
+msgid ""
+"What year your enterprise was founded? It must have 4 digits, eg 1990. %s"
+msgstr "Ե՞րբ է հիմնադրվել Ձեր ձեռնարկությունը:"
 
 #, fuzzy
 msgid "You just became a member of %s."
@@ -864,8 +873,8 @@ msgid "You are not a member of %s."
 msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
 
 #, fuzzy
-msgid "Searching..."
-msgstr "Որոնել..."
+msgid "Forgot your password?"
+msgstr "Ես մոռացել եմ գաղտնաբառս:"
 
 #, fuzzy
 msgid "You are already a friend of %s."
@@ -876,9 +885,12 @@ msgid "You are already following %s."
 msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
 
 #, fuzzy
-msgid ""
-"What year your enterprise was founded? It must have 4 digits, eg 1990. %s"
-msgstr "Ե՞րբ է հիմնադրվել Ձեր ձեռնարկությունը:"
+msgid "Display search form in home page"
+msgstr "Դիզակտիվացնել մարդկանց որոնումը"
+
+#, fuzzy
+msgid "Send instructions"
+msgstr "Սահմանափակումներ"
 
 #, fuzzy
 msgid "You have unblocked %s successfully. "
@@ -889,20 +901,16 @@ msgid "You are not allowed to unblock enterprises in this environment."
 msgstr "Դուք չեք կարող տեսնել տվյալ բովանդակությունը:"
 
 #, fuzzy
+msgid "Sign up for %s!"
+msgstr "Գրանցվել"
+
+#, fuzzy
 msgid "Message successfully sent."
 msgstr "Էլ.փոստի պարամետրերը հաջողությամբ պահպանված են:"
 
 #, fuzzy
-msgid "Display search form in home page"
-msgstr "Դիզակտիվացնել մարդկանց որոնումը"
-
-#, fuzzy
 msgid "Comment successfully added."
 msgstr "Մեկնաբանությունը հաջողությամբ հեռացված է:"
-
-#, fuzzy
-msgid "Forgot your password?"
-msgstr "Ես մոռացել եմ գաղտնաբառս:"
 
 #, fuzzy
 msgid "Notification successfully removed."
@@ -917,16 +925,12 @@ msgid "You could not answer the captcha."
 msgstr "Արտադրանքի հեռացումը ձախողված է"
 
 #, fuzzy
-msgid "Send instructions"
-msgstr "Սահմանափակումներ"
+msgid "No reply email"
+msgstr "էլ. հասցե"
 
 #, fuzzy
 msgid "Contents"
 msgstr "Բովանդակության տեսակ"
-
-#, fuzzy
-msgid "Sign up for %s!"
-msgstr "Գրանցվել"
 
 #, fuzzy
 msgid "Enterprises are validated when created"
@@ -945,15 +949,6 @@ msgid "Forbid users of removing profiles"
 msgstr "Ձեռնարկության թարմացումն անհնար է:"
 
 #, fuzzy
-msgid "No reply email"
-msgstr "էլ. հասցե"
-
-#, fuzzy
-msgid "has 1 new follower:<br />%{name}"
-msgid_plural "has %{num} new followers:<br />%{name}"
-msgstr[0] "Անվանում"
-
-#, fuzzy
 msgid "Article's date format"
 msgstr "Հոդվածի համառոտ ակնարկ"
 
@@ -964,6 +959,11 @@ msgstr "Լեզուներ"
 #, fuzzy
 msgid "Available languages"
 msgstr "Լեզուներ"
+
+#, fuzzy
+msgid "has 1 new follower:<br />%{name}"
+msgid_plural "has %{num} new followers:<br />%{name}"
+msgstr[0] "Անվանում"
 
 #, fuzzy
 msgid "Homepage content"
@@ -998,12 +998,16 @@ msgid "Profiles"
 msgstr "Պրոֆայլ"
 
 #, fuzzy
+msgid "User roles"
+msgstr "Կառավարել մասնակիցների դերերը"
+
+#, fuzzy
 msgid "Moderator"
 msgstr "Կառավարել մեկնաբանությունները"
 
 #, fuzzy
-msgid "User roles"
-msgstr "Կառավարել մասնակիցների դերերը"
+msgid "Users"
+msgstr "Օգտվող"
 
 #, fuzzy
 msgid "Profile Administrator"
@@ -1022,8 +1026,8 @@ msgid "Edit Raw HTML block"
 msgstr "Փոփոխել"
 
 #, fuzzy
-msgid "Users"
-msgstr "Օգտվող"
+msgid "Organizations"
+msgstr "Կազմակերպություն"
 
 #, fuzzy
 msgid "Manage environment captcha"
@@ -1043,6 +1047,14 @@ msgstr "Կառավարել դերերը համակարգում"
 
 #, fuzzy
 msgid "Manage environment templates"
+msgstr "Կառավարել դերերը համակարգում"
+
+#, fuzzy
+msgid "Manage environment organizations"
+msgstr "Կառավարել համակարգի հաստատող մարմիններին"
+
+#, fuzzy
+msgid "Manage environment users"
 msgstr "Կառավարել դերերը համակարգում"
 
 #, fuzzy
@@ -1094,8 +1106,8 @@ msgid "communities|More popular"
 msgstr "Համայնքներ"
 
 #, fuzzy
-msgid "Manage environment organizations"
-msgstr "Կառավարել համակարգի հաստատող մարմիններին"
+msgid "Profile templates"
+msgstr "Անհատական էջ|Կայք"
 
 #, fuzzy
 msgid "See all"
@@ -1126,22 +1138,6 @@ msgid "Manage your pending tasks"
 msgstr "Կառավարել Ձեր բովանդակությունը:"
 
 #, fuzzy
-msgid "Manage environment users"
-msgstr "Կառավարել դերերը համակարգում"
-
-#, fuzzy
-msgid "Organizations"
-msgstr "Կազմակերպություն"
-
-#, fuzzy
-msgid "Go to your homepage"
-msgstr "Գնալ Ձեր գլխավոր էջ"
-
-#, fuzzy
-msgid "Profile templates"
-msgstr "Անհատական էջ|Կայք"
-
-#, fuzzy
 msgid "Kinds"
 msgstr "Հղումներ"
 
@@ -1150,8 +1146,20 @@ msgid "Enterprise-related settings"
 msgstr "Ձեռնարկությունների վավերացում"
 
 #, fuzzy
+msgid "Go to your homepage"
+msgstr "Գնալ Ձեր գլխավոր էջ"
+
+#, fuzzy
 msgid "Message for disabled enterprises"
 msgstr "Փոխել դիզակտիվացված ձեռնարկություններին ուղարկվելիք հաղորդագրությունը"
+
+#, fuzzy
+msgid "{fn} is already used by other user"
+msgstr "%{fn} արդեն օգտագործվում է մեկ այլ կատեգորիայի կողմից:"
+
+#, fuzzy
+msgid "Search on %s's profile"
+msgstr "%s-ի անհատական էջ"
 
 #, fuzzy
 msgid "Limit of characters reached"
@@ -1162,20 +1170,20 @@ msgid "Source: %s"
 msgstr "Գին %s"
 
 #, fuzzy
-msgid "Custom education"
-msgstr "Կրթություն"
-
-#, fuzzy
-msgid "Search on %s's profile"
-msgstr "%s-ի անհատական էջ"
-
-#, fuzzy
-msgid "Manage Kinds"
-msgstr "Կառավարել ընկերներին"
-
-#, fuzzy
 msgid "No description informed."
 msgstr "Չտեղեկացված"
+
+#, fuzzy
+msgid "memberships"
+msgstr "Անդամներ: %s"
+
+#, fuzzy
+msgid "Profile Admins"
+msgstr "Պրոֆայլ"
+
+#, fuzzy
+msgid "Environment Admins"
+msgstr "Համակարգ|Պարամետրեր"
 
 #, fuzzy
 msgid ""
@@ -1194,32 +1202,8 @@ msgid "Profile organization"
 msgstr "Մեկ կազմակերպություն"
 
 #, fuzzy
-msgid "memberships"
-msgstr "Անդամներ: %s"
-
-#, fuzzy
-msgid "Profile Admins"
-msgstr "Պրոֆայլ"
-
-#, fuzzy
-msgid "Environment Admins"
-msgstr "Համակարգ|Պարամետրեր"
-
-#, fuzzy
 msgid "Only Admins"
 msgstr "Ադմինիստրատոր"
-
-#, fuzzy
-msgid "See all connections"
-msgstr "Ամբողջ բովանդակությունը"
-
-#, fuzzy
-msgid "Full screen"
-msgstr "Ֆայլի անուն"
-
-#, fuzzy
-msgid "All Users"
-msgstr "Բոլոր խմբերը"
 
 #, fuzzy
 msgid "Manage users"
@@ -1228,6 +1212,14 @@ msgstr "Կառավարել մասնակիցների դերերը"
 #, fuzzy
 msgid "Do you want to remove this user?"
 msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
+
+#, fuzzy
+msgid "See all connections"
+msgstr "Ամբողջ բովանդակությունը"
+
+#, fuzzy
+msgid "Full screen"
+msgstr "Ֆայլի անուն"
 
 #, fuzzy
 msgid "Deactivate user"
@@ -1254,20 +1246,16 @@ msgid "Set admin role"
 msgstr "Ստեղծել նոր համայնք"
 
 #, fuzzy
-msgid "I want to approve comments on this article"
-msgstr "Սկզբնական նյութի ստեղծումը ձախողված է"
+msgid "Do you want to reset this user as administrator?"
+msgstr "Ցանկանո՞ւմ եք արդյոք այս կայքն այցելել:"
 
 #, fuzzy
 msgid "Reset admin role"
 msgstr "Ստեղծել նոր համայնք"
 
 #, fuzzy
-msgid "Do you want to reset this user as administrator?"
-msgstr "Ցանկանո՞ւմ եք արդյոք այս կայքն այցելել:"
-
-#, fuzzy
-msgid "Last topics"
-msgstr "Վերջինը թարմացվել է %s"
+msgid "I want to approve comments on this article"
+msgstr "Սկզբնական նյութի ստեղծումը ձախողված է"
 
 #, fuzzy
 msgid "Communities suggestions:"
@@ -1282,20 +1270,20 @@ msgid "Welcome to environment %s"
 msgstr "Փակ %s"
 
 #, fuzzy
-msgid "Topic creation"
-msgstr "Վայր"
-
-#, fuzzy
 msgid "Add trusted site"
 msgstr "Նայել բովանդակությունը"
 
 #, fuzzy
-msgid "Allow all community members to view this content"
-msgstr "Համայնք"
+msgid "Topic creation"
+msgstr "Վայր"
 
 #, fuzzy
-msgid "Allow all your friends to view this content"
-msgstr "ընկերներ"
+msgid "Add a new trusted site"
+msgstr "Մեկ ձեռնարկություն"
+
+#, fuzzy
+msgid "Allow all community members to view this content"
+msgstr "Համայնք"
 
 #, fuzzy
 msgid "Allow only community members entered below to view this content"
@@ -1304,10 +1292,6 @@ msgstr "Համայնք"
 #, fuzzy
 msgid "Type in a name of a community member"
 msgstr "Անվանում"
-
-#, fuzzy
-msgid "Add a new trusted site"
-msgstr "Մեկ ձեռնարկություն"
 
 #, fuzzy
 msgid "Add a trusted site"
@@ -1331,10 +1315,6 @@ msgid "Editing trusted site"
 msgstr "Փոփոխում %s"
 
 #, fuzzy
-msgid "Are you sure you want to use the environment default theme?"
-msgstr "Վստա՞հ եք, որ ցանկանում եք դուրս գալ:"
-
-#, fuzzy
 msgid "Spread"
 msgstr "Տարածաշրջան %d"
 
@@ -1347,8 +1327,8 @@ msgid "Add translation"
 msgstr "Ավելացնել նախընտրած կազմակերպություն"
 
 #, fuzzy
-msgid "Edit settings"
-msgstr "Էլ. փոստի պարամետրեր"
+msgid "Are you sure you want to use the environment default theme?"
+msgstr "Վստա՞հ եք, որ ցանկանում եք դուրս գալ:"
 
 #, fuzzy
 msgid "Suggest an article"
@@ -1357,6 +1337,10 @@ msgstr "Նոր հոդված"
 #, fuzzy
 msgid "All versions"
 msgstr "Նայել ամբողջ արտադրանքը"
+
+#, fuzzy
+msgid "Edit settings"
+msgstr "Էլ. փոստի պարամետրեր"
 
 #, fuzzy
 msgid "is the default template"
@@ -1407,12 +1391,12 @@ msgid "Closed by:"
 msgstr "Փակել"
 
 #, fuzzy
-msgid "View details"
-msgstr "Մանրամասն"
-
-#, fuzzy
 msgid "Are you sure you want to remove this block?"
 msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
+
+#, fuzzy
+msgid "View details"
+msgstr "Մանրամասն"
 
 #, fuzzy
 msgid "Email: %s"
@@ -1435,12 +1419,12 @@ msgid "Select an acceptance email template:"
 msgstr "էլ. հասցե"
 
 #, fuzzy
-msgid "Task Spam"
-msgstr "Պիտակներ"
-
-#, fuzzy
 msgid "Online"
 msgstr "Չկա"
+
+#, fuzzy
+msgid "Task Spam"
+msgstr "Պիտակներ"
 
 #, fuzzy
 msgid "Comment Spam"
@@ -1451,48 +1435,40 @@ msgid "There are no spams to review."
 msgstr "Այստեղ կատեգորիաներ չկան:"
 
 #, fuzzy
-msgid "Manage SPAM"
-msgstr "Կառավարել"
-
-#, fuzzy
-msgid "Are you sure you want to remove this article suggestion?"
-msgstr "Վստա՞ք եք, որ ցականում եք այն հեռացնել:"
-
-#, fuzzy
 msgid ", by %s"
 msgstr "որոնել ըստ %s"
 
 #, fuzzy
-msgid "Abstract|empty"
-msgstr "Համառոտ ակնարկ"
+msgid "Manage SPAM"
+msgstr "Կառավարել"
 
 #, fuzzy
 msgid "Are you sure you want to mark this comment as SPAM?"
 msgstr "Վստա՞ք եք, որ ցականում եք այն հեռացնել:"
 
 #, fuzzy
-msgid "Folder|none"
-msgstr "Թղթապանակ"
+msgid "Are you sure you want to remove this article suggestion?"
+msgstr "Վստա՞ք եք, որ ցականում եք այն հեռացնել:"
 
 #, fuzzy
 msgid "Are you sure you want to remove this comment and all its replies?"
 msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
 
 #, fuzzy
-msgid "Sent by"
-msgstr "Մեկ համայնք"
+msgid "Abstract|empty"
+msgstr "Համառոտ ակնարկ"
 
 #, fuzzy
-msgid "no comments yet"
-msgstr "Առայժմ ոչ մի մեկնաբանություն չկա:"
+msgid "One comment"
+msgstr "Մեկ մեկնաբանություն"
 
 #, fuzzy
 msgid "%s comments"
 msgstr "Մեկնաբանություն թողնել"
 
 #, fuzzy
-msgid "One comment"
-msgstr "Մեկ մեկնաբանություն"
+msgid "no comments yet"
+msgstr "Առայժմ ոչ մի մեկնաբանություն չկա:"
 
 #, fuzzy
 msgid "This is a private content"
@@ -1503,24 +1479,32 @@ msgid "Translations"
 msgstr "Կազմակերպություններ"
 
 #, fuzzy
-msgid "Show details"
-msgstr "Մանրամասն"
+msgid "Folder|none"
+msgstr "Թղթապանակ"
 
 #, fuzzy
-msgid "My groups"
-msgstr "Բոլոր խմբերը"
+msgid "Sent by"
+msgstr "Մեկ համայնք"
 
 #, fuzzy
 msgid "Date"
 msgstr "Նահանգ"
 
 #, fuzzy
-msgid "Reported folder"
-msgstr "Ներկայիս կատեգորիա"
+msgid "Show details"
+msgstr "Մանրամասն"
 
 #, fuzzy
 msgid "Link"
 msgstr "Հղումներ"
+
+#, fuzzy
+msgid "My groups"
+msgstr "Բոլոր խմբերը"
+
+#, fuzzy
+msgid "Reported folder"
+msgstr "Ներկայիս կատեգորիա"
 
 #, fuzzy
 msgid "Comment"
@@ -1531,27 +1515,19 @@ msgid "Original content"
 msgstr "Հիմնական բովանդակություն"
 
 #, fuzzy
-msgid "Join chat room"
-msgstr "Միանալ այս համայնքին"
-
-#, fuzzy
-msgid "Open chat"
-msgstr "Գին"
+msgid "%{month_name} %{day}"
+msgstr "%{month} %{year}"
 
 #, fuzzy
 msgid "%{month_name} %{year}"
 msgstr "%{month} %{day}, %{year}"
 
 #, fuzzy
-msgid "%{month_name} %{day}"
-msgstr "%{month} %{year}"
-
-#, fuzzy
-msgid "%{month}/%{day}"
+msgid "%{month}/%{day}/%{year}"
 msgstr "%{month} %{day}, %{year}"
 
 #, fuzzy
-msgid "%{month}/%{day}/%{year}"
+msgid "%{month}/%{day}"
 msgstr "%{month} %{day}, %{year}"
 
 #, fuzzy
@@ -1583,36 +1559,44 @@ msgid "from %{date1} to %{date2}"
 msgstr "%{author}-ի կողմից %{date}-ին"
 
 #, fuzzy
-msgid "Tue"
-msgstr "Երեքշաբթի"
-
-#, fuzzy
-msgid "Mon"
-msgstr "Երկուշաբթի"
+msgid "Sat"
+msgstr "Նահանգ"
 
 #, fuzzy
 msgid "Sun"
 msgstr "Կիրակի"
 
 #, fuzzy
-msgid "Sat"
-msgstr "Նահանգ"
-
-#, fuzzy
-msgid "Leave room"
-msgstr "Գրեք Ձեր մեկնաբանությունը"
-
-#, fuzzy
-msgid "Wed"
-msgstr "Կարմիր"
+msgid "Mon"
+msgstr "Երկուշաբթի"
 
 #, fuzzy
 msgid "Fri"
 msgstr "Ուրբաթ"
 
 #, fuzzy
+msgid "Tue"
+msgstr "Երեքշաբթի"
+
+#, fuzzy
+msgid "Wed"
+msgstr "Կարմիր"
+
+#, fuzzy
+msgid "Open chat"
+msgstr "Գին"
+
+#, fuzzy
 msgid "%{month}"
 msgstr "%{month} %{day}, %{year}"
+
+#, fuzzy
+msgid "Join chat room"
+msgstr "Միանալ այս համայնքին"
+
+#, fuzzy
+msgid "Leave room"
+msgstr "Գրեք Ձեր մեկնաբանությունը"
 
 #, fuzzy
 msgid "Join room"
@@ -1627,6 +1611,10 @@ msgid "Go to the home page"
 msgstr "Գնալ Ձեր գլխավոր էջ"
 
 #, fuzzy
+msgid "Events for %s"
+msgstr "%-ից մինչև %"
+
+#, fuzzy
 msgid "Remove image"
 msgstr "Հեռացնել անդամին"
 
@@ -1635,8 +1623,8 @@ msgid "Yes, I want to remove %s"
 msgstr "Այո, ես ցանկանում եմ դուրս գալ:"
 
 #, fuzzy
-msgid "Events for %s"
-msgstr "%-ից մինչև %"
+msgid "Place: "
+msgstr "Գին"
 
 #, fuzzy
 msgid "Are you sure you want to remove %s from your suggestions list?"
@@ -1645,10 +1633,6 @@ msgstr "Վստա՞հ եք, որ ցանկանում եք հեռացնել %s-ին
 #, fuzzy
 msgid "Are you sure you want to remove this suggestion?"
 msgstr "Վստա՞ք եք, որ ցականում եք այն հեռացնել:"
-
-#, fuzzy
-msgid "Place: "
-msgstr "Գին"
 
 #, fuzzy
 msgid "Remove suggestion"
@@ -1737,30 +1721,6 @@ msgid "Back to roles management"
 msgstr "Վերադառնալ կառավարման վահանակ"
 
 #, fuzzy
-msgid "Create a new role"
-msgstr "Ստեղծել նոր համայնք"
-
-#, fuzzy
-msgid "Role"
-msgstr "Դերեր"
-
-#, fuzzy
-msgid "We"
-msgstr "Կարմիր"
-
-#, fuzzy
-msgid "Sa"
-msgstr "Նահանգ"
-
-#, fuzzy
-msgid "Fr"
-msgstr "Ուրբաթ"
-
-#, fuzzy
-msgid "Manage user roles"
-msgstr "Կառավարել մասնակիցների դերերը"
-
-#, fuzzy
 msgid "Tu"
 msgstr "Երեքշաբթի"
 
@@ -1769,8 +1729,32 @@ msgid "Mo"
 msgstr "Երկուշաբթի"
 
 #, fuzzy
+msgid "Fr"
+msgstr "Ուրբաթ"
+
+#, fuzzy
+msgid "Sa"
+msgstr "Նահանգ"
+
+#, fuzzy
+msgid "We"
+msgstr "Կարմիր"
+
+#, fuzzy
+msgid "Create a new role"
+msgstr "Ստեղծել նոր համայնք"
+
+#, fuzzy
 msgid "Su"
 msgstr "Կիրակի"
+
+#, fuzzy
+msgid "Role"
+msgstr "Դերեր"
+
+#, fuzzy
+msgid "Manage user roles"
+msgstr "Կառավարել մասնակիցների դերերը"
 
 #, fuzzy
 msgid "Delete role"
@@ -1824,52 +1808,44 @@ msgid "Last administrator leaving %s"
 msgstr "Ադմինիստրատորների ցուցակ"
 
 #, fuzzy
-msgid "Jun"
-msgstr "Հունիս"
-
-#, fuzzy
 msgid "Custom Roles:"
 msgstr "Դերեր"
-
-#, fuzzy
-msgid "Mar"
-msgstr "Մարտ"
-
-#, fuzzy
-msgid "Apr"
-msgstr "Ապրիլ"
-
-#, fuzzy
-msgid "Jan"
-msgstr "Հունվար"
-
-#, fuzzy
-msgid "Jul"
-msgstr "Հուլիս"
-
-#, fuzzy
-msgid "Aug"
-msgstr "Օգոստոս"
-
-#, fuzzy
-msgid "Add members to %s"
-msgstr "Անդամներ: %s"
-
-#, fuzzy
-msgid "Current members"
-msgstr "Նոր անդամ"
-
-#, fuzzy
-msgid "Sep"
-msgstr "Սեռ"
 
 #, fuzzy
 msgid "Oct"
 msgstr "Հոկտեմբեր"
 
 #, fuzzy
-msgid "Name or Email"
-msgstr "Էլ. հասցե"
+msgid "Sep"
+msgstr "Սեռ"
+
+#, fuzzy
+msgid "Aug"
+msgstr "Օգոստոս"
+
+#, fuzzy
+msgid "Jul"
+msgstr "Հուլիս"
+
+#, fuzzy
+msgid "Jan"
+msgstr "Հունվար"
+
+#, fuzzy
+msgid "Jun"
+msgstr "Հունիս"
+
+#, fuzzy
+msgid "Apr"
+msgstr "Ապրիլ"
+
+#, fuzzy
+msgid "Mar"
+msgstr "Մարտ"
+
+#, fuzzy
+msgid "Add members to %s"
+msgstr "Անդամներ: %s"
 
 #, fuzzy
 msgid "Prev"
@@ -1884,24 +1860,24 @@ msgid "From:"
 msgstr "Որտեղից"
 
 #, fuzzy
-msgid "Add members"
-msgstr "%s-ի անդամները"
+msgid "Current members"
+msgstr "Նոր անդամ"
 
 #, fuzzy
 msgid "root"
 msgstr "Դուրս գալ:"
 
 #, fuzzy
-msgid "Add admins to %s"
-msgstr "Անդամներ: %s"
+msgid "Name or Email"
+msgstr "Էլ. հասցե"
 
 #, fuzzy
 msgid "Configure forum"
 msgstr "Ինչ-որ առանձնահատկություն"
 
 #, fuzzy
-msgid "Edit welcome page"
-msgstr "Փոփոխում %s"
+msgid "Add members"
+msgstr "%s-ի անդամները"
 
 #, fuzzy
 msgid "Posts"
@@ -1912,6 +1888,14 @@ msgid "Last post"
 msgstr "Վերջինը թարմացվել է %s"
 
 #, fuzzy
+msgid "Add admins to %s"
+msgstr "Անդամներ: %s"
+
+#, fuzzy
+msgid "Edit welcome page"
+msgstr "Փոփոխում %s"
+
+#, fuzzy
 msgid "Select the regions in which you are inserted"
 msgstr "Ընտրեք Ձեզ հետաքրքրող կատեգորիաները"
 
@@ -1920,16 +1904,12 @@ msgid "Allow other users to follow me"
 msgstr "մասնակից"
 
 #, fuzzy
-msgid "Followers"
-msgstr "Պանակ"
+msgid "New"
+msgstr "Նորություններ"
 
 #, fuzzy
 msgid "Hide all uploads"
 msgstr "Նայել ամբողջ արտադրանքը"
-
-#, fuzzy
-msgid "New"
-msgstr "Նորություններ"
 
 #, fuzzy
 msgid "Suggestions"
@@ -1944,20 +1924,16 @@ msgid "Reference"
 msgstr "Հասցե"
 
 #, fuzzy
-msgid "Location"
-msgstr "Վայր"
-
-#, fuzzy
 msgid "Delete profile"
 msgstr "Վերացնել անհատական էջը"
 
 #, fuzzy
-msgid "Are you sure you want to activate this profile?"
-msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
-
-#, fuzzy
 msgid "Right"
 msgstr "Բարձրություն"
+
+#, fuzzy
+msgid "Are you sure you want to activate this profile?"
+msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
 
 #, fuzzy
 msgid "Activate profile"
@@ -1972,10 +1948,6 @@ msgid "Deactivate profile"
 msgstr "Փոփոխել անհատական էջը"
 
 #, fuzzy
-msgid "Add option"
-msgstr "Ավելացնել"
-
-#, fuzzy
 msgid "Red Up"
 msgstr "Կարմիր"
 
@@ -1988,12 +1960,12 @@ msgid "Eyes"
 msgstr "Իրադարձություններ"
 
 #, fuzzy
-msgid "This profile is a template"
-msgstr "Այս անհատական էջը հրապարակային չէ:"
+msgid "Add option"
+msgstr "Ավելացնել"
 
 #, fuzzy
-msgid "Basic information"
-msgstr "Էլ. հասցե"
+msgid "This profile is a template"
+msgstr "Այս անհատական էջը հրապարակային չէ:"
 
 #, fuzzy
 msgid "Home"
@@ -2010,6 +1982,10 @@ msgstr "Պիտակների ցուցակ"
 #, fuzzy
 msgid "Community's profile"
 msgstr "Համայնքներ"
+
+#, fuzzy
+msgid "Basic information"
+msgstr "Էլ. հասցե"
 
 #, fuzzy
 msgid "Back to admin panel"
@@ -2044,10 +2020,6 @@ msgid "Private Token"
 msgstr "Փոփոխել անհատական էջը"
 
 #, fuzzy
-msgid "%s's Notifications"
-msgstr "Կառավարման հատկություններ"
-
-#, fuzzy
 msgid "You have %s pending requests"
 msgstr "Դուք սպասող հայցեր ունեք"
 
@@ -2066,10 +2038,6 @@ msgstr "Էլ. հասցե"
 #, fuzzy
 msgid "Email Configuration:"
 msgstr "Էլ. փոստի կոնֆիգուրացիա"
-
-#, fuzzy
-msgid "Cancel e-mail"
-msgstr "էլ. հասցե"
 
 #, fuzzy
 msgid "All members"
@@ -2118,11 +2086,6 @@ msgid "%s's fans"
 msgstr "%s-ի պիտակներ"
 
 #, fuzzy
-msgid ""
-"Filter followed, friends or group of friends to send them a private scrap..."
-msgstr "ընկերներ"
-
-#, fuzzy
 msgid "%s's wall"
 msgstr "%s-ի պիտակներ"
 
@@ -2169,6 +2132,10 @@ msgid "Network Activity"
 msgstr "Տնտեսական գործունեություն"
 
 #, fuzzy
+msgid "%s's Notifications"
+msgstr "Կառավարման հատկություններ"
+
+#, fuzzy
 msgid "Are you sure you want to remove this activity and all its replies?"
 msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
 
@@ -2209,12 +2176,12 @@ msgid "Do you want to activate this organization?"
 msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
 
 #, fuzzy
-msgid "Do you want to deactivate this organization?"
-msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
-
-#, fuzzy
 msgid "Deactivate"
 msgstr "Ակտիվացնել"
+
+#, fuzzy
+msgid "Do you want to deactivate this organization?"
+msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել այս մեկնաբանությունը:"
 
 #, fuzzy
 msgid "You can manage your community now."
@@ -2301,6 +2268,10 @@ msgid "Moderated?"
 msgstr "Կառավարել մեկնաբանությունները"
 
 #, fuzzy
+msgid "Manage Kinds"
+msgstr "Կառավարել ընկերներին"
+
+#, fuzzy
 msgid "Edit %s kind"
 msgstr "Փոփոխել"
 
@@ -2349,12 +2320,12 @@ msgid "Friends suggestions"
 msgstr "Հոդված|Տարբերակ"
 
 #, fuzzy
-msgid "Invite people"
-msgstr "Հեռացնել անդամին"
-
-#, fuzzy
 msgid "Select domain"
 msgstr "տիրույթ"
+
+#, fuzzy
+msgid "Invite people"
+msgstr "Հեռացնել անդամին"
 
 #, fuzzy
 msgid "Connections with %s"
@@ -2377,10 +2348,6 @@ msgid "Person's fields"
 msgstr "%s-ի ընկերներ"
 
 #, fuzzy
-msgid "Manage fields displayed for profiles"
-msgstr "Կառավարել մասնակիցների դերերը"
-
-#, fuzzy
 msgid "Profile created at"
 msgstr "Անհատական էջ|Ստեղծվել է"
 
@@ -2393,20 +2360,20 @@ msgid "Tags"
 msgstr "Պիտակներ"
 
 #, fuzzy
-msgid "Disable feed SSL"
-msgstr "Հեռավորություն"
+msgid "Manage fields displayed for profiles"
+msgstr "Կառավարել մասնակիցների դերերը"
 
 #, fuzzy
 msgid "Contact"
 msgstr "Բովանդակության տեսակ"
 
 #, fuzzy
-msgid "Enable feed proxy"
-msgstr "Ակտիվացված է"
+msgid "Disable feed SSL"
+msgstr "Հեռավորություն"
 
 #, fuzzy
-msgid "Type in a search term for a user"
-msgstr "Դիզակտիվացնել ձեռնարկությունների որոնումը"
+msgid "Enable feed proxy"
+msgstr "Ակտիվացված է"
 
 #, fuzzy
 msgid "One post"
@@ -2421,20 +2388,20 @@ msgstr[0] "Փոխել նկարը"
 msgstr[1] "Փոխել նկարը"
 
 #, fuzzy
-msgid "Allow these people to access this environment:"
-msgstr "Կարող եք շարունակել բեռնել այս միջավայրը :"
+msgid "Type in a search term for a user"
+msgstr "Դիզակտիվացնել ձեռնարկությունների որոնումը"
 
 #, fuzzy
-msgid "Enable whitelist"
-msgstr "Ակտիվացնել ձեռնարկությունը"
+msgid "Allow these people to access this environment:"
+msgstr "Կարող եք շարունակել բեռնել այս միջավայրը :"
 
 #, fuzzy
 msgid "Send an e-mail"
 msgstr "էլ. հասցե"
 
 #, fuzzy
-msgid "Members Whitelist"
-msgstr "Անդամներ: %s"
+msgid "Enable whitelist"
+msgstr "Ակտիվացնել ձեռնարկությունը"
 
 #, fuzzy
 msgid "Leave community"
@@ -2445,20 +2412,24 @@ msgid "Profile links"
 msgstr "Պրոֆայլ"
 
 #, fuzzy
-msgid "Configure features"
-msgstr "Ինչ-որ առանձնահատկություն"
+msgid "Members Whitelist"
+msgstr "Անդամներ: %s"
 
 #, fuzzy
 msgid "Highlight this article"
 msgstr "Հոդվածների քանակի սահմանափակում"
 
 #, fuzzy
-msgid "Enabled?"
-msgstr "Ակտիվացված է"
+msgid "Configure features"
+msgstr "Ինչ-որ առանձնահատկություն"
 
 #, fuzzy
 msgid "Enterprises's profile"
 msgstr "Կատեգորիաների էջ"
+
+#, fuzzy
+msgid "Enabled?"
+msgstr "Ակտիվացված է"
 
 #, fuzzy
 msgid "Feature"
@@ -2497,10 +2468,6 @@ msgid "Display on registration?"
 msgstr "Ցուցադրել ցուցակի մեջ"
 
 #, fuzzy
-msgid "Type: "
-msgstr "Տեսակ"
-
-#, fuzzy
 msgid "More popular"
 msgstr "Մարդիկ և խմբեր"
 
@@ -2529,8 +2496,8 @@ msgid "Full"
 msgstr "Ֆայլի անուն"
 
 #, fuzzy
-msgid "New field"
-msgstr "Նոր ընկեր"
+msgid "Type: "
+msgstr "Տեսակ"
 
 #, fuzzy
 msgid "content"
@@ -2541,8 +2508,8 @@ msgid "Tagged with"
 msgstr "\"%s\" - ով պիտակավորված"
 
 #, fuzzy
-msgid "Display on creation?"
-msgstr "Ցուցադրել քարտեզի վրա"
+msgid "New field"
+msgstr "Նոր ընկեր"
 
 #, fuzzy
 msgid "search in all categories"
@@ -2557,16 +2524,16 @@ msgid "Choose a template"
 msgstr "Նկարադարան"
 
 #, fuzzy
-msgid "You have no favorite enterprises yet."
-msgstr "Դուք դեռ նախընտրած ձեռնարկություն չունեք"
+msgid "Display on creation?"
+msgstr "Ցուցադրել քարտեզի վրա"
 
 #, fuzzy
 msgid "Yes, I am sure"
 msgstr "Այո, ես ցանկանում եմ դուրս գալ:"
 
 #, fuzzy
-msgid "I want to add %s as a favorite enterprise"
-msgstr "Այո, ես ցանկանում եմ ավելացնել %s որպես նախընտրած ձեռնարկություն:"
+msgid "You have no favorite enterprises yet."
+msgstr "Դուք դեռ նախընտրած ձեռնարկություն չունեք"
 
 #, fuzzy
 msgid "one item"
@@ -2575,16 +2542,20 @@ msgstr[0] "Բովանդակության տեսակ"
 msgstr[1] "Բովանդակության տեսակ"
 
 #, fuzzy
-msgid "Type in an keyword"
-msgstr "Դիզակտիվացնել ձեռնարկությունների որոնումը"
-
-#, fuzzy
 msgid "No results"
 msgstr "Գտնված արդյունքներ %d"
 
 #, fuzzy
+msgid "Type in an keyword"
+msgstr "Դիզակտիվացնել ձեռնարկությունների որոնումը"
+
+#, fuzzy
 msgid "Type in a search term"
 msgstr "Դիզակտիվացնել ձեռնարկությունների որոնումը"
+
+#, fuzzy
+msgid "All users"
+msgstr "Բոլոր խմբերը"
 
 #, fuzzy
 msgid "Admin users"
@@ -2603,20 +2574,32 @@ msgid "Filter"
 msgstr "Թղթապանակ"
 
 #, fuzzy
-msgid "New event"
-msgstr "Նոր ընկեր"
+msgid "I want to add %s as a favorite enterprise"
+msgstr "Այո, ես ցանկանում եմ ավելացնել %s որպես նախընտրած ձեռնարկություն:"
 
 #, fuzzy
 msgid "[%s] %s commented on a content of %s"
 msgstr "Ամենից հաճախ մեկնաբանվող հոդվածները"
 
 #, fuzzy
+msgid "New event"
+msgstr "Նոր ընկեր"
+
+#, fuzzy
 msgid "%s's events"
 msgstr "%s-ի մենյու"
 
 #, fuzzy
+msgid "Sent by %s."
+msgstr "Մեկ համայնք"
+
+#, fuzzy
 msgid "Enterprise registration: validator organization"
 msgstr "Ձեռնարկության Գրանցում: Ընտրեք որևէ վավերացնող կազմակերպություն"
+
+#, fuzzy
+msgid "Sent by community %s."
+msgstr "Մեկ համայնք"
 
 #, fuzzy
 msgid ""
@@ -2630,20 +2613,16 @@ msgstr ""
 "Հայցի հաստատումից հետո կկարողանաք ակտիվացնել ձեռնարկության անհատական էջը:"
 
 #, fuzzy
-msgid "Sent by %s."
-msgstr "Մեկ համայնք"
-
-#, fuzzy
 msgid "You can manage your enterprise now."
 msgstr "Դուք կարող եք փոխել Ձեր անձնական տվյալները:"
 
 #, fuzzy
-msgid "Sent by community %s."
-msgstr "Մեկ համայնք"
-
-#, fuzzy
 msgid "Your enterprise (%s) was successfully registered."
 msgstr "%s, Ձեր նոր գաղտնաբառը բարոհաջող ստեղծված է:"
+
+#, fuzzy
+msgid "[%s] Activate your account"
+msgstr "Ձեր կազմակերպությունները ցուցադրող բաժին"
 
 #, fuzzy
 msgid "Enterprise registration completed"
@@ -2652,10 +2631,6 @@ msgstr "Ձեռնարկության գրանցումն ավարտված է"
 #, fuzzy
 msgid "Your new enterprise has been created."
 msgstr "Ձեր ձեռնարկությունը արգելափակվել է:"
-
-#, fuzzy
-msgid "[%s] Activate your account"
-msgstr "Ձեր կազմակերպությունները ցուցադրող բաժին"
 
 #, fuzzy
 msgid "Embed unavailable."
@@ -2678,6 +2653,10 @@ msgid "Template Type:"
 msgstr "Տեսակ"
 
 #, fuzzy
+msgid "%{requestor} wants to be your friend."
+msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
+
+#, fuzzy
 msgid "Template Name:"
 msgstr "Անվանում"
 
@@ -2686,12 +2665,13 @@ msgid "Manual sections"
 msgstr "Էլ. փոստի պարամետրեր"
 
 #, fuzzy
-msgid "%{requestor} wants to be your friend."
-msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
-
-#, fuzzy
 msgid "Manual"
 msgstr "Կառավարել"
+
+#, fuzzy
+msgid ""
+"%{requestor}%{requestor_email} wants to be a member of '%{organization}'."
+msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
 
 #, fuzzy
 msgid "comments"
@@ -2703,8 +2683,12 @@ msgstr "%s - ի դերի փոփոխում"
 
 #, fuzzy
 msgid ""
-"%{requestor}%{requestor_email} wants to be a member of '%{organization}'."
-msgstr "%s-ը ցանկանում է %s-ի անդամ դառնալ:"
+"Your request to enter community \"%{target}\" with the profile "
+"\"%{requestor}\" was not accepted. Please contact any profile admin from "
+"%{target} for more information. The following explanation was given: \n"
+"\n"
+"\"%{explanation}\""
+msgstr "Համայնք"
 
 #, fuzzy
 msgid "Back to the versions"
@@ -2715,13 +2699,8 @@ msgid "by %{author}"
 msgstr "Հեղինակ"
 
 #, fuzzy
-msgid ""
-"Your request to enter community \"%{target}\" with the profile "
-"\"%{requestor}\" was not accepted. Please contact any profile admin from "
-"%{target} for more information. The following explanation was given: \n"
-"\n"
-"\"%{explanation}\""
-msgstr "Համայնք"
+msgid "Article removed."
+msgstr "Բուն հոդված"
 
 #, fuzzy
 msgid "Version %s"
@@ -2732,20 +2711,12 @@ msgid "Go back to latest version"
 msgstr "Վերադառնալ"
 
 #, fuzzy
-msgid "Article removed."
-msgstr "Բուն հոդված"
+msgid "%{requestor} wanted to publish an article but it was removed."
+msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
 
 #, fuzzy
 msgid "Enter your e-Mail"
 msgstr "Գրեք Ձեր մեկնաբանությունը"
-
-#, fuzzy
-msgid "RSS feed"
-msgstr "RSS հոսք"
-
-#, fuzzy
-msgid "%{requestor} wanted to publish an article but it was removed."
-msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
 
 #, fuzzy
 msgid "Information about the user who sent this message:"
@@ -2756,16 +2727,12 @@ msgid "Send an e-mail to administrators"
 msgstr "Հեռացնել անդամին"
 
 #, fuzzy
-msgid "Send an e-mail to %s"
-msgstr "Հեռացնել անդամին"
-
-#, fuzzy
 msgid "Your request for publishing the article \"%{article}\" was rejected."
 msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
 
 #, fuzzy
-msgid "%s team."
-msgstr "%s: կայքի կառուցվածք"
+msgid "Send an e-mail to %s"
+msgstr "Հեռացնել անդամին"
 
 #, fuzzy
 msgid "Anonymous"
@@ -2788,8 +2755,8 @@ msgid "%{requestor} wanted to comment the article but it was removed."
 msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
 
 #, fuzzy
-msgid "Greetings,"
-msgstr "Կանաչ"
+msgid "%s team."
+msgstr "%s: կայքի կառուցվածք"
 
 #, fuzzy
 msgid "Your request for comment the article \"%{article}\" was approved."
@@ -2798,6 +2765,10 @@ msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
 #, fuzzy
 msgid "Your request for commenting the article \"%{article}\" was rejected."
 msgstr "%s ցանկանում է Ձեր ընկերը դառնալ"
+
+#, fuzzy
+msgid "Greetings,"
+msgstr "Կանաչ"
 
 #, fuzzy
 msgid "Comment:"
@@ -2816,10 +2787,6 @@ msgid "Parent folder:"
 msgstr "Ներկայիս կատեգորիա"
 
 #, fuzzy
-msgid "Uploading files to %s"
-msgstr "Վերբեռնած ֆայլ"
-
-#, fuzzy
 msgid "Abstract"
 msgstr "Համառոտ ակնարկ"
 
@@ -2828,8 +2795,8 @@ msgid "Content"
 msgstr "Բովանդակության տեսակ"
 
 #, fuzzy
-msgid "Your name"
-msgstr "Լրագրություն"
+msgid "Uploading files to %s"
+msgstr "Վերբեռնած ֆայլ"
 
 #, fuzzy
 msgid "Filename"
@@ -2846,6 +2813,10 @@ msgid ""
 msgstr ""
 "%{fn} (the code generated from the article name) արդեն օգտագործվում է մեկ "
 "այլ հոդվածում:"
+
+#, fuzzy
+msgid "Your name"
+msgstr "Լրագրություն"
 
 #, fuzzy
 msgid "Source URL"
@@ -3017,12 +2988,12 @@ msgid "{fn} can only be informed for unauthenticated authors"
 msgstr "կարող են միայն ոչ վավերացված հեղինակները տեղեկանալ"
 
 #, fuzzy
-msgid "Show all uploads"
-msgstr "Նայել ամբողջ արտադրանքը"
-
-#, fuzzy
 msgid "(removed user)"
 msgstr "Հեռացնել"
+
+#, fuzzy
+msgid "Show all uploads"
+msgstr "Նայել ամբողջ արտադրանքը"
 
 #, fuzzy
 msgid ""
@@ -3040,16 +3011,16 @@ msgid "New folder"
 msgstr "Ներկայիս կատեգորիա"
 
 #, fuzzy
+msgid "community"
+msgstr "Համայնք"
+
+#, fuzzy
 msgid "Zoom in"
 msgstr "տիրույթ"
 
 #, fuzzy
 msgid "Add to the text"
 msgstr "Նայել բովանդակությունը"
-
-#, fuzzy
-msgid "community"
-msgstr "Համայնք"
 
 #, fuzzy
 msgid "Choose parent folder:"
@@ -3086,12 +3057,12 @@ msgid "Roles"
 msgstr "Դերեր"
 
 #, fuzzy
-msgid "New circle"
-msgstr "Նորություններ"
-
-#, fuzzy
 msgid "Filter blocks"
 msgstr "Թղթապանակ"
+
+#, fuzzy
+msgid "New circle"
+msgstr "Նորություններ"
 
 #, fuzzy
 msgid "Create a new circle"
@@ -3106,14 +3077,6 @@ msgid "Edit circle"
 msgstr "Փոփոխել"
 
 #, fuzzy
-msgid "Create circle"
-msgstr "Դեր ստեղծել"
-
-#, fuzzy
-msgid "Profile type"
-msgstr "Պրոֆայլ"
-
-#, fuzzy
 msgid "Disable"
 msgstr "Հեռավորություն"
 
@@ -3126,12 +3089,24 @@ msgid "Enable"
 msgstr "Ակտիվացված է"
 
 #, fuzzy
+msgid "Create circle"
+msgstr "Դեր ստեղծել"
+
+#, fuzzy
+msgid "Profile type"
+msgstr "Պրոֆայլ"
+
+#, fuzzy
 msgid "Could not connect to chat"
 msgstr "Արտադրանք ստեղծելն անհնար է"
 
 #, fuzzy
 msgid "Pick a color"
 msgstr "Ցուցադրել գույնը"
+
+#, fuzzy
+msgid "Location"
+msgstr "Վայր"
 
 #, fuzzy
 msgid "Display in the menu"
@@ -3481,19 +3456,19 @@ msgstr "Արտաքին տեսք"
 msgid "Plugins"
 msgstr "Խորագիր"
 
-#: ../app/api/helpers.rb:428
+#: ../app/api/helpers.rb:448
 msgid "(Invalid request) %s can't be saved"
 msgstr ""
 
-#: ../app/api/helpers.rb:433
+#: ../app/api/helpers.rb:453
 msgid "(Invalid request) %s not given"
 msgstr ""
 
-#: ../app/api/helpers.rb:438
+#: ../app/api/helpers.rb:458
 msgid "Something wrong happened"
 msgstr ""
 
-#: ../app/api/helpers.rb:447
+#: ../app/api/helpers.rb:467
 msgid "Method Not Allowed"
 msgstr ""
 
@@ -3573,7 +3548,7 @@ msgid "Logout successfully."
 msgstr "Հաջողությամբ մուտք եք գործել"
 
 #: ../app/api/v1/session.rb:64 ../app/helpers/forgot_password_helper.rb:21
-#: ../app/models/user.rb:27 ../app/models/user.rb:46
+#: ../app/models/user.rb:28 ../app/models/user.rb:47
 #: ../app/views/cms/suggest_an_article.html.erb:15
 #: ../app/views/contact/sender/notification.html.erb:12
 #: ../app/views/invite/invite_friends.html.erb:15
@@ -3590,25 +3565,33 @@ msgid "Login"
 msgstr "Մուտք"
 
 #: ../app/api/v1/session.rb:66 ../app/models/change_password.rb:8
-#: ../app/models/user.rb:22 ../app/views/account/_signup_form.html.erb:52
-#: ../app/views/account/_signup_form.html.erb:60
+#: ../app/models/user.rb:22 ../app/views/account/_signup_form.html.erb:40
+#: ../app/views/account/_signup_form.html.erb:48
 #: ../app/views/invite/_select_address_book.html.erb:34
 msgid "Password"
 msgstr ""
 
-#: ../app/api/v1/session.rb:85
+#: ../app/api/v1/session.rb:92
 msgid "Activation token"
 msgstr ""
 
-#: ../app/api/v1/session.rb:110 ../app/api/v1/session.rb:114
-msgid "Token is invalid"
+#: ../app/api/v1/session.rb:114
+msgid "Waiting for admin moderate user registration"
 msgstr ""
 
-#: ../app/api/v1/session.rb:133
+#: ../app/api/v1/session.rb:119
+msgid "Activation code is invalid"
+msgstr ""
+
+#: ../app/api/v1/session.rb:122
+msgid "Activation token is invalid"
+msgstr ""
+
+#: ../app/api/v1/session.rb:141
 msgid "All change password requests were sent."
 msgstr ""
 
-#: ../app/api/v1/session.rb:155
+#: ../app/api/v1/session.rb:163
 msgid "Forgot password code"
 msgstr ""
 
@@ -3617,21 +3600,22 @@ msgstr ""
 msgid "Access denied"
 msgstr "Մուտքն արգելված է"
 
-#: ../app/concerns/levels.rb:3
+#: ../app/concerns/entitlement/levels.rb:6
 msgid "Nobody"
 msgstr ""
 
-#: ../app/concerns/levels.rb:4 ../app/helpers/profile_image_helper.rb:92
-#: ../app/models/block.rb:282 ../app/models/control_panel/friends.rb:4
-#: ../app/models/forum.rb:44
+#: ../app/concerns/entitlement/levels.rb:7
+#: ../app/helpers/profile_image_helper.rb:92 ../app/models/block.rb:282
+#: ../app/models/control_panel/friends.rb:4 ../app/models/forum.rb:45
 msgid "Friends"
 msgstr "Ընկերներ"
 
-#: ../app/concerns/levels.rb:5 ../app/helpers/profile_helper.rb:97
+#: ../app/concerns/entitlement/levels.rb:10
+#: ../app/helpers/profile_helper.rb:97
 #: ../app/helpers/profile_image_helper.rb:100
 #: ../app/helpers/profile_image_helper.rb:108 ../app/models/block.rb:282
-#: ../app/models/control_panel/members.rb:4 ../app/models/forum.rb:48
-#: ../app/views/profile_roles/assign.html.erb:12
+#: ../app/models/control_panel/members.rb:4 ../app/models/forum.rb:49
+#: ../app/views/profile_roles/assign.html.erb:13
 msgid "Members"
 msgstr "Անդամներ"
 
@@ -3715,13 +3699,6 @@ msgid "License created"
 msgstr ""
 
 #: ../app/controllers/admin/organizations_controller.rb:9
-#: ../app/helpers/link_list_block_helper.rb:34 ../app/models/circle.rb:32
-#: ../app/models/control_panel.rb:18 ../app/models/enterprise.rb:13
-#: ../app/views/templates/index.html.erb:7
-msgid "Enterprise"
-msgstr "Կազմակերպություն Ձեռնարկություն"
-
-#: ../app/controllers/admin/organizations_controller.rb:9
 #: ../app/views/cms/_blog.html.erb:73 ../app/views/cms/_rss_feed.html.erb:9
 #: ../app/views/memberships/index.html.erb:10
 #: ../app/views/tasks/index.html.erb:6 ../app/views/tasks/processed.html.erb:8
@@ -3734,6 +3711,13 @@ msgstr ""
 msgid "Community"
 msgstr "Համայնք"
 
+#: ../app/controllers/admin/organizations_controller.rb:9
+#: ../app/helpers/link_list_block_helper.rb:34 ../app/models/circle.rb:32
+#: ../app/models/control_panel.rb:18 ../app/models/enterprise.rb:13
+#: ../app/views/templates/index.html.erb:7
+msgid "Enterprise"
+msgstr "Կազմակերպություն Ձեռնարկություն"
+
 #: ../app/controllers/admin/profile_quotas_controller.rb:40
 #: ../app/controllers/admin/profile_quotas_controller.rb:65
 msgid "Invalid profile type"
@@ -3743,7 +3727,7 @@ msgstr ""
 #: ../app/controllers/public/search_controller.rb:55
 #: ../app/controllers/public/search_controller.rb:178
 #: ../app/controllers/public/search_controller.rb:266
-#: ../app/helpers/application_helper.rb:835 ../app/helpers/assets_helper.rb:8
+#: ../app/helpers/application_helper.rb:834 ../app/helpers/assets_helper.rb:8
 #: ../app/models/menu_block.rb:25 ../app/models/menu_block.rb:26
 msgid "People"
 msgstr "Մարդիկ"
@@ -3752,7 +3736,7 @@ msgstr "Մարդիկ"
 #: ../app/controllers/public/search_controller.rb:58
 #: ../app/controllers/public/search_controller.rb:179
 #: ../app/controllers/public/search_controller.rb:267
-#: ../app/helpers/application_helper.rb:859 ../app/helpers/assets_helper.rb:11
+#: ../app/helpers/application_helper.rb:858 ../app/helpers/assets_helper.rb:11
 #: ../app/helpers/profile_image_helper.rb:93
 #: ../app/models/communities_block.rb:10 ../app/models/menu_block.rb:24
 msgid "Communities"
@@ -3830,20 +3814,20 @@ msgstr ""
 msgid "You do not have access to "
 msgstr ""
 
-#: ../app/controllers/my_profile/cms_controller.rb:303
+#: ../app/controllers/my_profile/cms_controller.rb:309
 msgid "Select some group to publish your article"
 msgstr ""
 
-#: ../app/controllers/my_profile/cms_controller.rb:341
+#: ../app/controllers/my_profile/cms_controller.rb:347
 msgid "There is no portal community to publish your article."
 msgstr ""
 
-#: ../app/controllers/my_profile/cms_controller.rb:362
+#: ../app/controllers/my_profile/cms_controller.rb:368
 msgid "Thanks for your suggestion. The community administrators were notified."
 msgstr ""
 
-#: ../app/controllers/my_profile/cms_controller.rb:408
-#: ../app/mailers/contact.rb:23 ../app/models/article.rb:31
+#: ../app/controllers/my_profile/cms_controller.rb:414
+#: ../app/mailers/contact.rb:23 ../app/models/article.rb:32
 #: ../app/models/category.rb:6 ../app/models/circle.rb:3
 #: ../app/models/comment.rb:7 ../app/models/create_enterprise.rb:4
 #: ../app/models/license.rb:6 ../app/models/national_region.rb:4
@@ -3863,20 +3847,20 @@ msgstr ""
 msgid "Name"
 msgstr "Անվանում"
 
-#: ../app/controllers/my_profile/cms_controller.rb:409
+#: ../app/controllers/my_profile/cms_controller.rb:415
 msgid "Size (bigger first)"
 msgstr ""
 
-#: ../app/controllers/my_profile/cms_controller.rb:410
+#: ../app/controllers/my_profile/cms_controller.rb:416
 msgid "Size (smaller first)"
 msgstr ""
 
-#: ../app/controllers/my_profile/cms_controller.rb:439
+#: ../app/controllers/my_profile/cms_controller.rb:445
 msgid "Are not you going to invite anyone?"
 msgstr ""
 
-#: ../app/controllers/my_profile/cms_controller.rb:548
-#: ../app/views/profile_themes/edit.html.erb:24
+#: ../app/controllers/my_profile/cms_controller.rb:554
+#: ../app/views/profile_themes/edit.html.erb:26
 msgid "Images"
 msgstr ""
 
@@ -3912,19 +3896,19 @@ msgid ""
 "You will be notified."
 msgstr ""
 
-#: ../app/controllers/my_profile/profile_editor_controller.rb:129
+#: ../app/controllers/my_profile/profile_editor_controller.rb:134
 msgid "%s was not enabled."
 msgstr "%s ակտիվացված չէ:"
 
-#: ../app/controllers/my_profile/profile_editor_controller.rb:139
+#: ../app/controllers/my_profile/profile_editor_controller.rb:144
 msgid "%s was not disabled."
 msgstr "%s դիզակտիվացված չէ:"
 
-#: ../app/controllers/my_profile/profile_editor_controller.rb:240
+#: ../app/controllers/my_profile/profile_editor_controller.rb:245
 msgid "Changes applied correctly"
 msgstr ""
 
-#: ../app/controllers/my_profile/profile_editor_controller.rb:243
+#: ../app/controllers/my_profile/profile_editor_controller.rb:248
 msgid "Something wrong happened! Changes could not be save!"
 msgstr ""
 
@@ -3948,79 +3932,79 @@ msgstr ""
 msgid "This action is not available for \"%s\"."
 msgstr "Այս գործողության կատարումն անհնար է «%s» - ի համար։"
 
-#: ../app/controllers/public/account_controller.rb:27
+#: ../app/controllers/public/account_controller.rb:26
 msgid ""
 "We couldn't find an account to be activated. Maybe it is to be approved by "
 "an admin."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:42
+#: ../app/controllers/public/account_controller.rb:41
 msgid ""
 "Your account was activated, now wait until an administrator approves your "
 "account."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:48
+#: ../app/controllers/public/account_controller.rb:47
 msgid "Looks like your activation code is not correct. Would you try again?"
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:54
+#: ../app/controllers/public/account_controller.rb:53
 msgid ""
 "Something went wrong. You can try again, and if it persists, contact an "
 "administrator."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:62
+#: ../app/controllers/public/account_controller.rb:61
 msgid "Invalid activation token. Maybe this account was already activated?"
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:69
+#: ../app/controllers/public/account_controller.rb:68
 msgid ""
 "A new activation code is on its way. Make sure to use the last code you "
 "received."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:88
+#: ../app/controllers/public/account_controller.rb:87
 msgid "An admin will approve your account soon."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:104
+#: ../app/controllers/public/account_controller.rb:103
 msgid "Logged in successfully"
 msgstr "Հաջողությամբ մուտք եք գործել"
 
-#: ../app/controllers/public/account_controller.rb:107
+#: ../app/controllers/public/account_controller.rb:106
 msgid "Incorrect username or password"
 msgstr "Մասնակցի սխալ անուն կամ սխալ գաղտնաբառ"
 
-#: ../app/controllers/public/account_controller.rb:129
+#: ../app/controllers/public/account_controller.rb:123
 msgid "This environment doesn't allow user registration."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:195
+#: ../app/controllers/public/account_controller.rb:183
 msgid "You have been logged out."
 msgstr "Դուք համակարգից ելք եք գործել։"
 
-#: ../app/controllers/public/account_controller.rb:206
+#: ../app/controllers/public/account_controller.rb:194
 msgid "Your password has been changed successfully!"
 msgstr "Ձեր գաղտնաբառը բարեհաջող փոխված է:"
 
-#: ../app/controllers/public/account_controller.rb:219
+#: ../app/controllers/public/account_controller.rb:207
 msgid "This environment doesn't allow password recovery."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:239
+#: ../app/controllers/public/account_controller.rb:227
 msgid "Could not find any user with %s equal to \"%s\"."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:242
+#: ../app/controllers/public/account_controller.rb:230
 msgid "Could not perform password recovery for the user."
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:340
+#: ../app/controllers/public/account_controller.rb:328
 msgid "This e-mail address is available"
 msgstr ""
 
-#: ../app/controllers/public/account_controller.rb:343
+#: ../app/controllers/public/account_controller.rb:331
 msgid "This e-mail address is taken"
 msgstr ""
 
@@ -4079,10 +4063,14 @@ msgid "Upcoming events"
 msgstr "Գալիք իրադարձություններ"
 
 #: ../app/controllers/public/search_controller.rb:181
-#: ../app/helpers/application_helper.rb:864 ../app/helpers/assets_helper.rb:12
+#: ../app/helpers/application_helper.rb:863 ../app/helpers/assets_helper.rb:12
 #: ../app/views/search/events.html.erb:1
 msgid "Events"
 msgstr "Իրադարձություններ"
+
+#: ../app/controllers/public_controller.rb:41
+msgid "Oops ... you cannot go ahead here"
+msgstr ""
 
 #: ../app/controllers/public_controller.rb:41
 msgid ""
@@ -4090,12 +4078,8 @@ msgid ""
 "content here."
 msgstr ""
 
-#: ../app/controllers/public_controller.rb:41
-msgid "Oops ... you cannot go ahead here"
-msgstr ""
-
 #: ../app/helpers/account_helper.rb:10
-#: ../app/views/account/_signup_form.html.erb:44
+#: ../app/views/account/_signup_form.html.erb:32
 msgid "Checking availability of login name..."
 msgstr ""
 
@@ -4145,12 +4129,12 @@ msgstr ""
 msgid "favorited enterprise %{title} %{time_ago}"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:109 ../app/helpers/boxes_helper.rb:289
+#: ../app/helpers/application_helper.rb:109 ../app/helpers/boxes_helper.rb:329
 #: ../app/helpers/link_list_block_helper.rb:23
 msgid "Help"
 msgstr "Օգնություն"
 
-#: ../app/helpers/application_helper.rb:125 ../app/helpers/boxes_helper.rb:299
+#: ../app/helpers/application_helper.rb:125 ../app/helpers/boxes_helper.rb:319
 #: ../app/views/cms/_text_editor_sidebar.html.erb:6
 #: ../app/views/cms/why_categorize.html.erb:8
 msgid "Close"
@@ -4205,64 +4189,59 @@ msgstr "Մուտքագրեք և սեղմեք «Enter» կոճակը"
 msgid "Search"
 msgstr "Որոնում"
 
-#: ../app/helpers/application_helper.rb:621
-#: ../app/helpers/article_helper.rb:76
+#: ../app/helpers/application_helper.rb:620
 #: ../app/helpers/profile_editor_helper.rb:178
 #: ../app/views/cms/custom_fields/_article_custom_field_template.html.erb:8
 #: ../app/views/shared/_custom_fields.html.erb:19
 msgid "Public"
 msgstr "Հրապարակային"
 
-#: ../app/helpers/application_helper.rb:666 ../app/models/folder.rb:4
-#: ../app/models/folder.rb:25 ../app/views/cms/_media_new_folder.html.erb:9
+#: ../app/helpers/application_helper.rb:665 ../app/models/folder.rb:4
+#: ../app/models/folder.rb:25 ../app/views/cms/_media_new_folder.html.erb:12
 #: ../app/views/search/_full_uploaded_file.html.erb:16
 #: ../app/views/spam/_suggest_article.html.erb:12
 msgid "Folder"
 msgstr "Պանակ"
 
-#: ../app/helpers/application_helper.rb:667
+#: ../app/helpers/application_helper.rb:666
 #: ../app/helpers/link_list_block_helper.rb:35
 #: ../app/helpers/organization_helper.rb:9 ../app/models/blog.rb:18
 #: ../app/models/blog.rb:22 ../app/models/enterprise.rb:125
-#: ../app/models/enterprise.rb:139 ../app/models/organization.rb:175
-#: ../app/models/person.rb:411 ../app/models/person.rb:431
+#: ../app/models/enterprise.rb:139 ../app/models/organization.rb:146
+#: ../app/models/person.rb:377 ../app/models/person.rb:397
 msgid "Blog"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:668
+#: ../app/helpers/application_helper.rb:667
 #: ../app/helpers/link_list_block_helper.rb:28 ../app/models/event.rb:12
 #: ../app/models/event.rb:69
 msgid "Event"
 msgstr "Իրադարձություն"
 
-#: ../app/helpers/application_helper.rb:669
-#: ../app/helpers/link_list_block_helper.rb:29 ../app/models/forum.rb:27
-#: ../app/models/forum.rb:31
+#: ../app/helpers/application_helper.rb:668
+#: ../app/helpers/link_list_block_helper.rb:29 ../app/models/forum.rb:28
+#: ../app/models/forum.rb:32
 msgid "Forum"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:672 ../app/models/article_block.rb:14
+#: ../app/helpers/application_helper.rb:671 ../app/models/article_block.rb:14
 #: ../app/models/text_article.rb:23
 msgid "Article"
 msgstr "Հոդված"
 
-#: ../app/helpers/application_helper.rb:674
+#: ../app/helpers/application_helper.rb:673
 msgid "Clone %s"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:688
+#: ../app/helpers/application_helper.rb:687
 msgid "Online Manual"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:870
+#: ../app/helpers/application_helper.rb:869
 #: ../app/views/blocks/slideshow.html.erb:27
 #: ../app/views/layouts/slideshow.html.erb:18
 msgid "Previous"
 msgstr "Նախորդ"
-
-#: ../app/helpers/application_helper.rb:969
-msgid "Leave the system"
-msgstr ""
 
 #: ../app/helpers/application_helper.rb:969
 #: ../app/views/blocks/login.html.erb:9
@@ -4270,11 +4249,15 @@ msgstr ""
 msgid "Logout"
 msgstr "Դուրս գալ:"
 
+#: ../app/helpers/application_helper.rb:969
+msgid "Leave the system"
+msgstr ""
+
 #: ../app/helpers/application_helper.rb:993
 #: ../app/views/blocks/my_network.html.erb:7
 #: ../app/views/blocks/profile_image.html.erb:17
 #: ../app/views/blocks/profile_info.html.erb:20
-#: ../app/views/shared/_list_groups.html.erb:16
+#: ../app/views/shared/_list_groups.html.erb:17
 #: ../app/views/shared/user_menu.html.erb:37
 msgid "Control panel"
 msgstr "Կառավարման վահանակ"
@@ -4337,11 +4320,11 @@ msgstr ""
 msgid "Exit full screen mode"
 msgstr ""
 
-#: ../app/helpers/article_helper.rb:17 ../app/helpers/folder_helper.rb:62
+#: ../app/helpers/article_helper.rb:17 ../app/helpers/folder_helper.rb:63
 msgid "Options"
 msgstr "Հատկություններ"
 
-#: ../app/helpers/article_helper.rb:22 ../app/helpers/folder_helper.rb:67
+#: ../app/helpers/article_helper.rb:22 ../app/helpers/folder_helper.rb:68
 msgid "Do not allow new content on this article and its children"
 msgstr ""
 
@@ -4370,36 +4353,27 @@ msgid "I want this article to display a link to older versions"
 msgstr ""
 
 #: ../app/helpers/article_helper.rb:71
-#: ../app/views/profile_editor/privacy.html.erb:5
-msgid "Visibility"
+msgid "Post access"
 msgstr ""
 
-#: ../app/helpers/article_helper.rb:77
-msgid "Visible to other people"
+#: ../app/helpers/article_helper.rb:72
+msgid "Who will be able to see your post?"
 msgstr ""
-
-#: ../app/helpers/article_helper.rb:83
-msgid "Private"
-msgstr "Անձնական"
 
 #: ../app/helpers/article_helper.rb:84
-msgid "Limit visibility of this article"
-msgstr ""
-
-#: ../app/helpers/article_helper.rb:96
 msgid "Who will be able to create new topics on this forum?"
 msgstr ""
 
-#: ../app/helpers/article_helper.rb:163 ../app/helpers/folder_helper.rb:74
+#: ../app/helpers/article_helper.rb:154 ../app/helpers/folder_helper.rb:75
 #: ../app/models/approve_article.rb:71
 #: ../app/views/shared/user_menu.html.erb:23
 msgid "New article"
 msgstr "Նոր հոդված"
 
-#: ../app/helpers/article_helper.rb:167 ../app/helpers/boxes_helper.rb:280
+#: ../app/helpers/article_helper.rb:158 ../app/helpers/boxes_helper.rb:295
 #: ../app/helpers/comment_helper.rb:94
 #: ../app/helpers/link_list_block_helper.rb:5
-#: ../app/views/categories/_category.html.erb:16
+#: ../app/views/categories/_category.html.erb:12
 #: ../app/views/circles/index.html.erb:19
 #: ../app/views/cms/_view_items.html.erb:20
 #: ../app/views/content_viewer/_comment.html.erb:68
@@ -4407,47 +4381,39 @@ msgstr "Նոր հոդված"
 #: ../app/views/kinds/index.html.erb:19
 #: ../app/views/licenses/index.html.erb:15
 #: ../app/views/profile/_comment.html.erb:51
-#: ../app/views/profile_members/_members_list.html.erb:22
-#: ../app/views/profile_members/add_admin.html.erb:22
-#: ../app/views/profile_members/add_member.html.erb:22
-#: ../app/views/profile_members/remove_admin.html.erb:22
-#: ../app/views/profile_members/unassociate.html.erb:22
+#: ../app/views/profile_members/_members_list.html.erb:21
+#: ../app/views/profile_members/add_admin.html.erb:21
+#: ../app/views/profile_members/add_member.html.erb:21
+#: ../app/views/profile_members/remove_admin.html.erb:21
+#: ../app/views/profile_members/unassociate.html.erb:21
 #: ../app/views/profile_roles/index.html.erb:15
 #: ../app/views/profile_roles/show.html.erb:11
 #: ../app/views/role/index.html.erb:14 ../app/views/role/show.html.erb:11
-#: ../app/views/trusted_sites/index.html.erb:18
+#: ../app/views/trusted_sites/index.html.erb:20
 msgid "Edit"
 msgstr "Փոփոխել"
 
-#: ../app/helpers/article_helper.rb:171
+#: ../app/helpers/article_helper.rb:162
 #: ../app/views/blocks/profile_info_actions/_circles.html.erb:7
 #: ../app/views/blocks/profile_info_actions/_common.html.erb:4
 msgid "Follow"
 msgstr ""
 
-#: ../app/helpers/article_helper.rb:171
-msgid "Attend"
-msgstr ""
-
-#: ../app/helpers/article_helper.rb:175
+#: ../app/helpers/article_helper.rb:166
 #: ../app/views/blocks/profile_info_actions/_common.html.erb:10
 msgid "Unfollow"
 msgstr ""
 
-#: ../app/helpers/article_helper.rb:175
-msgid "Unattend"
-msgstr ""
-
-#: ../app/helpers/article_helper.rb:228 ../app/helpers/cms_helper.rb:39
+#: ../app/helpers/article_helper.rb:219 ../app/helpers/cms_helper.rb:39
 #: ../app/views/circles/index.html.erb:20
-#: ../app/views/cms/_view_items.html.erb:44 ../app/views/cms/edit.html.erb:65
+#: ../app/views/cms/_view_items.html.erb:44 ../app/views/cms/edit.html.erb:64
 #: ../app/views/features/custom_fields/_form.html.erb:28
 #: ../app/views/kinds/index.html.erb:20
 #: ../app/views/profile_roles/index.html.erb:16
 msgid "Delete"
 msgstr "Հեռացնել"
 
-#: ../app/helpers/article_helper.rb:264
+#: ../app/helpers/article_helper.rb:255
 msgid "Upload files"
 msgstr ""
 
@@ -4492,47 +4458,47 @@ msgstr ""
 msgid "Can't move up anymore."
 msgstr ""
 
-#: ../app/helpers/boxes_helper.rb:258
+#: ../app/helpers/boxes_helper.rb:259
 msgid "Move block up"
 msgstr "Բարձրացնել վերև"
 
-#: ../app/helpers/boxes_helper.rb:262
+#: ../app/helpers/boxes_helper.rb:265
 msgid "Can't move down anymore."
 msgstr ""
 
-#: ../app/helpers/boxes_helper.rb:264
+#: ../app/helpers/boxes_helper.rb:268
 msgid "Move block down"
 msgstr "Իջեցնել ներքև"
 
-#: ../app/helpers/boxes_helper.rb:272 ../app/helpers/boxes_helper.rb:274
+#: ../app/helpers/boxes_helper.rb:279 ../app/helpers/boxes_helper.rb:286
 msgid "Move to the opposite side"
 msgstr ""
 
-#: ../app/helpers/boxes_helper.rb:284
+#: ../app/helpers/boxes_helper.rb:300
 msgid "Remove block"
 msgstr "Հեռացնել բաժինը"
 
-#: ../app/helpers/boxes_helper.rb:285
+#: ../app/helpers/boxes_helper.rb:304
 msgid "Clone"
 msgstr ""
 
-#: ../app/helpers/boxes_helper.rb:289
-#: ../app/views/box_organizer/index.html.erb:12
-msgid "Help on this block"
-msgstr ""
-
-#: ../app/helpers/boxes_helper.rb:296
+#: ../app/helpers/boxes_helper.rb:313
 msgid "Embed block code"
 msgstr ""
 
-#: ../app/helpers/boxes_helper.rb:297
+#: ../app/helpers/boxes_helper.rb:314
 msgid ""
 "Below, youll see a field containing embed code for the block. Just copy the "
 "code and paste it into your website or blogging software."
 msgstr ""
 
-#: ../app/helpers/boxes_helper.rb:300
+#: ../app/helpers/boxes_helper.rb:321
 msgid "Embed code"
+msgstr ""
+
+#: ../app/helpers/boxes_helper.rb:327
+#: ../app/views/box_organizer/index.html.erb:12
+msgid "Help on this block"
 msgstr ""
 
 #: ../app/helpers/categories_helper.rb:6
@@ -4575,26 +4541,26 @@ msgid "Mark as not Spam"
 msgstr ""
 
 #: ../app/helpers/comment_helper.rb:107
-#: ../app/views/admin_panel/set_portal_community.html.erb:22
+#: ../app/views/admin_panel/set_portal_community.html.erb:23
 #: ../app/views/admin_panel/set_portal_folders.html.erb:28
 #: ../app/views/box_organizer/_link_list_block.html.erb:11
-#: ../app/views/categories/_category.html.erb:19
-#: ../app/views/cms/_article_custom_fields.html.erb:17
+#: ../app/views/categories/_category.html.erb:20
 #: ../app/views/content_viewer/_comment.html.erb:73
 #: ../app/views/email_templates/index.html.erb:17
 #: ../app/views/features/custom_fields/_extras_field.html.erb:12
+#: ../app/views/friends/remove.html.erb:20
 #: ../app/views/licenses/index.html.erb:16
 #: ../app/views/organizations/_results.html.erb:28
 #: ../app/views/profile/_comment.html.erb:36
-#: ../app/views/profile_members/_members_list.html.erb:23
-#: ../app/views/profile_members/add_admin.html.erb:23
-#: ../app/views/profile_members/add_member.html.erb:23
-#: ../app/views/profile_members/remove_admin.html.erb:23
-#: ../app/views/profile_members/unassociate.html.erb:23
+#: ../app/views/profile_members/_members_list.html.erb:22
+#: ../app/views/profile_members/add_admin.html.erb:22
+#: ../app/views/profile_members/add_member.html.erb:22
+#: ../app/views/profile_members/remove_admin.html.erb:22
+#: ../app/views/profile_members/unassociate.html.erb:22
 #: ../app/views/shared/_category_row.html.erb:8
-#: ../app/views/shared/_list_groups.html.erb:21
+#: ../app/views/shared/_list_groups.html.erb:22
 #: ../app/views/spam/_task.html.erb:13
-#: ../app/views/trusted_sites/index.html.erb:19
+#: ../app/views/trusted_sites/index.html.erb:21
 #: ../app/views/users/_users_list.html.erb:48
 msgid "Remove"
 msgstr "Հեռացնել"
@@ -4632,28 +4598,26 @@ msgid "Checkbox"
 msgstr ""
 
 #: ../app/helpers/custom_fields_helper.rb:52
+#: ../app/views/account/activate_enterprise.html.erb:10
+#: ../app/views/account/logout_popup.html.erb:4
+#: ../app/views/cms/_blog.html.erb:43
+#: ../app/views/content_viewer/custom_fields/_boolean.html.erb:3
+#: ../app/views/kinds/index.html.erb:17
+#: ../app/views/profile_editor/_change_identifier.html.erb:43
+msgid "Yes"
+msgstr "Այո"
+
+#: ../app/helpers/custom_fields_helper.rb:52
 #: ../app/views/account/activate_enterprise.html.erb:11
 #: ../app/views/cms/_blog.html.erb:44
 #: ../app/views/content_viewer/custom_fields/_boolean.html.erb:3
-#: ../app/views/friends/remove.html.erb:21
 #: ../app/views/kinds/index.html.erb:17
 #: ../app/views/profile_editor/_change_identifier.html.erb:44
 #: ../app/views/shared/_remove_suggestion.html.erb:9
 msgid "No"
 msgstr ""
 
-#: ../app/helpers/custom_fields_helper.rb:52
-#: ../app/views/account/activate_enterprise.html.erb:10
-#: ../app/views/account/logout_popup.html.erb:4
-#: ../app/views/cms/_blog.html.erb:43
-#: ../app/views/content_viewer/custom_fields/_boolean.html.erb:3
-#: ../app/views/friends/remove.html.erb:20
-#: ../app/views/kinds/index.html.erb:17
-#: ../app/views/profile_editor/_change_identifier.html.erb:43
-msgid "Yes"
-msgstr "Այո"
-
-#: ../app/helpers/dates_helper.rb:78 ../app/helpers/forms_helper.rb:160
+#: ../app/helpers/dates_helper.rb:78 ../app/helpers/forms_helper.rb:162
 msgid "Thu"
 msgstr ""
 
@@ -4681,25 +4645,25 @@ msgstr ""
 msgid "No events for this month"
 msgstr ""
 
-#: ../app/helpers/events_helper.rb:29
+#: ../app/helpers/events_helper.rb:30
 msgid " to "
 msgstr ""
 
-#: ../app/helpers/events_helper.rb:64
+#: ../app/helpers/events_helper.rb:66
 #: ../app/views/tasks/_invite_event_action_bar.html.erb:5
 msgid "Yes, I will go!"
 msgstr ""
 
-#: ../app/helpers/events_helper.rb:66
+#: ../app/helpers/events_helper.rb:68
 msgid "I will not"
 msgstr ""
 
-#: ../app/helpers/events_helper.rb:68
+#: ../app/helpers/events_helper.rb:70
 #: ../app/views/tasks/_invite_event_action_bar.html.erb:8
 msgid "I'm interested"
 msgstr ""
 
-#: ../app/helpers/events_helper.rb:70
+#: ../app/helpers/events_helper.rb:72
 msgid "Will you go?"
 msgstr ""
 
@@ -4720,167 +4684,163 @@ msgstr ""
 msgid "(empty folder)"
 msgstr ""
 
-#: ../app/helpers/folder_helper.rb:78
+#: ../app/helpers/folder_helper.rb:79
 msgid "Edit folder"
 msgstr ""
 
 #: ../app/helpers/forgot_password_helper.rb:20 ../app/models/profile.rb:27
-#: ../app/models/user.rb:46 ../app/views/account/_signup_form.html.erb:27
+#: ../app/models/user.rb:47 ../app/views/account/_signup_form.html.erb:15
 #: ../app/views/invite/_select_address_book.html.erb:33
 msgid "Username"
 msgstr "Մասնակցի անուն"
 
-#: ../app/helpers/forms_helper.rb:32
+#: ../app/helpers/forms_helper.rb:34
 #: ../app/helpers/link_list_block_helper.rb:9
 #: ../app/views/account/_login_form.html.erb:16
 #: ../app/views/account/accept_terms.html.erb:24
 #: ../app/views/account/activate.html.erb:32
 #: ../app/views/account/activation_question.html.erb:38
-#: ../app/views/admin_panel/message_for_disabled_enterprise.html.erb:9
-#: ../app/views/admin_panel/set_portal_news_configurations.html.erb:13
+#: ../app/views/admin_panel/message_for_disabled_enterprise.html.erb:10
 #: ../app/views/blocks/profile_info_actions/_circles.html.erb:8
 #: ../app/views/blocks/profile_info_actions/_select_circles.html.erb:19
 #: ../app/views/box_organizer/edit.html.erb:42
-#: ../app/views/cms/edit.html.erb:57 ../app/views/cms/edit.html.erb:59
-#: ../app/views/cms/edit.html.erb:61
-#: ../app/views/cms/suggest_an_article.html.erb:26
-#: ../app/views/comment/_comment_form.html.erb:34
+#: ../app/views/cms/_article_custom_fields.html.erb:17
+#: ../app/views/cms/edit.html.erb:56 ../app/views/cms/edit.html.erb:58
+#: ../app/views/cms/edit.html.erb:60
+#: ../app/views/comment/_comment_form.html.erb:35
 #: ../app/views/content_viewer/forum_page.html.erb:25
-#: ../app/views/followers/_edit_circles_modal.html.erb:10
 #: ../app/views/invite/invite_friends.html.erb:29
-#: ../app/views/licenses/_form.html.erb:10
-#: ../app/views/memberships/new_community.html.erb:53
 #: ../app/views/profile/join.html.erb:12
 #: ../app/views/profile/report_abuse.html.erb:10
-#: ../app/views/profile_members/_manage_roles.html.erb:10
 #: ../app/views/profile_themes/add_css.html.erb:8
 #: ../app/views/shared/_change_image.html.erb:18
+#: ../app/views/shared/_select_categories.html.erb:12
 #: ../app/views/templates/_create_template_form.html.erb:16
 #: ../app/views/users/_index_buttons.html.erb:23
 msgid "Cancel"
 msgstr "Հրաժարում"
 
-#: ../app/helpers/forms_helper.rb:67
+#: ../app/helpers/forms_helper.rb:69
 msgid "Select the State"
 msgstr "Ընտրեք նահանգը"
 
-#: ../app/helpers/forms_helper.rb:68
+#: ../app/helpers/forms_helper.rb:70
 msgid "Select the City"
 msgstr "Ընտրեք քաղաքը"
 
-#: ../app/helpers/forms_helper.rb:91
+#: ../app/helpers/forms_helper.rb:93
 msgid "State:"
 msgstr "Նահանգ"
 
-#: ../app/helpers/forms_helper.rb:94
+#: ../app/helpers/forms_helper.rb:96
 msgid "City:"
 msgstr "Քաղաք"
 
-#: ../app/helpers/forms_helper.rb:107
+#: ../app/helpers/forms_helper.rb:109
 msgid "* field is mandatory"
 msgstr ""
 
-#: ../app/helpers/forms_helper.rb:154
+#: ../app/helpers/forms_helper.rb:156
 msgid "Done"
 msgstr ""
 
-#: ../app/helpers/forms_helper.rb:156
+#: ../app/helpers/forms_helper.rb:158
 msgid "Today"
 msgstr ""
 
-#: ../app/helpers/forms_helper.rb:158
+#: ../app/helpers/forms_helper.rb:160
 msgid "Saturday"
 msgstr "Շաբաթ"
 
-#: ../app/helpers/forms_helper.rb:158
+#: ../app/helpers/forms_helper.rb:160
 msgid "Monday"
 msgstr "Երկուշաբթի"
 
-#: ../app/helpers/forms_helper.rb:158
-msgid "Tuesday"
-msgstr "Երեքշաբթի"
-
-#: ../app/helpers/forms_helper.rb:158
-msgid "Sunday"
-msgstr "Կիրակի"
-
-#: ../app/helpers/forms_helper.rb:158
+#: ../app/helpers/forms_helper.rb:160
 msgid "Friday"
 msgstr "Ուրբաթ"
 
-#: ../app/helpers/forms_helper.rb:158
+#: ../app/helpers/forms_helper.rb:160
 msgid "Thursday"
 msgstr "Հինգշաբթի"
 
-#: ../app/helpers/forms_helper.rb:158
+#: ../app/helpers/forms_helper.rb:160
+msgid "Tuesday"
+msgstr "Երեքշաբթի"
+
+#: ../app/helpers/forms_helper.rb:160
 msgid "Wednesday"
 msgstr "Չորեքշաբթի"
 
-#: ../app/helpers/forms_helper.rb:159
+#: ../app/helpers/forms_helper.rb:160
+msgid "Sunday"
+msgstr "Կիրակի"
+
+#: ../app/helpers/forms_helper.rb:161
 msgid "Th"
 msgstr ""
 
-#: ../app/helpers/forms_helper.rb:169
+#: ../app/helpers/forms_helper.rb:171
 msgid "March"
 msgstr "Մարտ"
 
-#: ../app/helpers/forms_helper.rb:169
-msgid "September"
-msgstr "Սեպտեմբեր"
-
-#: ../app/helpers/forms_helper.rb:169
-msgid "August"
-msgstr "Օգոստոս"
-
-#: ../app/helpers/forms_helper.rb:169
-msgid "April"
-msgstr "Ապրիլ"
-
-#: ../app/helpers/forms_helper.rb:169
-msgid "December"
-msgstr "Դեկտեմբեր"
-
-#: ../app/helpers/forms_helper.rb:169
-msgid "October"
-msgstr "Հոկտեմբեր"
-
-#: ../app/helpers/forms_helper.rb:169
-msgid "January"
-msgstr "Հունվար"
-
-#: ../app/helpers/forms_helper.rb:169
+#: ../app/helpers/forms_helper.rb:171
 msgid "February"
 msgstr "Փետրվար"
 
-#: ../app/helpers/forms_helper.rb:169
-msgid "November"
-msgstr "Նոյեմբեր"
+#: ../app/helpers/forms_helper.rb:171
+msgid "January"
+msgstr "Հունվար"
 
-#: ../app/helpers/forms_helper.rb:169
-msgid "July"
-msgstr "Հուլիս"
-
-#: ../app/helpers/forms_helper.rb:169
-msgid "June"
-msgstr "Հունիս"
-
-#: ../app/helpers/forms_helper.rb:169 ../app/helpers/forms_helper.rb:170
+#: ../app/helpers/forms_helper.rb:171 ../app/helpers/forms_helper.rb:172
 msgid "May"
 msgstr "Մայիս"
 
-#: ../app/helpers/forms_helper.rb:170
-msgid "Feb"
-msgstr ""
+#: ../app/helpers/forms_helper.rb:171
+msgid "August"
+msgstr "Օգոստոս"
 
-#: ../app/helpers/forms_helper.rb:170
+#: ../app/helpers/forms_helper.rb:171
+msgid "June"
+msgstr "Հունիս"
+
+#: ../app/helpers/forms_helper.rb:171
+msgid "July"
+msgstr "Հուլիս"
+
+#: ../app/helpers/forms_helper.rb:171
+msgid "December"
+msgstr "Դեկտեմբեր"
+
+#: ../app/helpers/forms_helper.rb:171
+msgid "October"
+msgstr "Հոկտեմբեր"
+
+#: ../app/helpers/forms_helper.rb:171
+msgid "September"
+msgstr "Սեպտեմբեր"
+
+#: ../app/helpers/forms_helper.rb:171
+msgid "April"
+msgstr "Ապրիլ"
+
+#: ../app/helpers/forms_helper.rb:171
+msgid "November"
+msgstr "Նոյեմբեր"
+
+#: ../app/helpers/forms_helper.rb:172
 msgid "Dec"
 msgstr ""
 
-#: ../app/helpers/forms_helper.rb:170
-msgid "Nov"
+#: ../app/helpers/forms_helper.rb:172
+msgid "Feb"
 msgstr ""
 
 #: ../app/helpers/forms_helper.rb:172
+msgid "Nov"
+msgstr ""
+
+#: ../app/helpers/forms_helper.rb:174
 #: ../app/views/blocks/slideshow.html.erb:31
 #: ../app/views/enterprise_registration/index.html.erb:42
 #: ../app/views/invite/_select_address_book.html.erb:38
@@ -4888,7 +4848,7 @@ msgstr ""
 msgid "Next"
 msgstr "Հաջորդ"
 
-#: ../app/helpers/forms_helper.rb:254
+#: ../app/helpers/forms_helper.rb:256
 msgid "Until"
 msgstr ""
 
@@ -4922,28 +4882,28 @@ msgstr ""
 
 #: ../app/helpers/link_list_block_helper.rb:7
 #: ../app/views/account/change_password.html.erb:18
-#: ../app/views/admin_panel/message_for_disabled_enterprise.html.erb:8
-#: ../app/views/admin_panel/set_portal_community.html.erb:8
+#: ../app/views/admin_panel/message_for_disabled_enterprise.html.erb:9
+#: ../app/views/admin_panel/set_portal_community.html.erb:9
 #: ../app/views/admin_panel/set_portal_folders.html.erb:41
-#: ../app/views/admin_panel/set_portal_news_configurations.html.erb:12
-#: ../app/views/admin_panel/site_info.html.erb:22
+#: ../app/views/admin_panel/set_portal_news_configurations.html.erb:23
+#: ../app/views/admin_panel/site_info.html.erb:23
 #: ../app/views/box_organizer/edit.html.erb:41
-#: ../app/views/captcha/index.html.erb:15
-#: ../app/views/categories/_form.html.erb:29 ../app/views/cms/edit.html.erb:35
-#: ../app/views/cms/edit.html.erb:54
+#: ../app/views/captcha/index.html.erb:19
+#: ../app/views/categories/_form.html.erb:29 ../app/views/cms/edit.html.erb:34
+#: ../app/views/cms/edit.html.erb:53
 #: ../app/views/cms/suggest_an_article.html.erb:25
-#: ../app/views/email_templates/_form.html.erb:26
+#: ../app/views/email_templates/_form.html.erb:27
 #: ../app/views/enterprise_validation/edit_validation_info.html.erb:9
 #: ../app/views/features/_manage_custom_fields.html.erb:26
 #: ../app/views/followers/_edit_circles_modal.html.erb:9
 #: ../app/views/kinds/_form.html.erb:8 ../app/views/licenses/_form.html.erb:9
-#: ../app/views/maps/edit_location.html.erb:15
+#: ../app/views/maps/edit_location.html.erb:12
 #: ../app/views/profile_editor/categories.html.erb:7
 #: ../app/views/profile_editor/header_footer.html.erb:27
 #: ../app/views/profile_editor/informations.html.erb:31
-#: ../app/views/profile_editor/locality.html.erb:14
+#: ../app/views/profile_editor/locality.html.erb:12
 #: ../app/views/profile_editor/preferences.html.erb:34
-#: ../app/views/profile_editor/privacy.html.erb:42
+#: ../app/views/profile_editor/privacy.html.erb:31
 #: ../app/views/profile_editor/regions.html.erb:7
 #: ../app/views/profile_editor/tags.html.erb:8
 #: ../app/views/profile_editor/welcome_page.html.erb:17
@@ -4955,10 +4915,10 @@ msgid "Save"
 msgstr "Պահպանել"
 
 #: ../app/helpers/link_list_block_helper.rb:8
-#: ../app/views/comment/_comment_form.html.erb:33
-#: ../app/views/contact/new.html.erb:34
+#: ../app/views/comment/_comment_form.html.erb:34
+#: ../app/views/contact/new.html.erb:35
 #: ../app/views/profile/send_mail.html.erb:21
-#: ../app/views/tasks/new.html.erb:15 ../app/views/users/send_mail.html.erb:17
+#: ../app/views/tasks/new.html.erb:15 ../app/views/users/send_mail.html.erb:18
 msgid "Send"
 msgstr ""
 
@@ -5005,7 +4965,7 @@ msgid "Photos"
 msgstr ""
 
 #: ../app/helpers/link_list_block_helper.rb:27 ../app/models/circle.rb:30
-#: ../app/models/person.rb:12 ../app/views/templates/index.html.erb:5
+#: ../app/models/person.rb:16 ../app/views/templates/index.html.erb:5
 msgid "Person"
 msgstr "Անձ"
 
@@ -5017,11 +4977,11 @@ msgstr "Միանալ այս համայնքին"
 
 #: ../app/helpers/organization_helper.rb:7
 #: ../app/helpers/profile_image_helper.rb:101
-#: ../app/helpers/profile_image_helper.rb:109 ../app/models/person.rb:410
+#: ../app/helpers/profile_image_helper.rb:109 ../app/models/person.rb:376
 msgid "Agenda"
 msgstr ""
 
-#: ../app/helpers/organization_helper.rb:8 ../app/models/person.rb:409
+#: ../app/helpers/organization_helper.rb:8 ../app/models/person.rb:375
 msgid "Image gallery"
 msgstr "Նկարադարան"
 
@@ -5110,8 +5070,8 @@ msgstr "Էկոլոգիա"
 msgid "Economy"
 msgstr "Տնտեսագիտություն"
 
-#: ../app/helpers/profile_editor_helper.rb:26 ../app/models/person.rb:344
-#: ../app/views/profile_editor/_person_form.html.erb:55
+#: ../app/helpers/profile_editor_helper.rb:26 ../app/models/person.rb:310
+#: ../app/views/profile_editor/_person_form.html.erb:52
 msgid "Education"
 msgstr "Կրթություն"
 
@@ -5346,41 +5306,37 @@ msgid "Masters"
 msgstr ""
 
 #: ../app/helpers/profile_editor_helper.rb:87
-msgid "Undergraduate"
-msgstr ""
-
-#: ../app/helpers/profile_editor_helper.rb:88
 msgid "Graduate"
 msgstr ""
 
-#: ../app/helpers/profile_editor_helper.rb:89
+#: ../app/helpers/profile_editor_helper.rb:88
 msgid "High School"
 msgstr ""
 
-#: ../app/helpers/profile_editor_helper.rb:90
+#: ../app/helpers/profile_editor_helper.rb:89
 msgid "Elementary School"
 msgstr ""
 
-#: ../app/helpers/profile_editor_helper.rb:94
+#: ../app/helpers/profile_editor_helper.rb:93
 msgid "Concluded"
 msgstr ""
 
-#: ../app/helpers/profile_editor_helper.rb:95
+#: ../app/helpers/profile_editor_helper.rb:94
 msgid "Incomplete"
 msgstr ""
 
-#: ../app/helpers/profile_editor_helper.rb:96
+#: ../app/helpers/profile_editor_helper.rb:95
 msgid "Ongoing"
 msgstr ""
 
-#: ../app/helpers/profile_editor_helper.rb:100
-#: ../app/helpers/profile_editor_helper.rb:135
-#: ../app/helpers/profile_editor_helper.rb:139
+#: ../app/helpers/profile_editor_helper.rb:99
+#: ../app/helpers/profile_editor_helper.rb:136
+#: ../app/helpers/profile_editor_helper.rb:140
 #: ../app/views/custom_fields/_list.html.erb:2
 msgid "[Select ...]"
 msgstr ""
 
-#: ../app/helpers/profile_editor_helper.rb:109
+#: ../app/helpers/profile_editor_helper.rb:108
 msgid "Select a country..."
 msgstr ""
 
@@ -5394,7 +5350,7 @@ msgstr "Ընտրեք նահանգը"
 msgid "Select a city..."
 msgstr "Ընտրեք քաղաքը"
 
-#: ../app/helpers/profile_editor_helper.rb:159
+#: ../app/helpers/profile_editor_helper.rb:160
 msgid "Preferred domain name:"
 msgstr ""
 
@@ -5403,7 +5359,6 @@ msgid "This field must be public"
 msgstr ""
 
 #: ../app/helpers/profile_helper.rb:92 ../app/models/enterprise.rb:23
-#: ../app/views/shared/_address_fields.html.erb:17
 msgid "ZIP code"
 msgstr ""
 
@@ -5412,7 +5367,7 @@ msgid "e-Mail"
 msgstr "Էլ. հասցե"
 
 #: ../app/helpers/profile_helper.rb:94
-#: ../app/views/profile_editor/_person_form.html.erb:20
+#: ../app/views/profile_editor/_person_form.html.erb:18
 msgid "Jabber"
 msgstr ""
 
@@ -5427,13 +5382,13 @@ msgstr ""
 
 #: ../app/helpers/profile_helper.rb:169
 #: ../app/helpers/profile_image_helper.rb:18
-#: ../app/views/profile_editor/_person_form.html.erb:22
+#: ../app/views/profile_editor/_person_form.html.erb:20
 msgid "Female"
 msgstr "Իգական"
 
 #: ../app/helpers/profile_helper.rb:169
 #: ../app/helpers/profile_image_helper.rb:18
-#: ../app/views/profile_editor/_person_form.html.erb:22
+#: ../app/views/profile_editor/_person_form.html.erb:20
 msgid "Male"
 msgstr "Արական"
 
@@ -5501,20 +5456,15 @@ msgid "No tags yet."
 msgstr "Առայժմ պիտակներ չկան։"
 
 #: ../app/helpers/tags_helper.rb:35
-msgid "What are tags?"
-msgstr "Ի՞նչ է պիտակը:"
-
-#: ../app/helpers/tags_helper.rb:35
 msgid "http://en.wikipedia.org/wiki/Tag_%28metadata%29"
 msgstr "http://en.wikipedia.org/wiki/Tag_%28metadata%29"
 
+#: ../app/helpers/tags_helper.rb:35
+msgid "What are tags?"
+msgstr "Ի՞նչ է պիտակը:"
+
 #: ../app/mailers/comment_mailer.rb:18
 msgid "[%s] you got a new comment!"
-msgstr ""
-
-#: ../app/mailers/contact.rb:23
-#: ../app/views/admin_panel/_signup_welcome_text.html.erb:6
-msgid "Subject"
 msgstr ""
 
 #: ../app/mailers/contact.rb:23 ../app/views/contact/new.html.erb:23
@@ -5526,6 +5476,11 @@ msgstr ""
 #: ../app/models/disabled_enterprise_message_block.rb:12
 #: ../app/views/cms/invite_to_event.html.erb:55
 msgid "Message"
+msgstr ""
+
+#: ../app/mailers/contact.rb:23
+#: ../app/views/admin_panel/_signup_welcome_text.html.erb:6
+msgid "Subject"
 msgstr ""
 
 #: ../app/mailers/mailing.rb:35
@@ -5701,23 +5656,27 @@ msgid ""
 "%{reject_explanation}"
 msgstr ""
 
-#: ../app/models/article.rb:34 ../app/models/category.rb:9
+#: ../app/models/article.rb:35 ../app/models/category.rb:9
 msgid "Slug"
 msgstr ""
 
-#: ../app/models/article.rb:189
+#: ../app/models/article.rb:195
 msgid "is not available as article name."
 msgstr ""
 
-#: ../app/models/article.rb:197
+#: ../app/models/article.rb:200
+msgid "can not be less restrictive than this profile access which is: %s."
+msgstr ""
+
+#: ../app/models/article.rb:209
 msgid "self-reference is not allowed."
 msgstr ""
 
-#: ../app/models/article.rb:204
+#: ../app/models/article.rb:216
 msgid "cyclical reference is not allowed."
 msgstr ""
 
-#: ../app/models/article.rb:225 ../app/models/comment.rb:6
+#: ../app/models/article.rb:237 ../app/models/comment.rb:6
 #: ../app/views/cms/_article.html.erb:3
 #: ../app/views/cms/_link_article.html.erb:2
 #: ../app/views/cms/_text_article.html.erb:3
@@ -5732,39 +5691,39 @@ msgstr ""
 msgid "Title"
 msgstr "Վերնագիր"
 
-#: ../app/models/article.rb:273 ../app/models/organization.rb:146
+#: ../app/models/article.rb:285 ../app/models/organization.rb:117
 msgid "Tag list"
 msgstr "Պիտակների ցուցակ"
 
-#: ../app/models/article.rb:380
+#: ../app/models/article.rb:365
 msgid "HTML Text document"
 msgstr "HTML տեքստային փաստաթուղթ"
 
-#: ../app/models/article.rb:493
+#: ../app/models/article.rb:478
 msgid "Language is already used"
 msgstr ""
 
-#: ../app/models/article.rb:499
+#: ../app/models/article.rb:484
 msgid "Language must be choosen"
 msgstr ""
 
-#: ../app/models/article.rb:505
+#: ../app/models/article.rb:490
 msgid "A language must be choosen for the native article"
 msgstr ""
 
-#: ../app/models/article.rb:857
+#: ../app/models/article.rb:802
 msgid "no views"
 msgstr ""
 
-#: ../app/models/article.rb:859
+#: ../app/models/article.rb:804
 msgid "%s views"
 msgstr ""
 
-#: ../app/models/article.rb:930
+#: ../app/models/article.rb:875
 msgid "is archived!!"
 msgstr ""
 
-#: ../app/models/article.rb:939
+#: ../app/models/article.rb:885
 msgid "Custom fields must have values"
 msgstr ""
 
@@ -5805,7 +5764,7 @@ msgid "This block presents the categories like a web site menu."
 msgstr ""
 
 #: ../app/models/category.rb:7 ../app/models/create_enterprise.rb:8
-#: ../app/models/organization.rb:146
+#: ../app/models/organization.rb:117
 #: ../app/views/enterprise_validation/_details.html.erb:19
 msgid "Acronym"
 msgstr "Հապավում"
@@ -5840,7 +5799,7 @@ msgstr ""
 msgid "(unauthenticated user)"
 msgstr "(մասնակիցն անվավեր է)"
 
-#: ../app/models/comment.rb:242
+#: ../app/models/comment.rb:250
 msgid "associated with this comment is archived!"
 msgstr ""
 
@@ -5850,13 +5809,7 @@ msgstr ""
 msgid "communities"
 msgstr "Հանրություններ"
 
-#: ../app/models/communities_block.rb:19
-msgid "{#} community"
-msgid_plural "{#} communities"
-msgstr[0] "{#} հանրություն"
-msgstr[1] "{#} հանրություն"
-
-#: ../app/models/communities_block.rb:23
+#: ../app/models/communities_block.rb:22
 msgid "This block displays the communities in which the user is a member."
 msgstr ""
 
@@ -5865,7 +5818,7 @@ msgid "Language"
 msgstr ""
 
 #: ../app/models/concerns/has_upload_quota.rb:26
-#: ../app/models/environment.rb:1164
+#: ../app/models/environment.rb:1160
 msgid "Invalid value"
 msgstr ""
 
@@ -5928,7 +5881,7 @@ msgstr ""
 msgid "Change Password"
 msgstr "Փոփոխել գաղտնաբառը"
 
-#: ../app/models/control_panel/circles.rb:20 ../app/models/person.rb:208
+#: ../app/models/control_panel/circles.rb:20 ../app/models/person.rb:199
 msgid "friends"
 msgstr "ընկերներ"
 
@@ -6049,33 +6002,32 @@ msgstr "Որոշիչ"
 #: ../app/views/enterprise_validation/index.html.erb:14
 #: ../app/views/enterprise_validation/list_processed.html.erb:9
 #: ../app/views/profile_editor/_change_identifier.html.erb:34
-#: ../app/views/shared/_address_fields.html.erb:22
-#: ../app/views/shared/_address_form.html.erb:3
+#: ../app/views/shared/_address_fields.html.erb:10
 msgid "Address"
 msgstr "Հասցե"
 
 #: ../app/models/create_enterprise.rb:6
-#: ../app/views/profile_editor/_person_form.html.erb:16
+#: ../app/views/profile_editor/_person_form.html.erb:14
 msgid "Contact phone"
 msgstr "Հեռախոս"
 
-#: ../app/models/create_enterprise.rb:7 ../app/models/organization.rb:146
+#: ../app/models/create_enterprise.rb:7 ../app/models/organization.rb:117
 msgid "Contact person"
 msgstr "Կապ պահպանող անձ"
 
-#: ../app/models/create_enterprise.rb:9 ../app/models/organization.rb:146
+#: ../app/models/create_enterprise.rb:9 ../app/models/organization.rb:117
 msgid "Foundation year"
 msgstr "Հիմնադրման տարին"
 
-#: ../app/models/create_enterprise.rb:10 ../app/models/organization.rb:146
+#: ../app/models/create_enterprise.rb:10 ../app/models/organization.rb:117
 msgid "Legal form"
 msgstr "Իրավաբանական հիմք"
 
-#: ../app/models/create_enterprise.rb:11 ../app/models/organization.rb:146
+#: ../app/models/create_enterprise.rb:11 ../app/models/organization.rb:117
 msgid "Economic activity"
 msgstr "Տնտեսական գործունեություն"
 
-#: ../app/models/create_enterprise.rb:12 ../app/models/organization.rb:146
+#: ../app/models/create_enterprise.rb:12 ../app/models/organization.rb:117
 msgid "Management information"
 msgstr "Տեղեկություններ ղեկավարության մասին"
 
@@ -6172,29 +6124,29 @@ msgid "User Activation"
 msgstr ""
 
 #: ../app/models/enterprise.rb:23
-msgid "Historic and current context"
+msgid "Activities short description"
 msgstr ""
 
-#: ../app/models/enterprise.rb:23 ../app/models/person.rb:347
+#: ../app/models/enterprise.rb:23 ../app/models/person.rb:313
 #: ../app/views/search/_full_enterprise.html.erb:18
 msgid "City"
 msgstr "Քաղաք"
 
-#: ../app/models/enterprise.rb:23 ../app/models/person.rb:347
+#: ../app/models/enterprise.rb:23 ../app/models/person.rb:313
 msgid "State"
 msgstr "Նահանգ"
 
-#: ../app/models/enterprise.rb:23 ../app/models/person.rb:347
+#: ../app/models/enterprise.rb:23 ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:68
+msgid "Organization website"
+msgstr ""
+
+#: ../app/models/enterprise.rb:23 ../app/models/person.rb:313
 msgid "Country"
 msgstr "Երկիր"
 
 #: ../app/models/enterprise.rb:23
-msgid "Activities short description"
-msgstr ""
-
-#: ../app/models/enterprise.rb:23 ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:71
-msgid "Organization website"
+msgid "Historic and current context"
 msgstr ""
 
 #: ../app/models/enterprise.rb:41
@@ -6239,8 +6191,8 @@ msgstr "Կառավարել դերերը համակարգում"
 msgid "Manage environment validators"
 msgstr "Կառավարել համակարգի հաստատող մարմիններին"
 
-#: ../app/models/environment.rb:65 ../app/models/profile.rb:97
-#: ../app/views/templates/index.html.erb:34
+#: ../app/models/environment.rb:65 ../app/models/profile.rb:103
+#: ../app/views/templates/index.html.erb:47
 msgid "Edit appearance"
 msgstr ""
 
@@ -6386,20 +6338,12 @@ msgstr ""
 msgid "Stays on the same page the user was before signup."
 msgstr ""
 
-#: ../app/models/environment.rb:470
-msgid "Make email contact"
-msgstr ""
-
-#: ../app/models/environment.rb:471
-msgid "Report an abuse"
-msgstr ""
-
-#: ../app/models/environment.rb:720
+#: ../app/models/environment.rb:728
 msgid "Only one Virtual Community can be the default one"
 msgstr ""
 "Որպես նախնական համայնք, դուք կարող եք ընտրել միայն մեկ վիրտուալ համայնք"
 
-#: ../app/models/environment.rb:1152
+#: ../app/models/environment.rb:1148
 msgid "have unsupported languages."
 msgstr "պարունակում է չաջակցվող լեզուներ։"
 
@@ -6407,7 +6351,7 @@ msgstr "պարունակում է չաջակցվող լեզուներ։"
 msgid "Displays the people who like the enterprise"
 msgstr ""
 
-#: ../app/models/fans_block.rb:24
+#: ../app/models/fans_block.rb:20
 msgid "Fans"
 msgstr ""
 
@@ -6429,7 +6373,7 @@ msgstr ""
 msgid "A folder, inside which you can put other articles."
 msgstr "Պանակ, որի մեջ կարող եք տեղադրել այլ հոդվածներ։"
 
-#: ../app/models/forum.rb:35
+#: ../app/models/forum.rb:36
 msgid "An internet forum where discussions can be held."
 msgstr ""
 
@@ -6478,7 +6422,7 @@ msgstr ""
 msgid "Links (static menu)"
 msgstr ""
 
-#: ../app/models/link_list_block.rb:25
+#: ../app/models/link_list_block.rb:38
 msgid ""
 "This block can be used to create a menu of links. You can add, remove and "
 "update the links as you wish."
@@ -6542,173 +6486,189 @@ msgstr ""
 msgid "Invalid city or state name."
 msgstr ""
 
-#: ../app/models/organization.rb:146
-#: ../app/views/box_organizer/show_block_type_info.html.erb:16
-#: ../app/views/cms/_uploaded_file.html.erb:7
-#: ../app/views/profile_editor/_person_form.html.erb:13
-#: ../app/views/search/_article_description.html.erb:4
-msgid "Description"
-msgstr "Նկարագրություն"
-
-#: ../app/models/organization.rb:146
+#: ../app/models/organization.rb:117
 #: ../app/views/admin_panel/_site_info.html.erb:2
 msgid "Contact email"
 msgstr "էլ. հասցե"
 
-#: ../app/models/organization.rb:146
+#: ../app/models/organization.rb:117
+#: ../app/views/box_organizer/show_block_type_info.html.erb:16
+#: ../app/views/cms/_uploaded_file.html.erb:7
+#: ../app/views/profile_editor/_person_form.html.erb:11
+#: ../app/views/search/_article_description.html.erb:4
+msgid "Description"
+msgstr "Նկարագրություն"
+
+#: ../app/models/organization.rb:117
 msgid "Display name"
 msgstr "Ցուցադրել անունը"
 
-#: ../app/models/person.rb:20
+#: ../app/models/person.rb:24
 msgid "Latitude"
 msgstr ""
 
-#: ../app/models/person.rb:22
+#: ../app/models/person.rb:26
 msgid "Longitude"
 msgstr ""
 
-#: ../app/models/person.rb:208
-msgid "family"
-msgstr "ընտանիք"
-
-#: ../app/models/person.rb:208
-msgid "school"
-msgstr "դպրոց"
-
-#: ../app/models/person.rb:208
+#: ../app/models/person.rb:199
 msgid "work"
 msgstr "աշխատավայր"
 
-#: ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:62
+#: ../app/models/person.rb:199
+msgid "family"
+msgstr "ընտանիք"
+
+#: ../app/models/person.rb:199
+msgid "school"
+msgstr "դպրոց"
+
+#: ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:59
 msgid "Area of study"
 msgstr ""
 
-#: ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:69
-msgid "Professional activity"
-msgstr ""
-
-#: ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:70
-msgid "Organization"
-msgstr "Կազմակերպություն"
-
-#: ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:24
+#: ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:22
 msgid "Nationality"
 msgstr ""
 
-#: ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:18
-msgid "Cell phone"
+#: ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:67
+msgid "Organization"
+msgstr "Կազմակերպություն"
+
+#: ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:66
+msgid "Professional activity"
 msgstr ""
 
-#: ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:36
+#: ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:33
 msgid "Schooling"
 msgstr ""
 
-#: ../app/models/person.rb:338
-#: ../app/views/profile_editor/_person_form.html.erb:19
+#: ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:16
+msgid "Cell phone"
+msgstr ""
+
+#: ../app/models/person.rb:304
+#: ../app/views/profile_editor/_person_form.html.erb:17
 msgid "Comercial phone"
 msgstr ""
 
-#: ../app/models/person.rb:341
+#: ../app/models/person.rb:307
 msgid "Schooling status"
 msgstr ""
 
-#: ../app/models/person.rb:344
-#: ../app/views/profile_editor/_person_form.html.erb:65
+#: ../app/models/person.rb:310
+#: ../app/views/profile_editor/_person_form.html.erb:62
 msgid "Custom area of study"
 msgstr ""
 
-#: ../app/models/person.rb:347
-msgid "Sex"
-msgstr "Սեռ"
-
-#: ../app/models/person.rb:347
-#: ../app/views/profile_editor/_person_form.html.erb:15
-msgid "Contact information"
-msgstr "Էլ. հասցե"
-
-#: ../app/models/person.rb:347
+#: ../app/models/person.rb:313 ../app/views/shared/_address_fields.html.erb:9
 msgid "Zip code"
 msgstr ""
 
-#: ../app/models/person.rb:580
+#: ../app/models/person.rb:313
+msgid "Sex"
+msgstr "Սեռ"
+
+#: ../app/models/person.rb:313
+#: ../app/views/profile_editor/_person_form.html.erb:13
+msgid "Contact information"
+msgstr "Էլ. հասցե"
+
+#: ../app/models/person.rb:538
 msgid "You just left %s."
 msgstr ""
 
-#: ../app/models/person.rb:661
+#: ../app/models/person.rb:619
 msgid "TinyMCE"
 msgstr ""
 
-#: ../app/models/person.rb:664 ../app/models/raw_html_block.rb:4
+#: ../app/models/person.rb:622 ../app/models/raw_html_block.rb:4
 #: ../app/models/raw_html_block.rb:8
 msgid "Raw HTML"
 msgstr ""
 
+#: ../app/models/person.rb:681
+msgid "is not valid. Check the digits and make sure to use only numbers."
+msgstr ""
+
 #: ../app/models/profile.rb:28
-#: ../app/views/profile_editor/_person_form.html.erb:7
+#: ../app/views/profile_editor/_person_form.html.erb:5
 msgid "Nickname"
 msgstr "Կեղծանուն"
 
-#: ../app/models/profile.rb:86
+#: ../app/models/profile.rb:38
+msgid "Make email contact"
+msgstr ""
+
+#: ../app/models/profile.rb:39
+msgid "Report an abuse"
+msgstr ""
+
+#: ../app/models/profile.rb:92
 msgid "Edit profile"
 msgstr "Փոփոխել անհատական էջը"
 
-#: ../app/models/profile.rb:87
+#: ../app/models/profile.rb:93
 msgid "Destroy profile"
 msgstr "Վերացնել անհատական էջը"
 
-#: ../app/models/profile.rb:88
+#: ../app/models/profile.rb:94
 msgid "Manage memberships"
 msgstr "Կառավարել անդամակցությունները"
 
-#: ../app/models/profile.rb:90
+#: ../app/models/profile.rb:96
 msgid "Edit profile design"
 msgstr "Փոփոխել անհատական էջի տեսքը"
 
-#: ../app/models/profile.rb:91
+#: ../app/models/profile.rb:97
 msgid "Manage products"
 msgstr "Կառավարել արտադրանքը"
 
-#: ../app/models/profile.rb:92
+#: ../app/models/profile.rb:98
 msgid "Manage friends"
 msgstr "Կառավարել ընկերներին"
 
-#: ../app/models/profile.rb:93
+#: ../app/models/profile.rb:99
 msgid "Validate enterprise"
 msgstr "Վավերացնել ձեռնարկությունը"
 
-#: ../app/models/profile.rb:94
+#: ../app/models/profile.rb:100
 msgid "Perform task"
 msgstr "Կատարել առաջադրանքը"
 
-#: ../app/models/profile.rb:96
+#: ../app/models/profile.rb:102
 msgid "Moderate comments"
 msgstr "Կառավարել մեկնաբանությունները"
 
-#: ../app/models/profile.rb:173
+#: ../app/models/profile.rb:181
 msgid ""
 "You must to provide `lat` and `lng`, or `city` and `country` to define the "
 "center of the search circle, defined by `distance`."
 msgstr ""
 
-#: ../app/models/profile.rb:529
+#: ../app/models/profile.rb:542
 msgid "is not a template."
 msgstr ""
 
-#: ../app/models/profile.rb:908
+#: ../app/models/profile.rb:548
+msgid "can not be less restrictive than access which is: %s."
+msgstr ""
+
+#: ../app/models/profile.rb:920
 msgid "%s can't has moderators"
 msgstr "%s մոդերատորներ ունենալ չի կարող"
 
-#: ../app/models/profile.rb:989
-msgid "Public profile"
+#: ../app/models/profile.rb:986
+msgid "Profile accessible to %s"
 msgstr ""
 
-#: ../app/models/profile.rb:1323
+#: ../app/models/profile.rb:1313
 msgid "id"
 msgstr ""
 
@@ -6724,7 +6684,7 @@ msgstr ""
 "Հիմնական տեղեկություններ <i>%{user}-ի</i> վերաբերյալ՝ որքան ժամանակ է <i>"
 "%{user}-ը</i> հանդիսանում <i>%{env}-ի</i> անդամ և օգտակար հղումներ։"
 
-#: ../app/models/profile_list_block.rb:42
+#: ../app/models/profile_list_block.rb:46
 msgid "Clicking on the people or groups will take you to their home page."
 msgstr "Կտտացնելով անձանց կամ խմբերի վրա՝ կվերահասցեագրվեք նրանց գլխավոր էջին։"
 
@@ -6750,6 +6710,7 @@ msgid "%s's content published at %s"
 msgstr "%s - ի բովանդակությունը հրապարակված է %s - ով"
 
 #: ../app/models/rss_feed.rb:105
+#: ../app/views/content_viewer/_article_toolbar.html.erb:6
 msgid "RSS Feed"
 msgstr "RSS հոսք"
 
@@ -6777,7 +6738,11 @@ msgid ""
 msgstr ""
 
 #: ../app/models/task.rb:40
-msgid "Hidden"
+msgid "Cancelled"
+msgstr ""
+
+#: ../app/models/task.rb:40
+msgid "Finished"
 msgstr ""
 
 #: ../app/models/task.rb:40
@@ -6789,11 +6754,7 @@ msgid "Active"
 msgstr "Ակտիվ"
 
 #: ../app/models/task.rb:40
-msgid "Finished"
-msgstr ""
-
-#: ../app/models/task.rb:40
-msgid "Cancelled"
+msgid "Hidden"
 msgstr ""
 
 #: ../app/models/task.rb:187
@@ -6829,7 +6790,7 @@ msgstr "Պայմանները ընդունված են"
 msgid "E-mail"
 msgstr "Էլ. հասցե"
 
-#: ../app/models/user.rb:321
+#: ../app/models/user.rb:322
 msgid ""
 "The user \"%{login}\" is not activated! Please check your email to activate "
 "your user"
@@ -6849,48 +6810,48 @@ msgstr ""
 msgid "Log in"
 msgstr "Մուտք"
 
-#: ../app/views/account/_signup_form.html.erb:28
+#: ../app/views/account/_signup_form.html.erb:16
 msgid ""
 "Your username identifies you inside the network, and will be used to "
 "generate a custom address to your pages. Choose wisely, you will not be able "
 "to change it."
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:33
+#: ../app/views/account/_signup_form.html.erb:21
 msgid "Example of good usernames: jose-silva, maria.santos, josecosta"
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:53
+#: ../app/views/account/_signup_form.html.erb:41
 msgid ""
 "You also need a password in order to access the network. Choose something "
 "with at least 4 characters that you will remember later."
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:66
+#: ../app/views/account/_signup_form.html.erb:54
 msgid "Type your password again"
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:77
+#: ../app/views/account/_signup_form.html.erb:65
 msgid "Too Short"
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:83
+#: ../app/views/account/_signup_form.html.erb:71
 msgid "Good"
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:86
+#: ../app/views/account/_signup_form.html.erb:74
 msgid "Strong"
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:92
+#: ../app/views/account/_signup_form.html.erb:80
 msgid "Just a few more things..."
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:96
+#: ../app/views/account/_signup_form.html.erb:84
 msgid "E.g.: Maria Silva"
 msgstr ""
 
-#: ../app/views/account/_signup_form.html.erb:106
+#: ../app/views/account/_signup_form.html.erb:94
 msgid "E.g.: maria.silva@mail.com"
 msgstr ""
 
@@ -6969,11 +6930,11 @@ msgid "A CNPJ have 14 digits"
 msgstr ""
 
 #: ../app/views/account/activation_question.html.erb:26
-msgid "part 1 of 3"
+msgid "part 1 of 2"
 msgstr ""
 
 #: ../app/views/account/activation_question.html.erb:26
-msgid "part 1 of 2"
+msgid "part 1 of 3"
 msgstr ""
 
 #: ../app/views/account/activation_question.html.erb:29
@@ -7032,25 +6993,25 @@ msgid "Confirm your new Password"
 msgstr "Հաստատեք Ձեր նոր գաղտնաբառը"
 
 #: ../app/views/account/change_password.html.erb:17
-#: ../app/views/circles/index.html.erb:28 ../app/views/cms/view.html.erb:77
+#: ../app/views/circles/index.html.erb:28 ../app/views/cms/view.html.erb:75
 #: ../app/views/favorite_enterprises/index.html.erb:31
 #: ../app/views/followers/index.html.erb:29
 #: ../app/views/friends/index.html.erb:37
 #: ../app/views/mailconf/index.html.erb:10
 #: ../app/views/mailconf/index.html.erb:28
 #: ../app/views/mailconf/index.html.erb:37
-#: ../app/views/maps/edit_location.html.erb:16
+#: ../app/views/maps/edit_location.html.erb:13
 #: ../app/views/memberships/index.html.erb:31
 #: ../app/views/profile_editor/categories.html.erb:6
 #: ../app/views/profile_editor/header_footer.html.erb:26
 #: ../app/views/profile_editor/informations.html.erb:30
-#: ../app/views/profile_editor/locality.html.erb:13
+#: ../app/views/profile_editor/locality.html.erb:11
 #: ../app/views/profile_editor/preferences.html.erb:33
-#: ../app/views/profile_editor/privacy.html.erb:41
+#: ../app/views/profile_editor/privacy.html.erb:30
 #: ../app/views/profile_editor/regions.html.erb:6
 #: ../app/views/profile_editor/tags.html.erb:7
 #: ../app/views/profile_roles/index.html.erb:26
-#: ../app/views/profile_themes/index.html.erb:44
+#: ../app/views/profile_themes/index.html.erb:40
 #: ../app/views/spam/index.html.erb:10 ../app/views/spam/index.html.erb:24
 #: ../app/views/tasks/index.html.erb:44 ../app/views/tasks/index.html.erb:84
 msgid "Back to control panel"
@@ -7234,7 +7195,7 @@ msgstr ""
 msgid "Go to my control panel"
 msgstr ""
 
-#: ../app/views/account/welcome.html.erb:8
+#: ../app/views/account/welcome.html.erb:9
 msgid "Go to my enterprise control panel"
 msgstr ""
 
@@ -7354,11 +7315,11 @@ msgstr ""
 msgid "Number of highlighted news"
 msgstr ""
 
-#: ../app/views/admin_panel/set_portal_news_configurations.html.erb:8
+#: ../app/views/admin_panel/set_portal_news_configurations.html.erb:14
 msgid "Show all news on area news"
 msgstr ""
 
-#: ../app/views/admin_panel/set_portal_news_configurations.html.erb:9
+#: ../app/views/admin_panel/set_portal_news_configurations.html.erb:18
 msgid "Show only not highlighted news on area news"
 msgstr ""
 
@@ -7370,25 +7331,25 @@ msgstr "Օգտագործման կանոններն ու պայմանները"
 msgid "Signup welcome page"
 msgstr ""
 
-#: ../app/views/admin_panel/string_templates.html.erb:4
+#: ../app/views/admin_panel/string_templates.html.erb:6
 msgid ""
 "The following macros can be used to access the attributes of the enclosing "
 "context. For blocks, macros are available in any attribute. For articles, "
 "macros are supported in the lead and body."
 msgstr ""
 
-#: ../app/views/admin_panel/string_templates.html.erb:11
+#: ../app/views/admin_panel/string_templates.html.erb:13
 msgid ""
 "To use one of these macros, just prepend a \"!\" symbol to the macro key, in "
 "any of the supported contexts. For example, you can use !profile-name on the "
 "title of a block, and it will be replaced by the name of the profile."
 msgstr ""
 
-#: ../app/views/admin_panel/string_templates.html.erb:18
+#: ../app/views/admin_panel/string_templates.html.erb:20
 msgid "Note that macros are only supported in the contexts below"
 msgstr ""
 
-#: ../app/views/admin_panel/string_templates.html.erb:27
+#: ../app/views/admin_panel/string_templates.html.erb:29
 msgid "Macro key"
 msgstr ""
 
@@ -7485,11 +7446,11 @@ msgid "Since %{year}/%{month}"
 msgstr "Սկսած %{year}/%{month}"
 
 #: ../app/views/blocks/profile_info_actions/_enterprise.html.erb:4
-msgid "Add as favorite"
+msgid "Add enterprise as favorite"
 msgstr ""
 
 #: ../app/views/blocks/profile_info_actions/_enterprise.html.erb:4
-msgid "Add enterprise as favorite"
+msgid "Add as favorite"
 msgstr ""
 
 #: ../app/views/blocks/profile_info_actions/_join_leave_community.html.erb:4
@@ -7510,7 +7471,7 @@ msgid "Select the circles for %s"
 msgstr ""
 
 #: ../app/views/blocks/profile_info_actions/_select_circles.html.erb:18
-#: ../app/views/cms/_media_new_folder.html.erb:13
+#: ../app/views/cms/_media_new_folder.html.erb:17
 #: ../app/views/memberships/new_community.html.erb:52
 #: ../app/views/profile_themes/new.html.erb:8
 msgid "Create"
@@ -7540,16 +7501,21 @@ msgid "Limit of posts to display"
 msgstr ""
 
 #: ../app/views/box_organizer/_highlights_block.html.erb:6
-#: ../app/views/profile_editor/_person_form.html.erb:25
-msgid "Image"
-msgstr "Պատկեր"
-
-#: ../app/views/box_organizer/_highlights_block.html.erb:6
 msgid "Position"
 msgstr "Դիրք"
 
+#: ../app/views/box_organizer/_highlights_block.html.erb:6
+#: ../app/views/profile_editor/_person_form.html.erb:23
+msgid "Image"
+msgstr "Պատկեր"
+
 #: ../app/views/box_organizer/_highlights_block.html.erb:18
 msgid "New highlight"
+msgstr ""
+
+#: ../app/views/box_organizer/_highlights_block.html.erb:20
+#: ../app/views/box_organizer/_slideshow_block.html.erb:7
+msgid "No automatic transition"
 msgstr ""
 
 #: ../app/views/box_organizer/_highlights_block.html.erb:20
@@ -7558,11 +7524,6 @@ msgid "Every 1 second"
 msgid_plural "Every %d seconds"
 msgstr[0] ""
 msgstr[1] ""
-
-#: ../app/views/box_organizer/_highlights_block.html.erb:20
-#: ../app/views/box_organizer/_slideshow_block.html.erb:7
-msgid "No automatic transition"
-msgstr ""
 
 #: ../app/views/box_organizer/_highlights_block.html.erb:22
 #: ../app/views/box_organizer/_slideshow_block.html.erb:9
@@ -7630,12 +7591,12 @@ msgid "%{gallery} (%{count} images)"
 msgstr ""
 
 #: ../app/views/box_organizer/_slideshow_block.html.erb:5
-msgid "Slideshow size"
-msgstr ""
-
-#: ../app/views/box_organizer/_slideshow_block.html.erb:5
 msgid "Thumbnail"
 msgstr "Մանրապատկեր"
+
+#: ../app/views/box_organizer/_slideshow_block.html.erb:5
+msgid "Slideshow size"
+msgstr ""
 
 #: ../app/views/box_organizer/edit.html.erb:6
 msgid "Custom title for this block: "
@@ -7654,22 +7615,22 @@ msgid ""
 "Define who is obliged to answer the captcha verification for each action."
 msgstr ""
 
+#: ../app/views/categories/_category.html.erb:11
+msgid "Add subcategory"
+msgstr "Ավելացնել ենթաբաժին"
+
 #: ../app/views/categories/_category.html.erb:12
 #, fuzzy
 msgid "Show subcategories"
 msgstr "Ենթակատեգորիաներ չկան"
 
-#: ../app/views/categories/_category.html.erb:13
-msgid "Add subcategory"
-msgstr "Ավելացնել ենթաբաժին"
-
-#: ../app/views/categories/_category.html.erb:19
-msgid "Are you sure you want to remove \"%s\" and all its subcategories?"
-msgstr "Ցանկանո՞ւմ եք հեռացնել «%s» և նրա բոլոր ենթաբաժինները:"
-
-#: ../app/views/categories/_category.html.erb:19
+#: ../app/views/categories/_category.html.erb:15
 msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Ցանկանո՞ւմ եք արդյոք հեռացնել:"
+
+#: ../app/views/categories/_category.html.erb:17
+msgid "Are you sure you want to remove \"%s\" and all its subcategories?"
+msgstr "Ցանկանո՞ւմ եք հեռացնել «%s» և նրա բոլոր ենթաբաժինները:"
 
 #: ../app/views/categories/_form.html.erb:26
 #: ../app/views/memberships/new_community.html.erb:29
@@ -7684,7 +7645,7 @@ msgstr "Նկար"
 msgid "Editing %s"
 msgstr "Փոփոխում %s"
 
-#: ../app/views/categories/index.html.erb:6
+#: ../app/views/categories/index.html.erb:7
 #: ../app/views/categories/new.html.erb:1
 msgid "New category"
 msgstr "Նոր կատեգորիա"
@@ -7695,11 +7656,11 @@ msgstr ""
 
 #: ../app/views/circles/_form.html.erb:12
 #: ../app/views/environment_role_manager/change_role.html.erb:11
-#: ../app/views/features/_manage_community_fields.html.erb:59
-#: ../app/views/features/_manage_enterprise_fields.html.erb:59
-#: ../app/views/features/_manage_person_fields.html.erb:63
-#: ../app/views/features/index.html.erb:73
-#: ../app/views/plugins/index.html.erb:30
+#: ../app/views/features/_manage_community_fields.html.erb:60
+#: ../app/views/features/_manage_enterprise_fields.html.erb:60
+#: ../app/views/features/_manage_person_fields.html.erb:64
+#: ../app/views/features/index.html.erb:74
+#: ../app/views/plugins/index.html.erb:34
 #: ../app/views/profile_members/change_role.html.erb:28
 #: ../app/views/profile_roles/_form.html.erb:20
 #: ../app/views/role/_form.html.erb:20
@@ -7720,8 +7681,8 @@ msgstr "Պահպանել փոփոխությունները"
 #: ../app/views/profile_quotas/_profile_list.html.erb:7
 #: ../app/views/profile_quotas/_quotas_by_kind.html.erb:6
 #: ../app/views/profile_roles/index.html.erb:6
-#: ../app/views/role/index.html.erb:6 ../app/views/templates/index.html.erb:17
-#: ../app/views/trusted_sites/index.html.erb:10
+#: ../app/views/role/index.html.erb:6 ../app/views/templates/index.html.erb:18
+#: ../app/views/trusted_sites/index.html.erb:12
 #: ../app/views/users/_users_list.html.erb:26
 msgid "Actions"
 msgstr "Գործողություններ"
@@ -7830,10 +7791,6 @@ msgid "My Forum"
 msgstr ""
 
 #: ../app/views/cms/_general_fields.html.erb:8
-msgid "License"
-msgstr ""
-
-#: ../app/views/cms/_general_fields.html.erb:8
 #: ../app/views/search/_article_categories.html.erb:7
 #: ../app/views/search/_article_description.html.erb:15
 #: ../app/views/search/_article_tags.html.erb:7
@@ -7843,7 +7800,11 @@ msgstr ""
 msgid "None"
 msgstr "Չկա"
 
-#: ../app/views/cms/_media_new_folder.html.erb:11
+#: ../app/views/cms/_general_fields.html.erb:8
+msgid "License"
+msgstr ""
+
+#: ../app/views/cms/_media_new_folder.html.erb:14
 msgid "Name:"
 msgstr "Անվանում"
 
@@ -7860,12 +7821,12 @@ msgid "Use as item description:"
 msgstr "Նկարագրություն օգտագործել"
 
 #: ../app/views/cms/_rss_feed.html.erb:11
-msgid "Article abstract"
-msgstr "Հոդվածի համառոտ ակնարկ"
-
-#: ../app/views/cms/_rss_feed.html.erb:11
 msgid "Article body"
 msgstr "Բուն հոդված"
+
+#: ../app/views/cms/_rss_feed.html.erb:11
+msgid "Article abstract"
+msgstr "Հոդվածի համառոտ ակնարկ"
 
 #: ../app/views/cms/_rss_feed.html.erb:13
 msgid "Include in the feed:"
@@ -7968,16 +7929,19 @@ msgid "Yes, I want."
 msgstr ""
 
 #: ../app/views/cms/destroy.html.erb:17 ../app/views/profile/leave.html.erb:14
-#: ../app/views/profile_editor/disable.html.erb:10
-#: ../app/views/profile_editor/enable.html.erb:10
 msgid "No, I don't want."
 msgstr "Ոչ, չեմ ցանկանում:"
 
-#: ../app/views/cms/edit.html.erb:36
+#: ../app/views/cms/edit.html.erb:30
+#: ../app/views/cms/why_categorize.html.erb:1
+msgid "Why categorize?"
+msgstr "Ինչի՞ համար են կատեգորիաները"
+
+#: ../app/views/cms/edit.html.erb:35
 msgid "Save and continue"
 msgstr ""
 
-#: ../app/views/cms/edit.html.erb:39
+#: ../app/views/cms/edit.html.erb:38
 msgid "Categorize your article"
 msgstr "Ընտրեք կատեգորիաներ Ձեր հոդվածի համար"
 
@@ -8053,23 +8017,22 @@ msgid ""
 msgstr ""
 
 #: ../app/views/cms/publish_on_portal_community.html.erb:18
-#: ../app/views/email_templates/_form.html.erb:27
-#: ../app/views/email_templates/index.html.erb:26
-#: ../app/views/enterprise_registration/creation.html.erb:8
+#: ../app/views/email_templates/_form.html.erb:26
+#: ../app/views/email_templates/index.html.erb:27
+#: ../app/views/enterprise_registration/creation.html.erb:7
 #: ../app/views/enterprise_validation/details.html.erb:3
 #: ../app/views/enterprise_validation/list_processed.html.erb:3
 #: ../app/views/enterprise_validation/view_processed.html.erb:3
 #: ../app/views/environment_role_manager/index.html.erb:13
 #: ../app/views/environment_themes/index.html.erb:7
 #: ../app/views/invite/select_friends.html.erb:12
-#: ../app/views/memberships/welcome.html.erb:8
+#: ../app/views/memberships/welcome.html.erb:7
 #: ../app/views/organizations/index.html.erb:34
-#: ../app/views/profile_members/_index_buttons.html.erb:2
-#: ../app/views/profile_themes/edit.html.erb:6
-#: ../app/views/tasks/list_requested.html.erb:17
+#: ../app/views/profile_members/_index_buttons.html.erb:3
+#: ../app/views/profile_themes/edit.html.erb:7
 #: ../app/views/tasks/processed.html.erb:52
 #: ../app/views/tasks/ticket_details.html.erb:18
-#: ../app/views/users/_index_buttons.html.erb:4
+#: ../app/views/users/_index_buttons.html.erb:2
 msgid "Back"
 msgstr "Վերադարձ"
 
@@ -8098,10 +8061,6 @@ msgstr "Բովանդակության կառավարում"
 #: ../app/views/cms/view.html.erb:21
 msgid "(used %s of %s):"
 msgstr ""
-
-#: ../app/views/cms/why_categorize.html.erb:1
-msgid "Why categorize?"
-msgstr "Ինչի՞ համար են կատեգորիաները"
 
 #: ../app/views/cms/why_categorize.html.erb:4
 msgid ""
@@ -8200,34 +8159,26 @@ msgstr ""
 msgid "Cancel notifications for e-mail above"
 msgstr ""
 
-#: ../app/views/content_viewer/_publishing_info.html.erb:23
-msgid "%s will attend this event."
-msgstr ""
-
-#: ../app/views/content_viewer/_publishing_info.html.erb:25
-msgid "No one attending this event yet."
-msgstr ""
-
-#: ../app/views/content_viewer/_publishing_info.html.erb:28
+#: ../app/views/content_viewer/_publishing_info.html.erb:22
 msgid "%s following this article."
 msgstr ""
 
-#: ../app/views/content_viewer/_publishing_info.html.erb:30
+#: ../app/views/content_viewer/_publishing_info.html.erb:24
 msgid "No one following this article yet."
 msgstr ""
 
-#: ../app/views/content_viewer/_publishing_info.html.erb:37
+#: ../app/views/content_viewer/_publishing_info.html.erb:31
 msgid "One view %{desc}"
 msgid_plural "%{num} views %{desc}"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/views/content_viewer/_publishing_info.html.erb:37
+#: ../app/views/content_viewer/_publishing_info.html.erb:31
 msgid "(Not countable anymore)"
 msgstr ""
 
-#: ../app/views/content_viewer/_publishing_info.html.erb:57
-#: ../app/views/content_viewer/versioned_article.html.erb:33
+#: ../app/views/content_viewer/_publishing_info.html.erb:51
+#: ../app/views/content_viewer/versioned_article.html.erb:35
 msgid "Licensed under %s"
 msgstr ""
 
@@ -8275,19 +8226,19 @@ msgstr ""
 msgid "Back to gallery"
 msgstr ""
 
-#: ../app/views/content_viewer/versioned_article.html.erb:11
+#: ../app/views/content_viewer/versioned_article.html.erb:12
 msgid "Revert to this version"
 msgstr ""
 
-#: ../app/views/content_viewer/versioned_article.html.erb:16
+#: ../app/views/content_viewer/versioned_article.html.erb:17
 msgid "Go to latest version"
 msgstr ""
 
-#: ../app/views/content_viewer/versioned_article.html.erb:20
+#: ../app/views/content_viewer/versioned_article.html.erb:21
 msgid "Version %{version} - %{author} on %{date}"
 msgstr ""
 
-#: ../app/views/content_viewer/versioned_article.html.erb:24
+#: ../app/views/content_viewer/versioned_article.html.erb:26
 msgid "This is not the latest version of this content."
 msgstr ""
 
@@ -8357,8 +8308,8 @@ msgstr ""
 msgid "You can continue to browse this environment."
 msgstr "Կարող եք շարունակել բեռնել այս միջավայրը :"
 
-#: ../app/views/enterprise_registration/creation.html.erb:5
-#: ../app/views/memberships/welcome.html.erb:5
+#: ../app/views/enterprise_registration/creation.html.erb:4
+#: ../app/views/memberships/welcome.html.erb:4
 msgid "What can I do with a %s?"
 msgstr ""
 
@@ -8369,13 +8320,13 @@ msgid ""
 msgstr ""
 
 #: ../app/views/enterprise_registration/index.html.erb:12
-#: ../app/views/profile/_follow.html.erb:14
+#: ../app/views/profile/_follow.html.erb:17
 #: ../app/views/profile/_private_profile.html.erb:15
-#: ../app/views/profile/communities.html.erb:18
-#: ../app/views/profile/enterprises.html.erb:12
-#: ../app/views/profile/fans.html.erb:12
-#: ../app/views/profile/favorite_enterprises.html.erb:12
-#: ../app/views/profile/friends.html.erb:13
+#: ../app/views/profile/communities.html.erb:20
+#: ../app/views/profile/enterprises.html.erb:15
+#: ../app/views/profile/fans.html.erb:14
+#: ../app/views/profile/favorite_enterprises.html.erb:14
+#: ../app/views/profile/friends.html.erb:20
 #: ../app/views/profile/members.html.erb:40
 #: ../app/views/public/offline.html.erb:8
 #: ../app/views/shared/access_denied.html.erb:13
@@ -8405,8 +8356,8 @@ msgid "(not informed)"
 msgstr "(տեղեկացված չէ)"
 
 #: ../app/views/enterprise_registration/select_validator.html.erb:26
-#: ../app/views/profile_roles/assign.html.erb:21
-#: ../app/views/profile_roles/assign.html.erb:32
+#: ../app/views/profile_roles/assign.html.erb:26
+#: ../app/views/profile_roles/assign.html.erb:40
 msgid "Confirm"
 msgstr "Հաստատել"
 
@@ -8581,12 +8532,6 @@ msgid "Are you sure you want to add %s as your favorite enterprise?"
 msgstr ""
 "Վստա՞հ եք, որ ցանկանում եք %s ավելցանել որպես Ձեր նախընտրած ձեռնարկություն:"
 
-#: ../app/views/favorite_enterprises/add.html.erb:11
-#: ../app/views/favorite_enterprises/remove.html.erb:15
-#: ../app/views/profile/leave.html.erb:12
-msgid "No, I don't want"
-msgstr "Ոչ, ես չեմ ցանկանում"
-
 #: ../app/views/favorite_enterprises/index.html.erb:3
 #: ../app/views/profile/favorite_enterprises.html.erb:3
 msgid "%s's favorite enterprises"
@@ -8607,11 +8552,6 @@ msgid "Are you sure you want to remove %s from your favorite enterprise list?"
 msgstr ""
 "Վստա՞հ եք,որ ցանկանում եք հեռացնել %s Ձեր նախընտրած ձեռնարկությունների "
 "ցուցակից:"
-
-#: ../app/views/favorite_enterprises/remove.html.erb:14
-msgid "Yes, I want to remove %s from my favorite enterprise list"
-msgstr ""
-"Այո, ես ցանկանում եմ հեռացնել %s իմ նախընտրած ձեռնարկությունների ցուցակից:"
 
 #: ../app/views/features/_manage_community_fields.html.erb:5
 #: ../app/views/features/_manage_enterprise_fields.html.erb:5
@@ -8672,7 +8612,7 @@ msgstr ""
 msgid "HTTPS feed proxy address:"
 msgstr ""
 
-#: ../app/views/file_presenter/_audio.html.erb:4
+#: ../app/views/file_presenter/_audio.html.erb:5
 msgid "Download audio"
 msgstr ""
 
@@ -8695,7 +8635,7 @@ msgid "Download image"
 msgstr ""
 
 #: ../app/views/followers/index.html.erb:3
-#: ../app/views/profile/following.html.erb:3
+#: ../app/views/profile/following.html.erb:1
 msgid "%s is following"
 msgstr ""
 
@@ -8915,7 +8855,7 @@ msgstr ""
 msgid "Kind"
 msgstr ""
 
-#: ../app/views/kinds/index.html.erb:26
+#: ../app/views/kinds/index.html.erb:27
 msgid "There no kinds of this type yet."
 msgstr ""
 
@@ -8928,11 +8868,11 @@ msgid "Go to content"
 msgstr "Նայել բովանդակությունը"
 
 #: ../app/views/layouts/slideshow.html.erb:18
-msgid "Play"
+msgid "Stop"
 msgstr ""
 
 #: ../app/views/layouts/slideshow.html.erb:18
-msgid "Stop"
+msgid "Play"
 msgstr ""
 
 #: ../app/views/licenses/_form.html.erb:6
@@ -8999,7 +8939,7 @@ msgstr ""
 msgid "Localize before saving"
 msgstr ""
 
-#: ../app/views/maps/edit_location.html.erb:11
+#: ../app/views/maps/edit_location.html.erb:8
 msgid "Regions of Interest"
 msgstr ""
 
@@ -9008,7 +8948,7 @@ msgid "Manage my groups"
 msgstr "Կառավարել իմ խմբերը"
 
 #: ../app/views/memberships/index.html.erb:6
-#: ../app/views/profile/communities.html.erb:19
+#: ../app/views/profile/communities.html.erb:21
 msgid "Create a new community"
 msgstr "Ստեղծել նոր համայնք"
 
@@ -9074,7 +9014,7 @@ msgstr ""
 msgid "Select which plugins you want to enable in your environment"
 msgstr ""
 
-#: ../app/views/profile/_follow.html.erb:16
+#: ../app/views/profile/_follow.html.erb:19
 msgid "Manage followed people"
 msgstr ""
 
@@ -9082,10 +9022,6 @@ msgstr ""
 #, fuzzy
 msgid "Publish"
 msgstr "Հրապարակային"
-
-#: ../app/views/profile/activities.html.erb:18
-msgid "Share"
-msgstr ""
 
 #: ../app/views/profile/communities.html.erb:3
 msgid "%s's communities"
@@ -9111,7 +9047,7 @@ msgstr "%s-ի բոլոր ձեռնարկությունները"
 msgid "%s is followed by"
 msgstr ""
 
-#: ../app/views/profile/friends.html.erb:15
+#: ../app/views/profile/friends.html.erb:22
 msgid "Manage my friends"
 msgstr ""
 
@@ -9130,6 +9066,10 @@ msgstr "Վստա՞հ եք, որ ցանկանում եք դուրս գալ %s?"
 #: ../app/views/profile/leave.html.erb:10
 msgid "Yes, I want to leave."
 msgstr "Այո, ես ցանկանում եմ դուրս գալ:"
+
+#: ../app/views/profile/leave.html.erb:12
+msgid "No, I don't want"
+msgstr "Ոչ, ես չեմ ցանկանում"
 
 #: ../app/views/profile/send_mail.html.erb:8
 msgid "To:"
@@ -9195,6 +9135,10 @@ msgid "Process requests"
 msgstr "Հայցերին ընթացք տալ"
 
 #: ../app/views/profile_editor/_people_privacy.html.erb:2
+msgid "Hourly"
+msgstr ""
+
+#: ../app/views/profile_editor/_people_privacy.html.erb:2
 msgid "Half Day"
 msgstr ""
 
@@ -9206,31 +9150,27 @@ msgstr ""
 msgid "Daily"
 msgstr ""
 
-#: ../app/views/profile_editor/_people_privacy.html.erb:2
-msgid "Hourly"
-msgstr ""
-
 #: ../app/views/profile_editor/_person.html.erb:1
 msgid "Personal information"
 msgstr ""
 
-#: ../app/views/profile_editor/_person_form.html.erb:9
+#: ../app/views/profile_editor/_person_form.html.erb:7
 msgid ""
 "A short name by which you like to be known. Will be used in friends "
 "listings, community member listings etc."
 msgstr ""
 
-#: ../app/views/profile_editor/_person_form.html.erb:16
+#: ../app/views/profile_editor/_person_form.html.erb:14
 msgid "Home phone"
 msgstr ""
 
+#: ../app/views/profile_editor/_person_form.html.erb:15
+#: ../app/views/profile_editor/_person_form.html.erb:16
 #: ../app/views/profile_editor/_person_form.html.erb:17
-#: ../app/views/profile_editor/_person_form.html.erb:18
-#: ../app/views/profile_editor/_person_form.html.erb:19
 msgid "With area code, only numbers"
 msgstr ""
 
-#: ../app/views/profile_editor/_person_form.html.erb:23
+#: ../app/views/profile_editor/_person_form.html.erb:21
 msgid "Birth date"
 msgstr "Ծննդյան օր"
 
@@ -9352,33 +9292,25 @@ msgstr ""
 msgid "%s's Privacy options"
 msgstr "Անձնական տվյալների հատկություններ"
 
-#: ../app/views/profile_editor/privacy.html.erb:8
-msgid "Public &mdash; show my contents to all internet users"
+#: ../app/views/profile_editor/privacy.html.erb:4
+msgid "Visibility"
+msgstr ""
+
+#: ../app/views/profile_editor/privacy.html.erb:7
+msgid ""
+"Secret &mdash; hide the group and all its contents for non members and other "
+"people can't join this community unless they are invited to."
 msgstr ""
 
 #: ../app/views/profile_editor/privacy.html.erb:11
-msgid "Private &mdash; show my contents only to friends"
+msgid "Who will be able to see your profile?"
 msgstr ""
 
-#: ../app/views/profile_editor/privacy.html.erb:15
-msgid ""
-"Secret &mdash; hide the community and all its contents for non members and "
-"other people can't join this community unless they are invited to."
-msgstr ""
-
-#: ../app/views/profile_editor/privacy.html.erb:18
-msgid "Public &mdash; show content of this group to all internet users"
-msgstr ""
-
-#: ../app/views/profile_editor/privacy.html.erb:21
-msgid "Private &mdash; show content of this group only to members"
-msgstr ""
-
-#: ../app/views/profile_editor/privacy.html.erb:25
+#: ../app/views/profile_editor/privacy.html.erb:14
 msgid "Wall access"
 msgstr ""
 
-#: ../app/views/profile_editor/privacy.html.erb:26
+#: ../app/views/profile_editor/privacy.html.erb:15
 msgid "Who will be able to see your wall?"
 msgstr ""
 
@@ -9399,15 +9331,15 @@ msgid ""
 "This page will be displayed to the user after his signup with this template."
 msgstr ""
 
-#: ../app/views/profile_members/_manage_roles.html.erb:21
+#: ../app/views/profile_members/_manage_roles.html.erb:20
 msgid "Type in a search term for users"
 msgstr ""
 
-#: ../app/views/profile_members/_members_list.html.erb:36
-#: ../app/views/profile_members/add_admin.html.erb:36
-#: ../app/views/profile_members/add_member.html.erb:36
-#: ../app/views/profile_members/remove_admin.html.erb:36
-#: ../app/views/profile_members/unassociate.html.erb:36
+#: ../app/views/profile_members/_members_list.html.erb:34
+#: ../app/views/profile_members/add_admin.html.erb:34
+#: ../app/views/profile_members/add_member.html.erb:34
+#: ../app/views/profile_members/remove_admin.html.erb:34
+#: ../app/views/profile_members/unassociate.html.erb:34
 msgid "No members found to: %s"
 msgstr ""
 
@@ -9488,7 +9420,7 @@ msgstr ""
 msgid "Assign role by:"
 msgstr ""
 
-#: ../app/views/profile_roles/assign.html.erb:18
+#: ../app/views/profile_roles/assign.html.erb:23
 msgid "Select members to assign the role"
 msgstr ""
 
@@ -9522,7 +9454,7 @@ msgid "Choose the image file"
 msgstr ""
 
 #: ../app/views/profile_themes/add_image.html.erb:4
-#: ../app/views/profile_themes/edit.html.erb:31
+#: ../app/views/profile_themes/edit.html.erb:33
 #: ../app/views/shared/_change_image.html.erb:6
 #: ../app/views/shared/_crop_button.html.erb:1
 msgid "Add image"
@@ -9536,19 +9468,19 @@ msgstr ""
 msgid "Editing theme \"%s\""
 msgstr ""
 
-#: ../app/views/profile_themes/edit.html.erb:5
+#: ../app/views/profile_themes/edit.html.erb:8
 msgid "Preview this theme"
 msgstr ""
 
-#: ../app/views/profile_themes/edit.html.erb:12
+#: ../app/views/profile_themes/edit.html.erb:14
 msgid "CSS files"
 msgstr ""
 
-#: ../app/views/profile_themes/edit.html.erb:19
+#: ../app/views/profile_themes/edit.html.erb:21
 msgid "New CSS"
 msgstr ""
 
-#: ../app/views/profile_themes/edit.html.erb:37
+#: ../app/views/profile_themes/edit.html.erb:39
 msgid "Select a CSS file to edit"
 msgstr ""
 
@@ -9560,20 +9492,20 @@ msgstr ""
 msgid "Use this theme"
 msgstr ""
 
-#: ../app/views/profile_themes/index.html.erb:22
+#: ../app/views/profile_themes/index.html.erb:19
 #: ../app/views/themes/_select_theme.html.erb:14
 msgid "The \"%s\" theme."
 msgstr ""
 
-#: ../app/views/profile_themes/index.html.erb:26
+#: ../app/views/profile_themes/index.html.erb:22
 msgid "Edit this theme"
 msgstr ""
 
-#: ../app/views/profile_themes/index.html.erb:28
+#: ../app/views/profile_themes/index.html.erb:23
 msgid "Test this theme"
 msgstr ""
 
-#: ../app/views/profile_themes/index.html.erb:46
+#: ../app/views/profile_themes/index.html.erb:42
 msgid "New theme ..."
 msgstr ""
 
@@ -9690,7 +9622,7 @@ msgstr "Պիտակների ցուցակ"
 msgid "Max size: %s (.jpg, .gif, .png, .bmp, .tiff)"
 msgstr ""
 
-#: ../app/views/shared/_crop_image.html.erb:6
+#: ../app/views/shared/_crop_image.html.erb:5
 msgid "Crop"
 msgstr ""
 
@@ -9703,47 +9635,43 @@ msgstr "Ավելացնել ընկեր"
 msgid "Used when a short version of your text is needed."
 msgstr ""
 
-#: ../app/views/shared/_list_groups.html.erb:9
+#: ../app/views/shared/_list_groups.html.erb:10
 msgid "Role: %s"
 msgstr "Դեր %s"
 
-#: ../app/views/shared/_list_groups.html.erb:10
+#: ../app/views/shared/_list_groups.html.erb:11
 msgid "Type: %s"
 msgstr "Տեսակ: %s"
 
-#: ../app/views/shared/_list_groups.html.erb:11
+#: ../app/views/shared/_list_groups.html.erb:12
 #: ../app/views/tasks/ticket_details.html.erb:10
 msgid "Description: %s"
 msgstr "Նկարագրություն: %s"
 
-#: ../app/views/shared/_list_groups.html.erb:12
+#: ../app/views/shared/_list_groups.html.erb:13
 msgid "Members: %s"
 msgstr "Անդամներ: %s"
 
-#: ../app/views/shared/_list_groups.html.erb:13
+#: ../app/views/shared/_list_groups.html.erb:14
 msgid "Created at: %s"
 msgstr "Ստեղծված է: %s"
 
-#: ../app/views/shared/_location_form.html.erb:2
-msgid "Address and Location"
+#: ../app/views/shared/_location_form.html.erb:11
+msgid "Drag the balloon to set your location."
 msgstr ""
 
-#: ../app/views/shared/_location_form.html.erb:12
+#: ../app/views/shared/_location_form.html.erb:19
 msgid "Fill an address to find it easier in the map"
 msgstr ""
 
-#: ../app/views/shared/_location_form.html.erb:14
-msgid ""
-"Locate the address informed above in the map below (note that you'll "
-"probably need to adjust the marker to get a precise position)"
-msgstr ""
-
-#: ../app/views/shared/_location_form.html.erb:14
+#: ../app/views/shared/_location_form.html.erb:21
 msgid "Locate in the map"
 msgstr ""
 
-#: ../app/views/shared/_location_form.html.erb:23
-msgid "Drag the balloon to find the exact location."
+#: ../app/views/shared/_location_form.html.erb:22
+msgid ""
+"Locate the address informed above in the map below (note that you'll "
+"probably need to adjust the marker to get a precise position)"
 msgstr ""
 
 #: ../app/views/shared/_profile_connections.html.erb:17
@@ -9889,7 +9817,6 @@ msgid "Assigned to"
 msgstr ""
 
 #: ../app/views/tasks/_task_processed.html.erb:9
-#: ../app/views/tasks/list_requested.html.erb:8
 msgid "Created:"
 msgstr "Ստեղծված է"
 
@@ -9919,14 +9846,6 @@ msgstr "Նայել կատարված առաջադրանքները"
 
 #: ../app/views/tasks/index.html.erb:59
 msgid "Set all tasks to:"
-msgstr ""
-
-#: ../app/views/tasks/list_requested.html.erb:1
-msgid "Tasks that I requested"
-msgstr ""
-
-#: ../app/views/tasks/list_requested.html.erb:10
-msgid "Status:"
 msgstr ""
 
 #: ../app/views/tasks/new.html.erb:1
@@ -9993,27 +9912,23 @@ msgstr ""
 msgid "New..."
 msgstr ""
 
-#: ../app/views/templates/index.html.erb:16
+#: ../app/views/templates/index.html.erb:17
 msgid "Template"
 msgstr ""
 
-#: ../app/views/templates/index.html.erb:23
+#: ../app/views/templates/index.html.erb:25
 msgid "Edit template \"%s\""
 msgstr ""
 
-#: ../app/views/templates/index.html.erb:27
+#: ../app/views/templates/index.html.erb:32
 msgid "Set as default"
 msgstr ""
 
-#: ../app/views/templates/index.html.erb:27
-msgid "Set %s template as default"
-msgstr ""
-
-#: ../app/views/templates/index.html.erb:33
+#: ../app/views/templates/index.html.erb:44
 msgid "Edit sideblocks"
 msgstr ""
 
-#: ../app/views/templates/index.html.erb:35
+#: ../app/views/templates/index.html.erb:50
 msgid "Edit header/footer"
 msgstr ""
 
@@ -10084,14 +9999,19 @@ msgstr ""
 msgid "To see the full list of communities suggestions, follow the link: %s"
 msgstr ""
 
-#: ../app/views/users/_index_buttons.html.erb:2
+#: ../app/views/users/_index_buttons.html.erb:3
 msgid "Export People list"
 msgstr ""
 
-#: ../app/views/users/_index_buttons.html.erb:3
+#: ../app/views/users/_index_buttons.html.erb:4
 #: ../app/views/users/send_mail.html.erb:1
 msgid "Send e-mail to users"
 msgstr ""
+
+#: ../app/views/users/_index_buttons.html.erb:9
+#, fuzzy
+msgid "Select the file format"
+msgstr "Ընտրեք նահանգը"
 
 #: ../app/views/users/_index_buttons.html.erb:17
 msgid "Select the fields to be included in the people list"
@@ -10151,6 +10071,39 @@ msgid ""
 "This site uses %{noosfero_url}, developed by %{colivre_url} and licensed "
 "under the %{agpl_url} version 3 or any later version."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Manage content"
+#~ msgstr "Կառավարել բովանդակությունը:"
+
+#~ msgid "Private profile"
+#~ msgstr "Փոփոխել անհատական էջը"
+
+#~ msgid "Allow all your friends to view this content"
+#~ msgstr "ընկերներ"
+
+#~ msgid "Cancel e-mail"
+#~ msgstr "էլ. հասցե"
+
+#~ msgid ""
+#~ "Filter followed, friends or group of friends to send them a private "
+#~ "scrap..."
+#~ msgstr "ընկերներ"
+
+#~ msgid "RSS feed"
+#~ msgstr "RSS հոսք"
+
+#~ msgid "Private"
+#~ msgstr "Անձնական"
+
+#~ msgid "{#} community"
+#~ msgid_plural "{#} communities"
+#~ msgstr[0] "{#} հանրություն"
+#~ msgstr[1] "{#} հանրություն"
+
+#~ msgid "Yes, I want to remove %s from my favorite enterprise list"
+#~ msgstr ""
+#~ "Այո, ես ցանկանում եմ հեռացնել %s իմ նախընտրած ձեռնարկությունների ցուցակից:"
 
 #~ msgid "My friends"
 #~ msgstr "ընկերներ"

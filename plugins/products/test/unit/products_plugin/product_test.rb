@@ -40,7 +40,7 @@ class ProductsPlugin::ProductTest < ActiveSupport::TestCase
     product.name = 'Software'
     product.save
     assert_equal 'Software', product.name
-    assert_equal nil, product[:name]
+    assert_nil product[:name]
   end
 
   should 'list recent products' do
@@ -70,7 +70,7 @@ class ProductsPlugin::ProductTest < ActiveSupport::TestCase
       p = create(ProductsPlugin::Product, name: 'test product1', profile: profile, product_category: product_category, image_builder: {
         uploaded_data: fixture_file_upload('/files/rails.png', 'image/png')
       }, profile_id: @profile.id)
-      assert_equal p.image(true).filename, 'rails.png'
+      assert_equal p.image.filename, 'rails.png'
     end
   end
 
@@ -91,13 +91,13 @@ class ProductsPlugin::ProductTest < ActiveSupport::TestCase
     assert_equal({controller: 'products_plugin/page', action: 'show', id: 999}, product.url)
   end
 
-  should 'respond to public? as its enterprise public?' do
+  should 'respond to public? as its enterprise display_to?' do
     e1 = create(Enterprise, name: 'test ent 1', identifier: 'test_ent1')
     p1 = create(ProductsPlugin::Product, name: 'test product 1', profile_id: e1.id, product_category_id: @product_category.id)
 
     assert p1.public?
 
-    e1.public_profile = false
+    e1.access = Entitlement::Levels.levels[:self]
     e1.save!; p1.reload;
 
     refute p1.public?
@@ -246,11 +246,13 @@ class ProductsPlugin::ProductTest < ActiveSupport::TestCase
     second = create(ProductsPlugin::Input, product: product, product_category: create(ProductsPlugin::ProductCategory))
     third = create(ProductsPlugin::Input, product: product, product_category: create(ProductsPlugin::ProductCategory))
 
-    assert_equal [first, second, third], product.inputs
+    assert_equal first, product.inputs.first
+    assert_equal second, product.inputs.second
+    assert_equal third, product.inputs.third
 
     product.order_inputs!([second.id, first.id, third.id])
 
-    assert_equal [second, first, third], product.inputs(true)
+    assert_equal [second, first, third], product.inputs
   end
 
   should 'format name with unit' do
@@ -492,70 +494,6 @@ class ProductsPlugin::ProductTest < ActiveSupport::TestCase
     assert_includes products, p1
     assert_includes products, p2
     assert_includes products, p3
-  end
-
-  should 'fetch products from organizations that are visible for a user' do
-    person = create_user('some-person').person
-    admin = create_user('some-admin').person
-    env_admin = create_user('env-admin').person
-    env = Environment.default
-
-    e1 = create(Enterprise, public_profile: true , visible: true)
-    p1 = create(ProductsPlugin::Product, profile_id: e1.id, product_category: product_category)
-    e1.affiliate(admin, Profile::Roles.admin(env.id))
-    e1.affiliate(person, Profile::Roles.member(env.id))
-
-    e2 = create(Enterprise, public_profile: true , visible: true)
-    p2 = create(ProductsPlugin::Product, profile_id: e2.id, product_category: product_category)
-    e3 = create(Enterprise, public_profile: false, visible: true)
-    p3 = create(ProductsPlugin::Product, profile_id: e3.id, product_category: product_category)
-
-    e4 = create(Enterprise, public_profile: false, visible: true)
-    p4 = create(ProductsPlugin::Product, profile_id: e4.id, product_category: product_category)
-    e4.affiliate(admin, Profile::Roles.admin(env.id))
-    e4.affiliate(person, Profile::Roles.member(env.id))
-
-    e5 = create(Enterprise, public_profile: true, visible: false)
-    p5 = create(ProductsPlugin::Product, profile_id: e5.id, product_category: product_category)
-    e5.affiliate(admin, Profile::Roles.admin(env.id))
-    e5.affiliate(person, Profile::Roles.member(env.id))
-
-    e6 = create(Enterprise, enabled: false, visible: true)
-    p6 = create(ProductsPlugin::Product, profile_id: e6.id, product_category: product_category)
-    e6.affiliate(admin, Profile::Roles.admin(env.id))
-
-    e7 = create(Enterprise, public_profile: false, visible: false)
-    p7 = create(ProductsPlugin::Product, profile_id: e7.id, product_category: product_category)
-
-    Environment.default.add_admin(env_admin)
-
-    products_person    = ProductsPlugin::Product.visible_for_person(person)
-    products_admin     = ProductsPlugin::Product.visible_for_person(admin)
-    products_env_admin = ProductsPlugin::Product.visible_for_person(env_admin)
-
-    assert_includes     products_person,    p1
-    assert_includes     products_admin,     p1
-    assert_includes     products_env_admin, p1
-
-    assert_includes     products_person,    p2
-    assert_includes     products_env_admin, p2
-    assert_not_includes products_person,    p3
-    assert_includes     products_env_admin, p3
-
-    assert_includes     products_person,    p4
-    assert_includes     products_admin,     p4
-    assert_includes     products_env_admin, p4
-
-    assert_not_includes products_person,    p5
-    assert_includes     products_admin,     p5
-    assert_includes     products_env_admin, p5
-
-    assert_not_includes products_person,    p6
-    assert_includes     products_admin,     p6
-    assert_includes     products_env_admin, p6
-
-    assert_not_includes products_person,    p7
-    assert_includes     products_env_admin, p7
   end
 
 end

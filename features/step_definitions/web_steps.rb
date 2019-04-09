@@ -40,18 +40,10 @@ end
 When /^(?:|I )follow "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
   with_scope(selector) do
     begin
-      link   = find :link_or_button, link, match: :prefer_exact
-      # If the link has child elements, then $(link).click() has no effect,
-      # so find the first child and click on it.
-      if Capybara.default_driver == :selenium
-        target = link.all('*').first || link
-      else
-        target = link
-      end
-      target.click
-    rescue
-      alert = page.driver.browser.switch_to.alert
-      alert.send 'accept'
+      link = find :link_or_button, link, match: :prefer_exact
+      link.click
+    rescue Capybara::ElementNotFound
+      page.driver.browser.switch_to.alert.accept
     end
   end
 end
@@ -66,6 +58,15 @@ When /^(?:|I )fill in "([^"]*)" for "([^"]*)"(?: within "([^"]*)")?$/ do |value,
   with_scope(selector) do
     fill_in(field, :with => value)
   end
+end
+
+When /^(?:|I )fill in post-access hidden field with "([^"]*)"/ do |value|
+  execute_script("
+                 if (#{value.to_s} == '3') {
+                  window.show_custom_privacy_option = true;
+                 }
+                 $('#post-access').val(#{value.to_s}).trigger('change');
+                 ")
 end
 
 When /^(?:|I )move the cursor over "([^"]*)"/ do |selector|
@@ -135,8 +136,12 @@ Then /^(?:|I )should see "([^"]*)"(?: within "([^"]*)")?$/ do |text, selector|
     begin
       expect(page).to have_content(text)
     rescue
-      alert = page.driver.browser.switch_to.alert
-      alert.text.should eq(text)
+      begin
+        alert_text = page.driver.browser.switch_to.alert.text
+        alert_text.should == text
+      rescue Selenium::WebDriver::Error::NoAlertPresentError => e
+        puts 'exception NoAlertPresentError'
+      end
     end
   end
 end

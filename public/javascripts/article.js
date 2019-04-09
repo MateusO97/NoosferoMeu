@@ -176,10 +176,8 @@ jQuery(function($) {
   }
 
   function show_hide_privacy_options() {
-    var show_privacy_options = $("#article_published_false").attr('checked');
     var custom_privacy_option = $(".custom_privacy_option").parent("div");
-
-    if( show_privacy_options ) {
+    if( show_custom_privacy_option ) {
       custom_privacy_option.show();
     } else {
       custom_privacy_option.hide();
@@ -191,16 +189,12 @@ jQuery(function($) {
     var display_token =  $(".custom_privacy_option:checked").length == 0;
     var token_field = $("#text-input-search-exception-users").parent("div");
 
-    if( display_token && !is_public_article() ) {
+    if( display_token) {
       token_field.css('display', 'block');
     } else {
       token_field.css('display', 'none');
     }
-  }
 
-  if( $("#token-input-search-article-privacy-exceptions").length == 1 ) {
-    show_hide_privacy_options();
-    show_hide_token_input();
   }
 
   $(document).ready(function(){
@@ -208,8 +202,7 @@ jQuery(function($) {
   });
 
   //Hide / Show the text area
-  $("#article_published_false").click(show_hide_privacy_options);
-  $("#article_published_true").click(show_hide_privacy_options);
+  $("#post-access").change(show_hide_privacy_options);
   $(".custom_privacy_option").click(show_hide_token_input);
 
   //Workaround to pointer-events:none CSS3

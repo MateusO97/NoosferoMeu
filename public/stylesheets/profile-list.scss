@@ -1,3 +1,4 @@
+@import "color";
 // FIXME: move to more specific places
 .profile-list {
   margin: 0px;
@@ -35,7 +36,7 @@
 .controller-friends .profile-list a.profile-link:hover,
 .controller-followers .profile-list a.profile-link:hover,
 .profiles-suggestions .profile-list a.profile-link:hover {
-  color: #FFF;
+  color: $white;
 }
 
 .controller-favorite_enterprises .profile-list .profile_link span,
@@ -115,7 +116,7 @@
         margin-bottom: 4px;
       }
     }
-    .controll {
+    .control {
       width: 25px;
       a.remove-favorite-enterprise {
         display: none;
@@ -150,10 +151,10 @@
   }
 }
 
-.controller-favorite_enterprises .profile-list .controll,
-.controller-friends .profile-list .controll,
-.controller-followers .profile-list .controll,
-.profiles-suggestions .profile-list .controll {
+.controller-favorite_enterprises .profile-list .control,
+.controller-friends .profile-list .control,
+.controller-followers .profile-list .control,
+.profiles-suggestions .profile-list .control {
   display: flex;
   width: 64px;
   margin: auto;
@@ -165,18 +166,18 @@
   }
 }
 
-.controller-favorite_enterprises .profile-list .controll a,
-.controller-friends .profile-list .controll a,
-.controller-followers .profile-list .controll a,
-.profiles-suggestions .profile-list .controll a {
+.controller-favorite_enterprises .profile-list .control a,
+.controller-friends .profile-list .control a,
+.controller-followers .profile-list .control a,
+.profiles-suggestions .profile-list .control a {
   display: block;
   margin-bottom: 2px;
 }
 
-.controller-favorite_enterprises .msie6 .profile-list .controll a,
-.controller-friends .msie6 .profile-list .controll a,
-.controller-folloed_people .msie6 .profile-list .controll a,
-.profiles-suggestions .msie6 .profile-list .controll a {
+.controller-favorite_enterprises .msie6 .profile-list .control a,
+.controller-friends .msie6 .profile-list .control a,
+.controller-folloed_people .msie6 .profile-list .control a,
+.profiles-suggestions .msie6 .profile-list .control a {
   width: 0px;
 }
 
@@ -338,7 +339,7 @@
       }
       &:hover .menu-submenu-trigger {
         display: block;
-        background: #fff url(../images/top-arrow.png) center center no-repeat;
+        background: $white url(../images/top-arrow.png) center center no-repeat;
         border: 1px solid #CCC;
       }
     }
@@ -389,7 +390,7 @@
   top: 3px;
   right: 2px;
   text-transform: uppercase;
-  color: #FFF;
+  color: $white;
   font-size: 9px;
   background: #66CC33;
   padding: 2px;

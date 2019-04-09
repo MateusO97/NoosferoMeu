@@ -14,9 +14,9 @@ class Block < ApplicationRecord
 
   acts_as_list scope: :box_id
 
-  belongs_to :box
-  belongs_to :mirror_block, :class_name => "Block"
-  has_many :observers, :class_name => "Block", :foreign_key => "mirror_block_id"
+  belongs_to :box, optional: true
+  belongs_to :mirror_block, class_name: "Block", optional: true
+  has_many :observers, class_name: "Block", foreign_key: "mirror_block_id"
   has_many :images, foreign_key: "owner_id"
 
   extend ActsAsHavingSettings::ClassMethods
@@ -95,7 +95,7 @@ class Block < ApplicationRecord
   def visible_to_user?(user)
     visible = self.display_to_user?(user)
     if self.owner.kind_of?(Profile)
-      visible &= self.owner.display_info_to?(user)
+      visible &= self.owner.display_to?(user)
       visible &= (self.visible? || user && user.has_permission?(:edit_profile_design, self.owner))
     elsif self.owner.kind_of?(Environment)
       visible &= (self.visible? || user && user.has_permission?(:edit_environment_design, self.owner))
@@ -206,7 +206,7 @@ class Block < ApplicationRecord
     self.move_modes == "all"
   end
 
-  # must always return false, except on MainBlock clas.
+  # must always return false, except on MainBlock class.
   def main?
     false
   end

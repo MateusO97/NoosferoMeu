@@ -1,3 +1,5 @@
+@import "color";
+
 #user form input {
   z-index: 7;
 }
@@ -35,12 +37,12 @@
 #user_box a:hover,
 .top_extra_menu a:hover {
   background: #3465A4;
-  color: #FFF;
+  color: $white;
 }
 
 .msie5 #user_box a,
 .msie5 .top_extra_menu a {
-  color: #FFF;
+  color: $white;
   text-decoration: none;
 }
 

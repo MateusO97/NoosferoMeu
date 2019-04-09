@@ -13,7 +13,7 @@ class PublicAccessRestrictionPlugin < Noosfero::Plugin
   end
 
   def should_block?(user, environment, params, profile)
-    params = params.with_indifferent_access
+    params = params.to_h.with_indifferent_access
     profile = Profile[params[:profile]] unless profile
     not(
       user ||
@@ -23,12 +23,13 @@ class PublicAccessRestrictionPlugin < Noosfero::Plugin
       params['controller'] == 'national_regions' ||
       params['controller'] == 'public_access_restriction_plugin_public_page' ||
       linked_on_portal_news(environment, params, profile) ||
-      show_newsletter(environment, profile)
+      show_newsletter?(environment, params, profile) ||
+      newsletter_mail?(environment, params)
     )
   end
 
   def should_display_public_page?(params)
-    params = params.with_indifferent_access
+    params = params.to_h.with_indifferent_access
     profile = Profile[params[:profile]]
     settings = Noosfero::Plugin::Settings.new(profile, self.class) if profile
     settings.show_public_page.in? ["1", true] if settings
@@ -37,7 +38,7 @@ class PublicAccessRestrictionPlugin < Noosfero::Plugin
   def application_controller_filters
     me = self
     {
-      type: 'before_filter',
+      type: 'before_action',
       method_name: 'public_access_restriction',
       block: lambda do
         if me.should_block? user, environment, params, profile
@@ -60,17 +61,23 @@ class PublicAccessRestrictionPlugin < Noosfero::Plugin
   def linked_on_portal_news(environment, params, profile)
     return false unless params['controller'] == 'content_viewer' && params['action'] == 'view_page'
     return false if params['page'].nil?
-    article = profile.articles.find_by(path: params['page'].join('/'))
+    article = profile.articles.find_by(path: params['page'])
     portal = environment.portal_community
     portal.articles.
       where(type: 'LinkArticle').
       where(reference_article_id: article.id).first.present?
   end
 
-  def show_newsletter environment, profile
+  def show_newsletter? environment, params, profile
     if environment.enabled_plugins.include?("NewsletterPlugin")
       newsletter = NewsletterPlugin::Newsletter.find_by(environment: environment.id)
       newsletter.blogs.find_by(profile: profile)
+    end
+  end
+
+  def newsletter_mail? environment, params
+    if environment.enabled_plugins.include?("NewsletterPlugin")
+      params['controller'] == 'newsletter_plugin' && params['action'] == 'mailing'
     end
   end
 

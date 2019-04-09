@@ -1,3 +1,4 @@
+@import "color";
 .highlights-block {
   float: left;
   background: transparent;
@@ -11,7 +12,7 @@
   .highlights-container {
     width: 100%;
     height: 300px;
-    background: #000;
+    background: $black;
     .highlights-image-link, .highlights-img1, .highlights-img2 {
       display: block;
       width: 100%;
@@ -68,7 +69,7 @@
       margin-left: 5px;
     }
     a.activeSlide:visited, a.activeSlide {
-      color: #000;
+      color: $black;
     }
   }
 }

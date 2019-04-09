@@ -1,3 +1,5 @@
+@import "color";
+
 .controller-profile_editor form {
   input[type=submit]:disabled {
     opacity: 0.5;
@@ -286,7 +288,7 @@
 }
 
 .field-with-privacy-selector:hover {
-  background-color: #F0F0F0;
+  background-color: $light_gray;
 }
 
 .controller-profile_editor #profile-data .field-with-privacy-selector .formfieldline {

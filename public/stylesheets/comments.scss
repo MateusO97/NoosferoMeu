@@ -1,3 +1,5 @@
+@import "color";
+
 form.comment_form {
   width: 100%;
   min-width: 100%;
@@ -42,16 +44,6 @@ form.comment_form {
   div.inline-captcha-wrapper {
     flex-grow: 1;
     flex-direction: row;
-    .comment-buttons {
-      display: flex;
-      flex-direction: column;
-    }
-    .button.with-text {
-      width: 90%;
-      margin-top: 10px;
-      margin-left: auto;
-      margin-right: auto !important
-    }
     #submit_form_button {
       margin-top: 15px;
     }
@@ -137,7 +129,7 @@ form.comment_form {
     box-sizing: border-box;
     color: #333;
     list-style: none;
-    background-color: #fff;
+    background-color: $white;
     border-top: 1px solid #e8e8e8;
     padding: 25px 0;
     width: 100%;
@@ -243,7 +235,7 @@ li.article-comment {
   display: flex;
   padding: 12px 0px 20px 0px;
   margin-bottom: 3px;
-  background-color: #fff;
+  background-color: $white;
   border-bottom: 1px solid #e8e8e8;
   width: 100%;
   .comment-author-pic {
@@ -414,7 +406,7 @@ a.comment-picture {
 #article .comment-footer {
   font-size: 10px;
   text-decoration: none;
-  color: #000;
+  color: $black;
 }
 
 #profile-activity .profile-activity-send-message a:hover,
@@ -444,7 +436,7 @@ a.comment-picture {
   text-decoration: none;
   font-size: 14px;
   font-weight: bold;
-  color: #000;
+  color: $black;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -597,7 +589,7 @@ a.comment-picture {
 .comment-replies .comment-created-at,
 .comment-replies .comment-logged-out .comment-text,
 .comment-logged-out h4 {
-  color: #000;
+  color: $black;
 }
 
 .comment-replies .comment-created-at {

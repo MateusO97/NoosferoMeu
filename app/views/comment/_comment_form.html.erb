@@ -5,7 +5,7 @@
   <%= error_messages_for :comment %>
 <% end %>
 
-<%= remote_form_for(@comment, :url => {:profile => profile.identifier, :controller => 'comment', :action => (edition_mode ? 'update' : 'create'), :id => (edition_mode ?  @comment.id : @page.id)}, :html => { :class => 'comment_form' } ) do |f| %>
+<%= form_for(@comment, remote: true, :url => {:profile => profile.identifier, :controller => 'comment', :action => (edition_mode ? 'update' : 'create'), :id => (edition_mode ?  @comment.id : @page.id)}, :html => { :class => 'comment_form' } ) do |f| %>
 
   <% if logged_in? %>
     <%= link_to(profile_image(current_person, :minor), current_person.url) if logged_in? %>
@@ -30,8 +30,10 @@
         <div class='comment-recaptcha'></div>
       <% end %>
         <div class="comment-buttons">
-          <%= f.submit _('Send'), :class => 'button with-text', :id => 'submit_form_button' %>
-          <a class="button with-text cancel-button" id="cancel-comment"><%= _("Cancel") %></a>
+          <%= button_bar do %>
+            <%= submit_button :comment, _('Send'), :id => 'submit_form_button' %>
+            <%= modal_close_button _('Cancel'), :id => 'cancel-comment' %>
+          <% end %>
         </div>
     </div>
   </div>

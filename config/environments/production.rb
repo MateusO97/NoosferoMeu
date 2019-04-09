@@ -9,7 +9,7 @@ Noosfero::Application.configure do
   # config.action_controller.perform_caching = true
 
   # Enable Rails's static asset server (Apache or nginx should do this)
-  config.serve_static_assets = true
+  config.serve_static_assets = false
 
   # Compress JavaScripts (sass-rails enable compression of CSS by default)
   config.assets.js_compressor = :uglifier
@@ -44,7 +44,7 @@ Noosfero::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
-  config.cache_store = :dalli_store, "127.0.0.1:11211", { :namespace => "noosfero/#{Noosfero::VERSION}" }
+  config.cache_store = :dalli_store, "cache:11211", { :namespace => "noosfero/#{Noosfero::VERSION}" }
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host                  = "http://assets.example.com"

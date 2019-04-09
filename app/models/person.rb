@@ -1,7 +1,11 @@
 # A person is the profile of an user holding all relationships with the rest of the system
 class Person < Profile
 
-  attr_accessible :organization, :contact_information, :sex, :birth_date, :cell_phone, :comercial_phone, :jabber_id, :personal_website, :nationality, :schooling, :schooling_status, :formation, :custom_formation, :area_of_study, :custom_area_of_study, :professional_activity, :organization_website, :following_articles, :editor
+  attr_accessible :organization, :contact_information, :sex, :birth_date, :cell_phone,
+                  :comercial_phone, :jabber_id, :personal_website, :nationality, :schooling,
+                  :schooling_status, :formation, :custom_formation, :area_of_study,
+                  :custom_area_of_study, :professional_activity, :organization_website,
+                  :following_articles, :editor
 
   SEARCH_FILTERS = {
     :order => %w[more_recent more_popular more_active],
@@ -27,7 +31,8 @@ class Person < Profile
     end
   end
   class << self
-    alias_method_chain :human_attribute_name, :customization
+    alias_method :human_attribute_name_without_customization, :human_attribute_name
+    alias_method :human_attribute_name, :human_attribute_name_with_customization
   end
 
   acts_as_trackable :after_add => Proc.new {|p,t| notify_activity(t)}
@@ -58,25 +63,13 @@ class Person < Profile
     distinct.select('profiles.*').where('"profiles"."id" NOT IN (SELECT DISTINCT profiles.id FROM "profiles" INNER JOIN "friendships" ON "friendships"."person_id" = "profiles"."id" WHERE "friendships"."friend_id" IN (%s))' % resources.map(&:id))
   }
 
-  scope :visible_for_person, lambda { |person|
-    joins('LEFT JOIN "role_assignments" ON
-          "role_assignments"."resource_id" = "profiles"."environment_id" AND
-          "role_assignments"."resource_type" = \'Environment\'')
-    .joins('LEFT JOIN "roles" ON "role_assignments"."role_id" = "roles"."id"')
-    .joins('LEFT JOIN "friendships" ON "friendships"."friend_id" = "profiles"."id"')
-    .where(
-      ['( roles.key = ? AND role_assignments.accessor_type = ? AND role_assignments.accessor_id = ? ) OR (
-        ( ( friendships.person_id = ? ) OR (profiles.public_profile = ?)) AND (profiles.visible = ?) )',
-         'environment_administrator', Profile.name, person.id, person.id,  true, true]
-    ).uniq
-  }
-
   def has_permission_with_admin?(permission, resource)
     return true if resource.blank? || resource.admins.include?(self)
     return true if resource.kind_of?(Profile) && resource.environment.admins.include?(self)
     has_permission_without_admin?(permission, resource)
   end
-  alias_method_chain :has_permission?, :admin
+  alias_method :has_permission_without_admin?, :has_permission?
+  alias_method :has_permission?, :has_permission_with_admin?
 
   def has_permission_with_plugins?(permission, resource)
     permissions = [has_permission_without_plugins?(permission, resource)]
@@ -85,7 +78,8 @@ class Person < Profile
     end
     permissions.include?(true)
   end
-  alias_method_chain :has_permission?, :plugins
+  alias_method :has_permission_without_plugins?, :has_permission?
+  alias_method :has_permission?, :has_permission_with_plugins?
 
   # for eager loading
   has_many :memberships, through: :role_assignments, source: :resource, source_type: 'Profile'
@@ -103,11 +97,11 @@ class Person < Profile
     memberships.where('role_assignments.role_id = ?', role.id)
   end
 
-  has_many :comments, :foreign_key => :author_id
-  has_many :article_followers, :dependent => :destroy
-  has_many :following_articles, :class_name => 'Article', :through => :article_followers, :source => :article
-  has_many :friendships, :dependent => :destroy
-  has_many :friends, :class_name => 'Person', :through => :friendships
+  has_many :comments, foreign_key: :author_id
+  has_many :article_followers, dependent: :destroy
+  has_many :following_articles, class_name: 'Article', through: :article_followers, source: :article
+  has_many :friendships, dependent: :destroy
+  has_many :friends, class_name: 'Person', through: :friendships
   has_many :circles
   has_many :push_subscriptions, as: :owner
   has_many :event_invitation
@@ -116,19 +110,19 @@ class Person < Profile
     joins(:user).where("users.chat_status != '' AND users.chat_status_at >= ?", DateTime.now - User.expires_chat_status_every.minutes)
   }
 
-  has_many :requested_tasks, :class_name => 'Task', :foreign_key => :requestor_id, :dependent => :destroy
+  has_many :requested_tasks, class_name:  'Task', foreign_key:  :requestor_id, dependent:  :destroy
 
-  has_many :abuse_reports, :foreign_key => 'reporter_id', :dependent => :destroy
+  has_many :abuse_reports, foreign_key:  'reporter_id', dependent:  :destroy
 
   has_many :mailings
 
-  has_many :scraps_sent, :class_name => 'Scrap', :foreign_key => :sender_id, :dependent => :destroy
+  has_many :scraps_sent, class_name:  'Scrap', foreign_key:  :sender_id, dependent:  :destroy
 
   has_many :favorite_enterprise_people
   has_many :favorite_enterprises, source: :enterprise, through: :favorite_enterprise_people
 
-  has_and_belongs_to_many :acepted_forums, :class_name => 'Forum', :join_table => 'terms_forum_people'
-  has_and_belongs_to_many :articles_with_access, :class_name => 'Article', :join_table => 'article_privacy_exceptions'
+  has_and_belongs_to_many :acepted_forums, class_name:  'Forum', :join_table => 'terms_forum_people'
+  has_and_belongs_to_many :articles_with_access, class_name:  'Article', :join_table => 'article_privacy_exceptions'
 
   has_many :suggested_profiles, -> { order 'score DESC' },
     class_name: 'ProfileSuggestion', foreign_key: :person_id, dependent: :destroy
@@ -139,7 +133,7 @@ class Person < Profile
     where 'profile_suggestions.suggestion_type = ? AND profile_suggestions.enabled = ?', 'Community', true
   }, through: :suggested_profiles, source: :suggestion
 
-  has_and_belongs_to_many :marked_scraps, :join_table => :private_scraps, :class_name => 'Scrap'
+  has_and_belongs_to_many :marked_scraps, :join_table => :private_scraps, class_name:  'Scrap'
 
   scope :more_popular, -> { order 'profiles.friends_count DESC' }
 
@@ -166,7 +160,7 @@ class Person < Profile
     Friendship.where(friend_id: person.id).each{ |friendship| friendship.destroy }
   end
 
-  belongs_to :user, :dependent => :delete
+  belongs_to :user, dependent: :delete, optional: true
 
   acts_as_voter
 
@@ -187,12 +181,12 @@ class Person < Profile
   end
 
   def can_control_activity?(activity)
-    self.tracked_notifications.exists?(activity)
+    self.tracked_notifications.exists?(activity.id)
   end
 
   def can_post_content?(profile, parent=nil)
     (!parent.nil? && (parent.allow_create?(self))) ||
-      (self.has_permission?('post_content', profile) || self.has_permission?('publish_content', profile))
+      self.has_permission?('post_content', profile)
   end
 
   # Sets the identifier for this person. Raises an exception when called on a
@@ -258,61 +252,36 @@ class Person < Profile
   end
 
   FIELDS = %w[
-  description
-  preferred_domain
-  nickname
-  sex
-  birth_date
-  nationality
-  cell_phone
-  comercial_phone
-  personal_website
-  jabber_id
-  schooling
-  formation
-  custom_formation
-  area_of_study
-  custom_area_of_study
-  professional_activity
-  organization
-  organization_website
-  contact_phone
-  contact_information
-  full_address
-  location
-  ]
+    description
+    preferred_domain
+    nickname
+    sex
+    birth_date
+    nationality
+    cell_phone
+    comercial_phone
+    personal_website
+    jabber_id
+    schooling
+    formation
+    custom_formation
+    area_of_study
+    custom_area_of_study
+    professional_activity
+    organization
+    organization_website
+    contact_phone
+    contact_information
+    location
+  ] + LOCATION_FIELDS
 
   validates_multiparameter_assignments
 
+  validate :presence_of_required_fields, :unless => :is_template
+  validate :phone_format_is_valid, unless: :is_template
+
   def self.fields
     FIELDS
-  end
-
-  validate :presence_of_required_fields, :unless => :is_template
-
-  # Special cases for presence_of_required_fields. You can set:
-  # - cond: to be executed rather than checking if the field is blank
-  # - unless: an exception for when the field is not present
-  # - to_fields: map the errors to these fields rather than `field`
-  REQUIRED_FIELDS_EXCEPTIONS = {
-    custom_area_of_study: { unless: Proc.new{|p| p.area_of_study != 'Others' } },
-    custom_formation: { unless: Proc.new{|p| p.formation != 'Others' } },
-    location: { cond: Proc.new{|p| p.lat.nil? || p.lng.nil? }, to_fields: [:lat, :lng] }
-  }
-
-  def presence_of_required_fields
-    self.required_fields.each do |field|
-      opts = REQUIRED_FIELDS_EXCEPTIONS[field.to_sym] || {}
-      if (opts[:cond] ? opts[:cond].call(self) : self.send(field).blank?)
-        unless opts[:unless].try(:call, self)
-          fields = opts[:to_fields] || field
-          fields = fields.kind_of?(Array) ? fields : [fields]
-          fields.each do |to_field|
-            self.errors.add_on_blank(to_field)
-          end
-        end
-      end
-    end
   end
 
   before_save do |person|
@@ -442,14 +411,6 @@ class Person < Profile
     ['%s@%s' % [self.identifier, self.email_domain] ]
   end
 
-  def display_private_info_to?(user)
-    if friends.include?(user)
-      true
-    else
-      super
-    end
-  end
-
   def default_template
     environment.person_default_template
   end
@@ -489,7 +450,7 @@ class Person < Profile
     self.friends.include?(person)
   end
 
-  has_and_belongs_to_many :refused_communities, :class_name => 'Community', :join_table => 'refused_join_community'
+  has_and_belongs_to_many :refused_communities, class_name: 'Community', :join_table => 'refused_join_community'
 
   def ask_to_join?(community)
     return false if !community.visible?
@@ -671,5 +632,60 @@ class Person < Profile
 
   def pending_tasks
     Task.to(self).pending
+  end
+
+  def display_private_info_to?(person)
+    super || (is_a_friend?(person) && display_to?(person))
+  end
+
+  def self.get_field_origin field
+    if Person.column_names.include? field
+      'self'
+    elsif User.column_names.include? field
+      'user'
+    else
+      'data'
+    end
+  end
+
+  private
+
+  # Special cases for presence_of_required_fields. You can set:
+  # - cond: to be executed rather than checking if the field is blank
+  # - unless: an exception for when the field is not present
+  # - to_fields: map the errors to these fields rather than `field`
+  REQUIRED_FIELDS_EXCEPTIONS = {
+    custom_area_of_study: { unless: Proc.new{|p| p.area_of_study != 'Others' } },
+    custom_formation: { unless: Proc.new{|p| p.formation != 'Others' } },
+    location: { cond: Proc.new{|p| p.lat.nil? || p.lng.nil? }, to_fields: [:lat, :lng] }
+  }
+
+  def presence_of_required_fields
+    self.required_fields.each do |field|
+      opts = REQUIRED_FIELDS_EXCEPTIONS[field.to_sym] || {}
+      if (opts[:cond] ? opts[:cond].call(self) : self.send(field).blank?)
+        unless opts[:unless].try(:call, self)
+          fields = opts[:to_fields] || field
+          fields = fields.kind_of?(Array) ? fields : [fields]
+          fields.each do |to_field|
+            if self.send(to_field).blank?
+              self.errors.add(to_field, :blank)
+            end
+          end
+        end
+      end
+    end
+  end
+
+  PHONE_FIELDS = %i(cell_phone comercial_phone contact_phone)
+  PHONE_FORMAT = /^\d{5,15}$/
+
+  def phone_format_is_valid
+    PHONE_FIELDS.each do |field|
+      if self.send(field).present? && self.send(field) !~ PHONE_FORMAT
+        self.errors.add(field, _('is not valid. Check the digits and '\
+                                 'make sure to use only numbers.'))
+      end
+    end
   end
 end

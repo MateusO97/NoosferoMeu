@@ -97,7 +97,7 @@ class Noosfero::Plugin
     # This is a generic method that initialize any possible filter defined by a
     # plugin to a specific controller
     def load_plugin_filters(plugin)
-      ActionDispatch::Reloader.to_prepare do
+      ActiveSupport::Reloader.to_prepare do
         filters = plugin.new.send 'application_controller_filters' rescue []
         Noosfero::Plugin.add_controller_filters ApplicationController, plugin, filters
 
@@ -119,7 +119,7 @@ class Noosfero::Plugin
     #
     # Checkout FooPlugin for usage example.
     def load_plugin_hotspots(plugin)
-      ActionDispatch::Reloader.to_prepare do
+      ActiveSupport::Reloader.to_prepare do
         begin
           module_name = "#{plugin.name}::Hotspots"
           Noosfero::Plugin.send(:include, module_name.constantize)
@@ -143,7 +143,7 @@ class Noosfero::Plugin
     end
 
     def load_plugin_extensions(dir)
-      ActionDispatch::Reloader.to_prepare do
+      ActiveSupport::Reloader.to_prepare do
         Dir[File.join(dir, 'lib', 'ext', '**', '*.rb')].each{ |file| require_dependency file }
       end
     end
@@ -489,7 +489,7 @@ class Noosfero::Plugin
   end
 
   # -> Extends person memberships list
-  # returns = An instance of ActiveRecord::NamedScope::Scope retrived through
+  # returns = An instance of ActiveRecord::NamedScope::Scope retrieved through
   # Person.memberships_of method.
   def person_memberships(person)
     nil
@@ -589,7 +589,7 @@ class Noosfero::Plugin
   # own use in specific views
   def find_by_contents(asset, scope, query, paginate_options={}, options={})
     scope = scope.like_search(query, options) unless query.blank?
-    scope = scope.send(options[:filter]) unless options[:filter].blank? || options[:filter] == 'more_relevant'
+    scope = scope.send(options[:order]) unless options[:order].blank? || options[:order] == 'more_relevant'
     {:results => scope.paginate(paginate_options)}
   end
 
@@ -740,7 +740,7 @@ class Noosfero::Plugin
     nil
   end
 
-  # -> Implements a custom notificaiton strategy for the Notifiable module
+  # -> Implements a custom notification strategy for the Notifiable module
   def custom_notification(verb, *args)
     nil
   end
@@ -784,7 +784,7 @@ class Noosfero::Plugin
     #             :method_name => method_name,
     #             :options => {:opt1 => opt1, :opt2 => opt2},
     #             :block => Proc or lambda block}
-    #   type = 'before_filter' or 'after_filter'
+    #   type = 'before_action' or 'after_filter'
     #   method_name = The name of the filter
     #   option = Filter options, like :only or :except
     #   block = Block that the filter will call

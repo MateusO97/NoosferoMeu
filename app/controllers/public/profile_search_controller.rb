@@ -3,7 +3,7 @@ class ProfileSearchController < PublicController
   include SearchHelper
 
   needs_profile
-  before_filter :check_access_to_profile
+  before_action :check_access_to_profile
 
   def index
     @q = params[:q]
@@ -24,7 +24,7 @@ class ProfileSearchController < PublicController
   protected
 
   def check_access_to_profile
-    unless profile.display_info_to?(user)
+    unless profile.display_to?(user)
       redirect_to :controller => 'profile', :action => 'index'
     end
   end

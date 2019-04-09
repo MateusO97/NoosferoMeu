@@ -17,7 +17,7 @@ class VideoPlugin::VideoGallery < Folder
   extend ActsAsHavingSettings::ClassMethods
   acts_as_having_settings field: :setting
 
-  xss_terminate :only => [ :body ], :with => 'white_list', :on => 'validation'
+  xss_terminate :only => [ :body ], with: :white_list, on: :validation
 
   include WhiteListFilter
   filter_iframes :body
@@ -56,9 +56,4 @@ class VideoPlugin::VideoGallery < Folder
   def self.icon_name(article = nil)
     'Video gallery'
   end
-
-  def news(limit = 30, highlight = false)
-    profile.recent_documents(limit, ["articles.type != ? AND articles.highlighted = ? AND articles.parent_id = ?", 'Folder', highlight, id])
-  end
-
 end

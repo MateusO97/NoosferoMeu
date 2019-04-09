@@ -26,18 +26,18 @@ class ProductsPlugin::Product < ApplicationRecord
     'full'
   end
 
-  belongs_to :profile
+  belongs_to :profile, optional: true
   # backwards compatibility
-  belongs_to :enterprise, foreign_key: :profile_id, class_name: 'Enterprise'
+  belongs_to :enterprise, foreign_key: :profile_id, class_name: 'Enterprise', optional: true
   alias_method :enterprise=, :profile=
   alias_method :enterprise, :profile
 
   has_one :region, through: :profile
   validates_presence_of :profile
 
-  belongs_to :product_category
+  belongs_to :product_category, optional: true
 
-  has_many :inputs, -> { order 'position' }, dependent: :destroy
+  has_many :inputs, -> { order(position: :asc) }, dependent: :destroy
   has_many :price_details, dependent: :destroy
   has_many :production_costs, through: :price_details
 
@@ -67,25 +67,6 @@ class ProductsPlugin::Product < ApplicationRecord
     joins(:product_category).where('categories.path LIKE ?', "%#{category.slug}%") if category
   }
 
-  scope :visible_for_person, lambda { |person|
-    joins('INNER JOIN "profiles" enterprises ON enterprises."id" = "products"."profile_id"')
-    .joins('LEFT JOIN "role_assignments" ON ("role_assignments"."resource_id" = enterprises."id"
-          AND "role_assignments"."resource_type" = \'Profile\') OR (
-          "role_assignments"."resource_id" = enterprises."environment_id" AND
-          "role_assignments"."resource_type" = \'Environment\' )')
-    .joins('LEFT JOIN "roles" ON "role_assignments"."role_id" = "roles"."id"')
-    .where(
-      ['( (roles.key = ? OR roles.key = ?) AND role_assignments.accessor_type = \'Profile\' AND role_assignments.accessor_id = ? )
-        OR
-        ( ( ( role_assignments.accessor_type = \'Profile\' AND
-              role_assignments.accessor_id = ? ) OR
-            ( enterprises.public_profile = ? AND enterprises.enabled = ? ) ) AND
-          ( enterprises.visible = ? ) )',
-      'profile_admin', 'environment_administrator', person.id, person.id,
-      true, true, true]
-    ).uniq
-  }
-
   scope :recent, -> limit=nil { order('id DESC').limit(limit) }
 
   after_update :save_image
@@ -97,10 +78,10 @@ class ProductsPlugin::Product < ApplicationRecord
     self.profile.lng
   end
 
-  xss_terminate only: [ :name ], on: 'validation'
-  xss_terminate only: [ :description ], with: 'white_list', on: 'validation'
+  xss_terminate only: [ :name ], on: :validation
+  xss_terminate only: [ :description ], with: :white_list, on: :validation
 
-  belongs_to :unit
+  belongs_to :unit, optional: true
 
   include FloatHelper
 
@@ -147,7 +128,7 @@ class ProductsPlugin::Product < ApplicationRecord
   end
 
   def public?
-    self.profile.public?
+    self.profile.display_to?
   end
 
   def formatted_value(method)

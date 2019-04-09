@@ -7,7 +7,7 @@ class ArticlesTest < ActiveSupport::TestCase
     login_api
   end
 
-  expose_attributes = %w(id body abstract created_at title author profile categories image votes_for votes_against setting position hits start_date end_date tag_list parent children children_count url)
+  expose_attributes = %w(id body abstract created_at title author profile categories image votes_for votes_against setting position hits start_date end_date tag_list parent_id children children_count url access)
 
   expose_attributes.each do |attr|
     should "expose article #{attr} attribute by default" do
@@ -100,7 +100,7 @@ class ArticlesTest < ActiveSupport::TestCase
 
   should 'not list forbidden article when listing articles' do
     person = fast_create(Person)
-    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false)
+    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
     assert !article.published?
 
     get "/api/v1/articles?#{params.to_query}"
@@ -117,7 +117,7 @@ class ArticlesTest < ActiveSupport::TestCase
 
   should 'not return article if user has no permission to view it' do
     person = fast_create(Person, :environment_id => environment.id)
-    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false)
+    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
     assert !article.published?
 
     get "/api/v1/articles/#{article.id}?#{params.to_query}"
@@ -184,7 +184,7 @@ class ArticlesTest < ActiveSupport::TestCase
 
   should 'not list children of forbidden article' do
     person = fast_create(Person, :environment_id => environment.id)
-    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false)
+    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
     child1 = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing")
     child2 = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing")
     get "/api/v1/articles/#{article.id}/children?#{params.to_query}"
@@ -193,7 +193,7 @@ class ArticlesTest < ActiveSupport::TestCase
 
   should 'not return child of forbidden article' do
     person = fast_create(Person, :environment_id => environment.id)
-    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false)
+    article = fast_create(Article, :profile_id => person.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
     child = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing")
     get "/api/v1/articles/#{article.id}/children/#{child.id}?#{params.to_query}"
     assert_equal 403, last_response.status
@@ -202,7 +202,7 @@ class ArticlesTest < ActiveSupport::TestCase
   should 'not return private child' do
     person = fast_create(Person, :environment_id => environment.id)
     article = fast_create(Article, :profile_id => person.id, :name => "Some thing")
-    child = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing", :published => false)
+    child = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
     get "/api/v1/articles/#{article.id}/children/#{child.id}?#{params.to_query}"
     assert_equal 403, last_response.status
   end
@@ -210,7 +210,7 @@ class ArticlesTest < ActiveSupport::TestCase
   should 'not list private child' do
     person = fast_create(Person, :environment_id => environment.id)
     article = fast_create(Article, :profile_id => person.id, :name => "Some thing")
-    child = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing", :published => false)
+    child = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
     get "/api/v1/articles/#{article.id}/children?#{params.to_query}"
     json = JSON.parse(last_response.body)
     assert_not_includes json.map {|a| a['id']}, child.id
@@ -326,7 +326,7 @@ class ArticlesTest < ActiveSupport::TestCase
   end
 
   should 'list articles with pagination' do
-    Article.destroy_all
+    Article.delete_all
     article_one = fast_create(Article, :profile_id => user.person.id, :name => "Another thing", :created_at => 2.days.ago)
     article_two = fast_create(Article, :profile_id => user.person.id, :name => "Some thing", :created_at => 1.day.ago)
 
@@ -378,7 +378,7 @@ class ArticlesTest < ActiveSupport::TestCase
 
     should "not return article by #{kind} if user has no permission to view it" do
       profile = fast_create(kind.camelcase.constantize, :environment_id => environment.id)
-      article = fast_create(Article, :profile_id => profile.id, :name => "Some thing", :published => false)
+      article = fast_create(Article, :profile_id => profile.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
       assert !article.published?
 
       get "/api/v1/#{kind.pluralize}/#{profile.id}/articles/#{article.id}?#{params.to_query}"
@@ -387,7 +387,7 @@ class ArticlesTest < ActiveSupport::TestCase
 
     should "not list forbidden article when listing articles by #{kind}" do
       profile = fast_create(kind.camelcase.constantize, :environment_id => environment.id)
-      article = fast_create(Article, :profile_id => profile.id, :name => "Some thing", :published => false)
+      article = fast_create(Article, :profile_id => profile.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
       assert !article.published?
 
       get "/api/v1/#{kind.pluralize}/#{profile.id}/articles?#{params.to_query}"
@@ -400,43 +400,34 @@ class ArticlesTest < ActiveSupport::TestCase
       parent_article = Folder.create!(:profile => profile, :name => "Parent Folder")
       article = Article.create!(:profile => profile, :name => "Some thing", :parent => parent_article)
 
-      params[:path] = parent_article.slug+'/'+article.slug
-      get "/api/v1/#{kind.pluralize}/#{profile.id}/articles?#{params.to_query}"
+      params[:key] = 'path'
+      get "/api/v1/#{kind.pluralize}/#{profile.id}/articles/#{article.path}?#{params.to_query}"
       json = JSON.parse(last_response.body)
       assert_equal article.id, json["id"]
     end
 
-    should "return an empty array if theres id no article in path of #{kind}" do
+    should "return an error if there is no article in path of #{kind}" do
       profile = fast_create(kind.camelcase.constantize, :environment_id => environment.id)
       parent_article = Folder.create!(:profile => profile, :name => "Parent Folder")
       article = Article.create!(:profile => profile, :name => "Some thing", :parent => parent_article)
 
-      params[:path] = 'no-path'
-      get "/api/v1/#{kind.pluralize}/#{profile.id}/articles?#{params.to_query}"
+      params[:key] = 'path'
+      get "/api/v1/#{kind.pluralize}/#{profile.id}/articles/no-path?#{params.to_query}"
       json = JSON.parse(last_response.body)
-      assert json.empty?
+      assert !json['success']
+      assert_equal Api::Status::Http::NOT_FOUND, json['code']
     end
 
     should "not return article by #{kind} and path if user has no permission to view it" do
       profile = fast_create(kind.camelcase.constantize, :environment_id => environment.id)
       parent_article = Folder.create!(:profile => profile, :name => "Parent Folder")
-      article = Article.create!(:profile => profile, :name => "Some thing", :parent => parent_article, :published => false)
+      article = Article.create!(:profile => profile, :name => "Some thing", :parent => parent_article, :published => false, :access => Entitlement::Levels.levels[:self])
 
       assert !article.published?
 
-      params[:path] = parent_article.slug+'/'+article.slug
-      get "/api/v1/#{kind.pluralize}/#{profile.id}/articles?#{params.to_query}"
+      params[:key] = 'path'
+      get "/api/v1/#{kind.pluralize}/#{profile.id}/articles/#{article.path}?#{params.to_query}"
       assert_equal 403, last_response.status
-    end
-
-    should "get article in #{kind} by path in articles endpoint be deprecated" do
-      profile = fast_create(kind.camelcase.constantize, :environment_id => environment.id)
-      parent_article = Folder.create!(:profile => profile, :name => "Parent Folder")
-      article = Article.create!(:profile => profile, :name => "Some thing", :parent => parent_article)
-
-      params[:path] = parent_article.slug+'/'+article.slug
-      get "/api/v1/#{kind.pluralize}/#{profile.id}/articles?#{params.to_query}"
-      assert_equal Api::Status::DEPRECATED, last_response.status
     end
 
     should "return article by #{kind} and path with key parameter" do
@@ -486,7 +477,7 @@ class ArticlesTest < ActiveSupport::TestCase
       params[:article] = {:name => "Title", :parent_id => article.id}
       post "/api/v1/#{kind.pluralize}/#{profile.id}/articles?#{params.to_query}"
       json = JSON.parse(last_response.body)
-      assert_equal article.id, json["parent"]["id"]
+      assert_equal article.id, json["parent_id"]
     end
 
     should "#{kind} create article with content type passed as parameter" do
@@ -595,7 +586,7 @@ class ArticlesTest < ActiveSupport::TestCase
     params[:article] = {:name => "Title", :parent_id => article.id}
     post "/api/v1/people/#{user.person.id}/articles?#{params.to_query}"
     json = JSON.parse(last_response.body)
-    assert_equal article.id, json["parent"]["id"]
+    assert_equal article.id, json["parent_id"]
   end
 
   should 'person create article with content type passed as parameter' do
@@ -663,7 +654,7 @@ class ArticlesTest < ActiveSupport::TestCase
     params[:article] = {:name => "Title"}
     post "/api/v1/articles/#{article.id}/children?#{params.to_query}"
     json = JSON.parse(last_response.body)
-    assert_equal article.id, json["parent"]["id"]
+    assert_equal article.id, json["parent_id"]
   end
 
   should "do not create article child if user has no permission to post content" do
@@ -814,6 +805,19 @@ class ArticlesTest < ActiveSupport::TestCase
     end
   end
 
+  should 'only show article parent when optional_fields parent is present' do
+    person = fast_create(Person)
+    article = fast_create(Article, :profile_id => person.id, :name => "Some thing")
+
+    get "/api/v1/articles/#{article.id}/?#{params.merge(:optional_fields => [:parent]).to_query}"
+    json = JSON.parse(last_response.body)
+    assert_includes json.keys, "parent"
+
+    get "/api/v1/articles/#{article.id}/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_not_includes json.keys, "parent"
+  end
+
   should 'only show article comments when optional_fields comments is present' do
     person = fast_create(Person)
     article = fast_create(Article, :profile_id => person.id, :name => "Some thing")
@@ -832,7 +836,7 @@ class ArticlesTest < ActiveSupport::TestCase
   should 'not list private child when get the parent article' do
     person = fast_create(Person, :environment_id => environment.id)
     article = fast_create(Article, :profile_id => person.id, :name => "Some thing")
-    child = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing", :published => false)
+    child = fast_create(Article, :parent_id => article.id, :profile_id => person.id, :name => "Some thing", :published => false, :access => Entitlement::Levels.levels[:self])
     get "/api/v1/articles/#{article.id}?#{params.to_query}"
     json = JSON.parse(last_response.body)
     assert_not_includes json['children'].map {|a| a['id']}, child.id
@@ -848,7 +852,7 @@ class ArticlesTest < ActiveSupport::TestCase
   end
 
   should 'return only article fields defined in parameter' do
-    Article.destroy_all
+    Article.delete_all
     article = fast_create(Article, :profile_id => user.person.id, :name => "Some thing")
     params[:fields] = {:only => ['id', 'title']}
     get "/api/v1/articles/?#{params.to_query}"
@@ -857,7 +861,7 @@ class ArticlesTest < ActiveSupport::TestCase
   end
 
   should 'return all article fields except the ones defined in parameter' do
-    Article.destroy_all
+    Article.delete_all
     article = fast_create(Article, :profile_id => user.person.id, :name => "Some thing")
     params[:fields] = {:except => ['id', 'title']}
     get "/api/v1/articles/?#{params.to_query}"
@@ -867,8 +871,8 @@ class ArticlesTest < ActiveSupport::TestCase
   end
 
   should 'search for articles' do
-    article1 = fast_create(Article, profile_id: user.person.id, name: "Some thing")
-    article2 = fast_create(Article, profile_id: user.person.id, name: "Other thing")
+    article1 = fast_create(TextArticle, profile_id: user.person.id, name: "Some thing")
+    article2 = fast_create(TextArticle, profile_id: user.person.id, name: "Other thing")
     params[:search] = 'some'
     get "/api/v1/articles/?#{params.to_query}"
     json = JSON.parse(last_response.body)
@@ -901,4 +905,90 @@ class ArticlesTest < ActiveSupport::TestCase
     json = JSON.parse(last_response.body)
     assert_equal ({"name" => [{"error"=>"blank", "full_message"=>"Title can't be blank"}]}), json["errors"]
   end
+
+  should 'return event articles from start_date' do
+    Article.delete_all
+    article = fast_create(Event, :profile_id => user.person.id, :name => "Some thing", start_date: DateTime.now + 1)
+    fast_create(Event, :profile_id => user.person.id, :name => "Some thing", start_date: DateTime.now - 1)
+    params[:from_start_date] = DateTime.now
+    get "/api/v1/articles/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal 1, json.length
+    assert_equal json.first['id'], article.id
+  end
+
+  should 'return descendent of event articles from start_date' do
+    Article.delete_all
+    class EventDescendent < Event; end
+    article = fast_create(EventDescendent, :profile_id => user.person.id, :name => "Some thing", start_date: DateTime.now + 1)
+    fast_create(Event, :profile_id => user.person.id, :name => "Some thing", start_date: DateTime.now - 1)
+    params[:from_start_date] = DateTime.now
+    get "/api/v1/articles/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal 1, json.length
+    assert_equal json.first['id'], article.id
+  end
+
+
+  should 'return event articles from end_date' do
+    Article.delete_all
+    fast_create(Event, :profile_id => user.person.id, end_date: DateTime.now + 2)
+    article = fast_create(Event, :profile_id => user.person.id, end_date: DateTime.now)
+    fast_create(Event, :profile_id => user.person.id)
+    params[:until_end_date] = DateTime.now + 1
+    get "/api/v1/articles/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal 1, json.length
+    assert_equal json.first['id'], article.id
+  end
+
+  should 'return event articles from start_date and end_date' do
+    Article.delete_all
+    fast_create(Event, :profile_id => user.person.id, :name => "Some thing", start_date: DateTime.now + 1, end_date: DateTime.now + 2)
+    article = fast_create(Event, :profile_id => user.person.id, :name => "Some thing", start_date: DateTime.now + 1, end_date: DateTime.now)
+    fast_create(Event, :profile_id => user.person.id, :name => "Some thing", start_date: DateTime.now - 1)
+    params[:from_start_date] = DateTime.now
+    params[:until_end_date] = DateTime.now + 1
+    get "/api/v1/articles/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal 1, json.length
+    assert_equal json.first['id'], article.id
+  end
+
+  should 'return articles from start_date' do
+    Article.delete_all
+    article = fast_create(TextArticle, :profile_id => user.person.id, created_at: DateTime.now + 1)
+    fast_create(Event, :profile_id => user.person.id, created_at: DateTime.now - 1)
+    params[:from_start_date] = DateTime.now
+    get "/api/v1/articles/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal 1, json.length
+    assert_equal json.first['id'], article.id
+  end
+
+  should 'return articles from end_date' do
+    Article.delete_all
+    fast_create(TextArticle, :profile_id => user.person.id, created_at: DateTime.now + 2)
+    article = fast_create(TextArticle, :profile_id => user.person.id, created_at: DateTime.now)
+    fast_create(TextArticle, :profile_id => user.person.id)
+    params[:until_end_date] = DateTime.now + 1
+    get "/api/v1/articles/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal 1, json.length
+    assert_equal json.first['id'], article.id
+  end
+
+  should 'return articles from start_date and end_date' do
+    Article.delete_all
+    fast_create(TextArticle, :profile_id => user.person.id, created_at: DateTime.now - 2)
+    article = fast_create(TextArticle, :profile_id => user.person.id, created_at: DateTime.now)
+    fast_create(TextArticle, :profile_id => user.person.id, created_at: DateTime.now + 2)
+    params[:from_start_date] = DateTime.now - 1
+    params[:until_end_date] = DateTime.now + 1
+    get "/api/v1/articles/?#{params.to_query}"
+    json = JSON.parse(last_response.body)
+    assert_equal 1, json.length
+    assert_equal json.first['id'], article.id
+  end
+
 end

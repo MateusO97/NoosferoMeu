@@ -3,7 +3,9 @@ class Organization < Profile
 
 include OrganizationHelper
 
-  attr_accessible :moderated_articles, :foundation_year, :contact_person, :acronym, :legal_form, :economic_activity, :management_information, :cnpj, :display_name, :enable_contact_us
+  attr_accessible :moderated_articles, :foundation_year, :contact_person,
+                  :acronym, :legal_form, :economic_activity, :management_information,
+                  :cnpj, :display_name, :enable_contact_us
   attr_accessible :requires_email
 
   settings_items :requires_email, type: :boolean
@@ -14,36 +16,6 @@ include OrganizationHelper
     :display => %w[compact]
   }
 
-  # An Organization is considered visible to a given person if one of the
-  # following conditions are met:
-  #   1) The user is an environment administrator.
-  #   2) The user is an administrator of the organization.
-  #   3) The user is a member of the organization and the organization is
-  #   visible.
-  #   4) The user is not a member of the organization but the organization is
-  #   visible, public and enabled.
-  scope :listed_for_person, lambda { |person|
-
-    joins('LEFT JOIN "role_assignments" ON ("role_assignments"."resource_id" = "profiles"."id"
-          AND "role_assignments"."resource_type" = \'Profile\') OR (
-          "role_assignments"."resource_id" = "profiles"."environment_id" AND
-          "role_assignments"."resource_type" = \'Environment\' )')
-    .joins('LEFT JOIN "roles" ON "role_assignments"."role_id" = "roles"."id"')
-    .where(
-      ['( (roles.key = ? OR roles.key = ?) AND role_assignments.accessor_type = ? AND role_assignments.accessor_id = ? ) OR (
-        ( ( role_assignments.accessor_type = ? AND role_assignments.accessor_id = ? ) OR ( profiles.enabled = ?)) AND (profiles.visible = ?) )',
-         'profile_admin', 'environment_administrator', Profile.name, person.id, Profile.name, person.id,  true, true]
-     ).uniq
-  }
-
-  scope :visible_for_person, lambda { |person|
-	    listed_for_person(person).where( ['
-        ( ( role_assignments.accessor_type = ? AND role_assignments.accessor_id = ? ) OR
-          ( profiles.enabled = ? AND profiles.public_profile = ? ) )',
-      Profile.name, person.id,  true, true]
-    )
-  }
-
 
   settings_items :closed, :type => :boolean, :default => false
   def closed?
@@ -51,7 +23,7 @@ include OrganizationHelper
   end
 
   before_save do |organization|
-    organization.closed = true if !organization.public_profile?
+    organization.closed = true if organization.access == Entitlement::Levels.levels[:self]
   end
 
   settings_items :moderated_articles, :type => :boolean, :default => false
@@ -61,11 +33,11 @@ include OrganizationHelper
 
   has_one :validation_info
 
-  has_many :validations, :class_name => 'CreateEnterprise', :foreign_key => :target_id
+  has_many :validations, class_name:  'CreateEnterprise', foreign_key:  :target_id
 
-  has_many :mailings, :class_name => 'OrganizationMailing', :foreign_key => :source_id, :as => 'source'
+  has_many :mailings, class_name:  'OrganizationMailing', foreign_key:  :source_id, :as => 'source'
 
-  has_many :custom_roles, :class_name => 'Role', :foreign_key => :profile_id
+  has_many :custom_roles, class_name:  'Role', foreign_key:  :profile_id
 
   scope :more_popular, -> { order 'profiles.members_count DESC' }
 
@@ -78,7 +50,7 @@ include OrganizationHelper
   def presence_of_required_fieds
     self.required_fields.each do |field|
       if self.send(field).blank?
-        self.errors.add_on_blank(field)
+        self.errors.add(field, :blank)
       end
     end
   end
@@ -122,10 +94,9 @@ include OrganizationHelper
     management_information
     template_id
     address_line2
-    address_reference
     profile_kinds
     location
-  ]
+  ] + LOCATION_FIELDS
 
   def self.fields
     FIELDS
@@ -152,7 +123,7 @@ include OrganizationHelper
   validates_format_of :contact_email, :with => Noosfero::Constants::EMAIL_FORMAT, :if => (lambda { |org| !org.contact_email.blank? })
   validates_as_cnpj :cnpj
 
-  xss_terminate :only => [ :acronym, :contact_person, :contact_email, :legal_form, :economic_activity, :management_information ], :on => 'validation'
+  xss_terminate only: [ :acronym, :contact_person, :contact_email, :legal_form, :economic_activity, :management_information ], on: :validation
 
   # Yes, organizations have members.
   #
@@ -224,7 +195,7 @@ include OrganizationHelper
     self.admins.where(:id => user.id).exists?
   end
 
-  def display_private_info_to?(user)
-    (public_profile && visible && !secret) || super
+  def display_private_info_to?(person)
+    super || (members.include?(person) && display_to?(person))
   end
 end

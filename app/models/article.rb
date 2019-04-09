@@ -1,4 +1,3 @@
-
 class Article < ApplicationRecord
 
   module Editor
@@ -9,6 +8,8 @@ class Article < ApplicationRecord
 
   include SanitizeHelper
   include SanitizeTags
+  include Entitlement::SliderHelper
+  include Entitlement::ArticleJudge
 
   attr_accessible :name, :body, :abstract, :profile, :tag_list, :parent,
                   :allow_members_to_edit, :translation_of_id, :language,
@@ -19,7 +20,7 @@ class Article < ApplicationRecord
                   :external_feed_builder, :display_versions, :external_link,
                   :image_builder, :show_to_followers, :archived,
                   :author, :display_preview, :published_at, :person_followers,
-                  :editor, :metadata, :position
+                  :editor, :metadata, :position, :access
 
   extend ActsAsHavingImage::ClassMethods
   acts_as_having_image
@@ -52,8 +53,6 @@ class Article < ApplicationRecord
     if params.present? && params.first.present?
       if params.first.symbolize_keys.has_key?(:published)
         self.published = params.first.symbolize_keys[:published]
-      elsif params.first[:profile].present? && !params.first[:profile].public_profile
-        self.published = false
       end
     end
   end
@@ -79,7 +78,7 @@ class Article < ApplicationRecord
     end
   end
 
-  belongs_to :profile
+  belongs_to :profile, optional: true
   validates_presence_of :profile_id, :name
   validates_presence_of :slug, :path, :if => lambda { |article| !article.name.blank? }
 
@@ -90,21 +89,21 @@ class Article < ApplicationRecord
 
   validates_uniqueness_of :slug, :scope => ['profile_id', 'parent_id'], :message => N_('The title (article name) is already being used by another article, please use another title.'), :if => lambda { |article| !article.slug.blank? }
 
-  belongs_to :author, :class_name => 'Person'
-  belongs_to :last_changed_by, :class_name => 'Person', :foreign_key => 'last_changed_by_id'
-  belongs_to :created_by, :class_name => 'Person', :foreign_key => 'created_by_id'
+  belongs_to :author, class_name: 'Person', optional: true
+  belongs_to :last_changed_by, class_name: 'Person', foreign_key: 'last_changed_by_id', optional: true
+  belongs_to :created_by, class_name: 'Person', foreign_key: 'created_by_id', optional: true
 
   has_many :comments, -> { order 'created_at asc' }, class_name: 'Comment', as: 'source', dependent: :destroy
 
-  has_many :article_followers, :dependent => :destroy
-  has_many :person_followers, :class_name => 'Person', :through => :article_followers, :source => :person
+  has_many :article_followers, dependent: :destroy
+  has_many :person_followers, class_name: 'Person', through: :article_followers, source: :person
   has_many :person_followers_emails, -> { select :email }, class_name: 'User', through: :person_followers, source: :user
 
   has_many :article_categorizations, -> { where 'articles_categories.virtual = ?', false }
-  has_many :categories, :through => :article_categorizations
+  has_many :categories, through: :article_categorizations
 
-  has_many :article_categorizations_including_virtual, :class_name => 'ArticleCategorization'
-  has_many :categories_including_virtual, :through => :article_categorizations_including_virtual, :source => :category
+  has_many :article_categorizations_including_virtual, class_name: 'ArticleCategorization'
+  has_many :categories_including_virtual, through: :article_categorizations_including_virtual, source: :category
 
   extend ActsAsHavingSettings::ClassMethods
   acts_as_having_settings field: :setting
@@ -116,14 +115,14 @@ class Article < ApplicationRecord
   settings_items :author_name, :type => :string, :default => ""
   settings_items :allow_members_to_edit, :type => :boolean, :default => false
   settings_items :moderate_comments, :type => :boolean, :default => false
-  has_and_belongs_to_many :article_privacy_exceptions, :class_name => 'Person', :join_table => 'article_privacy_exceptions'
+  has_and_belongs_to_many :article_privacy_exceptions, class_name:  'Person', :join_table => 'article_privacy_exceptions'
 
-  belongs_to :reference_article, :class_name => "Article", :foreign_key => 'reference_article_id'
+  belongs_to :reference_article, class_name: "Article", foreign_key: 'reference_article_id', optional: true
 
-  belongs_to :license
+  belongs_to :license, optional: true
 
-  has_many :translations, :class_name => 'Article', :foreign_key => :translation_of_id
-  belongs_to :translation_of, :class_name => 'Article', :foreign_key => :translation_of_id
+  has_many :translations, class_name: 'Article', foreign_key: :translation_of_id
+  belongs_to :translation_of, class_name: 'Article', foreign_key: :translation_of_id, optional: true
   before_destroy :rotate_translations
 
   acts_as_voteable
@@ -150,13 +149,19 @@ class Article < ApplicationRecord
 
   after_destroy :destroy_link_article
   def destroy_link_article
-    Article.where(:reference_article_id => self.id, :type => LinkArticle).destroy_all
+    Article.where(reference_article_id: self.id, type: 'LinkArticle').destroy_all
   end
 
-  xss_terminate :only => [ :name ], :on => 'validation', :with => 'white_list'
+  xss_terminate only: [ :name ], on: :validation, with: :white_list
 
   scope :in_category, -> category {
     includes('categories_including_virtual').where('categories.id' => category.id)
+  }
+
+  scope :relevant_as_recent, -> {
+    where "(articles.type != 'UploadedFile' and articles.type != 'RssFeed' and
+            articles.type != 'Gallery' and articles.type != 'Blog') OR
+           articles.type is NULL"
   }
 
   include TimeScopes
@@ -179,6 +184,7 @@ class Article < ApplicationRecord
   validate :parent_archived?
 
   validate :valid_slug
+  validate :access_value
 
   RESERVED_SLUGS = %w[
     about
@@ -187,6 +193,12 @@ class Article < ApplicationRecord
 
   def valid_slug
     errors.add(:title, _('is not available as article name.')) unless Article.is_slug_available?(slug)
+  end
+
+  def access_value
+    if profile.present? && access < profile.access
+      self.errors.add(:access, _('can not be less restrictive than this profile access which is: %s.') % Entitlement::Levels.label(profile.access, profile))
+    end
   end
 
   def self.is_slug_available?(slug)
@@ -228,7 +240,8 @@ class Article < ApplicationRecord
     end
   end
   class << self
-    alias_method_chain :human_attribute_name, :customization
+    alias_method :human_attribute_name_without_customization, :human_attribute_name
+    alias_method :human_attribute_name, :human_attribute_name_with_customization
   end
 
   def css_class_list
@@ -243,12 +256,12 @@ class Article < ApplicationRecord
     @pending_categorizations ||= []
   end
 
-  def add_category(c, reload=false)
+  def add_category(c)
     if new_record?
       pending_categorizations << c
     else
       ArticleCategorization.add_category_to_article(c, self)
-      self.categories(reload)
+      self.categories
     end
   end
 
@@ -257,7 +270,7 @@ class Article < ApplicationRecord
     ids.uniq.each do |item|
       add_category(Category.find(item)) unless item.to_i.zero?
     end
-    self.categories(true)
+    self.categories
   end
 
   after_create :create_pending_categorizations
@@ -265,7 +278,7 @@ class Article < ApplicationRecord
     pending_categorizations.each do |item|
       ArticleCategorization.add_category_to_article(item, self)
     end
-    self.categories(true)
+    self.categories
     pending_categorizations.clear
   end
 
@@ -302,37 +315,10 @@ class Article < ApplicationRecord
     where 'parent_id is null and profile_id = ?', profile.id
   }
 
-  scope :is_public, -> {
-    joins(:profile).
-    where("articles.advertise = ? AND articles.published = ? AND profiles.visible = ? AND profiles.public_profile = ?", true, true, true, true)
-  }
-
-  scope :more_recent, -> {
-    order('articles.published_at desc, articles.id desc')
-    .where("articles.advertise = ? AND articles.published = ? AND profiles.visible = ? AND profiles.public_profile = ? AND
-    ((articles.type != ?) OR articles.type is NULL)",
-    true, true, true, true, 'RssFeed')
-  }
-
   # retrives the most commented articles, sorted by the comment count (largest
   # first)
   def self.most_commented(limit)
     order('comments_count DESC').paginate(page: 1, per_page: limit)
-  end
-
-  scope :more_popular, -> { order 'hits DESC' }
-  scope :relevant_as_recent, -> {
-   where "(articles.type != 'UploadedFile' and articles.type != 'RssFeed' and articles.type != 'Blog') OR articles.type is NULL"
-  }
-
-  def self.recent(limit = nil, extra_conditions = {}, pagination = true)
-    result = where(extra_conditions).
-      is_public.
-      relevant_as_recent.
-      limit(limit).
-      order(['articles.published_at desc', 'articles.id desc'])
-
-    pagination ? result.paginate({:page => 1, :per_page => limit}) : result
   end
 
   # produces the HTML code that is to be displayed as this article's contents.
@@ -352,7 +338,7 @@ class Article < ApplicationRecord
     end
   end
 
-  # returns the data of the article. Must be overriden in each subclass to
+  # returns the data of the article. Must be overridden in each subclass to
   # provide the correct content for the article.
   def data
     body
@@ -426,6 +412,10 @@ class Article < ApplicationRecord
     @url ||= self.profile.url.merge(:page => path.split('/'))
   end
 
+  def page_path
+    path.split('/')
+  end
+
   def view_url
     @view_url ||= is_a?(UploadedFile) ? url.merge(:view => true) : url
   end
@@ -477,7 +467,7 @@ class Article < ApplicationRecord
   end
 
   def possible_translations
-    possibilities = environment.locales.keys - self.native_translation.translations(:select => :language).map(&:language) - [self.native_translation.language]
+    possibilities = environment.locales.keys - self.native_translation.translations.map(&:language) - [self.native_translation.language]
     possibilities << self.language unless self.language_changed?
     possibilities
   end
@@ -496,13 +486,13 @@ class Article < ApplicationRecord
 
   def translation_must_have_language
     unless self.translation_of.nil?
-      errors.add(:language, N_('Language must be choosen')) if self.language.blank?
+      errors.add(:language, N_('Language must be chosen')) if self.language.blank?
     end
   end
 
   def native_translation_must_have_language
     unless self.translation_of.nil?
-      errors.add(:base, N_('A language must be choosen for the native article')) if self.translation_of.language.blank?
+      errors.add(:base, N_('A language must be chosen for the native article')) if self.translation_of.language.blank?
     end
   end
 
@@ -526,15 +516,7 @@ class Article < ApplicationRecord
   end
 
   def published?
-    if self.published
-      if self.parent && !self.parent.published?
-        return false
-      end
-
-      true
-    else
-      false
-    end
+    published && (parent.blank? || parent.published?)
   end
 
   def archived?
@@ -552,52 +534,24 @@ class Article < ApplicationRecord
   scope :images, -> { where :is_image => true }
   scope :no_images, -> { where :is_image => false }
   scope :files, -> { where :type => 'UploadedFile' }
+  scope :no_files, -> { where "type != 'UploadedFile'" }
   scope :with_types, -> types { where 'articles.type IN (?)', types }
 
   scope :more_popular, -> { order 'articles.hits DESC' }
   scope :more_comments, -> { order "articles.comments_count DESC" }
-  scope :more_recent, -> { order "articles.created_at DESC" }
+  scope :more_recent, -> { order "articles.created_at DESC, articles.id DESC" }
 
-  scope :display_filter, lambda {|user, profile|
-    return published if (user.nil? && profile && profile.public?)
-    return [] if user.nil? || (profile && !profile.public? && !profile.in_social_circle?(user))
-    where(
-      [
-       "published = ? OR last_changed_by_id = ? OR profile_id = ? OR ?
-        OR  (show_to_followers = ? AND ? AND profile_id IN (?))", true, user.id, user.id,
-        profile.nil? ?  false : user.has_permission?(:view_private_content, profile),
-        true, (profile.nil? ? true : profile.in_social_circle?(user)),  ( profile.nil? ? (user.friends.select('profiles.id')) : [profile.id])
-      ]
-    )
+  scope :news, -> profile, limit, highlight {
+      no_folders(profile).
+      no_files.
+      where(highlighted: highlight).
+      limit(limit).
+      order("articles.metadata->'order' NULLS FIRST, published_at DESC")
   }
-
-
-  def display_unpublished_article_to?(user)
-    user == author || allow_view_private_content?(user) || user == profile ||
-    user.is_admin?(profile.environment) || user.is_admin?(profile) ||
-    article_privacy_exceptions.include?(user) ||
-    (self.show_to_followers && user.follows?(profile))
-  end
-
-  def display_to?(user = nil)
-    if published?
-      (profile.secret? || !profile.visible?) ? profile.display_info_to?(user) : true
-    else
-      if !user
-        false
-      else
-        display_unpublished_article_to?(user)
-      end
-    end
-  end
 
   def allow_post_content?(user = nil)
     return true if allow_edit_topic?(user)
-    user && (profile.allow_post_content?(user) || allow_publish_content?(user) && (user == author))
-  end
-
-  def allow_publish_content?(user = nil)
-    user && user.has_permission?('publish_content', profile)
+    user && profile.allow_post_content?(user)
   end
 
   def allow_view_private_content?(user = nil)
@@ -607,11 +561,11 @@ class Article < ApplicationRecord
   alias :allow_delete?  :allow_post_content?
 
   def allow_spread?(user = nil)
-    user && public?
+    user
   end
 
   def allow_create?(user)
-    allow_post_content?(user) || allow_publish_content?(user)
+    allow_post_content?(user)
   end
 
   def allow_edit?(user)
@@ -633,10 +587,6 @@ class Article < ApplicationRecord
 
   def accept_category?(cat)
     true
-  end
-
-  def public?
-    profile.visible? && profile.public? && published?
   end
 
   def copy_without_save(options = {})
@@ -876,8 +826,8 @@ class Article < ApplicationRecord
 
   def first_image
     img = ( image.present? && { 'src' => File.join([Noosfero.root, image.public_filename(:uploaded)].join) } ) ||
-          Nokogiri::HTML.fragment(self.lead.to_s).css('img[src]').first ||
-          Nokogiri::HTML.fragment(self.body.to_s).search('img').first
+      Nokogiri::HTML.fragment(self.lead.to_s).css('img[src]').first ||
+      Nokogiri::HTML.fragment(self.body.to_s).search('img').first
     img.nil? ? '' : img['src']
   end
 
@@ -926,27 +876,30 @@ class Article < ApplicationRecord
   private
 
   def parent_archived?
-     if self.parent_id_changed? && self.parent && self.parent.archived?
-       errors.add(:parent_folder, N_('is archived!!'))
-     end
+    if self.parent_id_changed? && self.parent && self.parent.archived?
+      errors.add(:parent_folder, N_('is archived!!'))
+    end
   end
 
   def validate_custom_fields
-    custom_fields = metadata['custom_fields']
-    if custom_fields.present?
-      custom_fields.each do |key, field|
-        if field['value'].blank?
-          errors.add(:metadata, _('Custom fields must have values'))
+    if metadata.has_key?('custom_fields')
+      custom_fields = metadata['custom_fields']
+      if custom_fields.present?
+        custom_fields.each do |key, field|
+          if field['value'].blank?
+            errors.add(:metadata, _('Custom fields must have values'))
+          end
         end
       end
     end
   end
 
   def sanitize_custom_field_keys
-    custom_fields = metadata['custom_fields'] || {}
-    metadata['custom_fields'] = custom_fields.keys.map do |field|
-      [field.to_slug, metadata['custom_fields'][field]]
-    end.to_h
+    if metadata.has_key?('custom_fields')
+      custom_fields = metadata['custom_fields'] || {}
+      metadata['custom_fields'] = custom_fields.keys.map do |field|
+        [field.to_slug, metadata['custom_fields'][field]]
+      end.to_h
+    end
   end
-
 end

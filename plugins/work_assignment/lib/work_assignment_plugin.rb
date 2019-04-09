@@ -10,7 +10,7 @@ class WorkAssignmentPlugin < Noosfero::Plugin
 
   def self.can_download_submission?(user, submission)
       submission.published? || (user && (submission.author == user || user.has_permission?('view_private_content', submission.profile) ||
-      submission.display_unpublished_article_to?(user)))
+      submission.display_to?(user)))
   end
 
   def self.is_submission?(content)
@@ -45,7 +45,7 @@ class WorkAssignmentPlugin < Noosfero::Plugin
       end
     end
 
-    { :type => 'before_filter',
+    { :type => 'before_action',
       :method_name => 'work_assingment_only_admin_or_owner_download',
       :options => {:only => 'view_page'},
       :block => block }
@@ -67,7 +67,7 @@ class WorkAssignmentPlugin < Noosfero::Plugin
       end
     end
 
-    { :type => 'after_filter',
+    { :type => 'after_action',
       :method_name => 'send_email_after_upload_file',
       :options => {:only => 'upload_files'},
       :block => block }

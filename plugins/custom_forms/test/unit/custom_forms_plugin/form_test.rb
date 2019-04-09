@@ -72,7 +72,7 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
   should 'validate the difference between ending and beginning is positive' do
     form = CustomFormsPlugin::Form.new(:profile => profile, :name => 'Free Software')
 
-    form.begining = Time.now
+    form.beginning = Time.now
     form.ending = Time.now + 1.day
     assert form.valid?
     refute form.errors.include?(:base)
@@ -112,20 +112,20 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
     form = CustomFormsPlugin::Form.new
     refute form.expired?
 
-    form.begining = Time.now + 1.day
+    form.beginning = Time.now + 1.day
     assert form.expired?
 
-    form.begining = Time.now - 1.day
+    form.beginning = Time.now - 1.day
     refute form.expired?
 
-    form.begining = nil
+    form.beginning = nil
     form.ending = Time.now + 1.day
     refute form.expired?
 
     form.ending = Time.now - 1.day
     assert form.expired?
 
-    form.begining = Time.now - 1.day
+    form.beginning = Time.now - 1.day
     form.ending = Time.now + 1.day
     refute form.expired?
   end
@@ -134,36 +134,35 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
     form = CustomFormsPlugin::Form.new
     refute form.will_open?
 
-    form.begining = Time.now + 1.day
+    form.beginning = Time.now + 1.day
     assert form.will_open?
 
-    form.begining = Time.now - 1.day
+    form.beginning = Time.now - 1.day
     refute form.will_open?
 
-    form.begining = Time.now - 2.day
+    form.beginning = Time.now - 2.day
     form.ending = Time.now - 1.day
     assert form.expired?
     refute form.will_open?
   end
 
   should 'defines who is able to access the form' do
+    person = fast_create(Person)
     owner = fast_create(Community)
     form = CustomFormsPlugin::Form.create!(:name => 'Free Software',
                                            :profile => owner,
                                            :identifier => 'free')
-    assert AccessLevels.can_access?(form.access, nil, owner)
+    assert form.display_to?(nil)
 
-    form.access = AccessLevels.levels[:users]
-    refute AccessLevels.can_access?(form.access, nil, owner)
+    form.access = Entitlement::Levels.levels[:users]
+    refute form.display_to?(nil)
+    assert form.display_to?(person)
 
-    person = fast_create(Person)
-    assert AccessLevels.can_access?(form.access, person, owner)
-
-    form.access = AccessLevels.levels[:related]
-    refute AccessLevels.can_access?(form.access, person, owner)
+    form.access = Entitlement::Levels.levels[:related]
+    refute form.display_to?(person)
 
     owner.add_member(person)
-    assert AccessLevels.can_access?(form.access, person, owner)
+    assert form.display_to?(person)
   end
 
   should 'have a scope that retrieve forms from a profile' do
@@ -254,9 +253,9 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
 
   should 'have a scope that retrieve forms by a status' do
     profile = fast_create(Profile)
-    opened_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Opened Survey', :identifier => 'opened-survey', :begining => Time.now - 1.day)
+    opened_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Opened Survey', :identifier => 'opened-survey', :beginning => Time.now - 1.day)
     closed_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Closed Survey', :identifier => 'closed-survey', :ending => Time.now - 1.day)
-    to_come_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'To Come Survey', :identifier => 'to-come-survey', :begining => Time.now + 1.day)
+    to_come_survey = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'To Come Survey', :identifier => 'to-come-survey', :beginning => Time.now + 1.day)
 
     invalid_status = profile.forms.by_status('invalid_status')
     assert_includes invalid_status, opened_survey
@@ -406,8 +405,8 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
     form2 = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'OSS', ending: 10.days.ago)
     form3 = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'FSF', ending: old_date)
     form4 = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'GNU')
-    form5 = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Copyleft', begining: 10.days.ago)
-    form6 = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Copyright', begining: old_date)
+    form5 = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Copyleft', beginning: 10.days.ago)
+    form6 = CustomFormsPlugin::Form.create!(:profile => profile, :name => 'Copyright', beginning: old_date)
 
     DateTime.stubs(:now).returns(old_date)
     assert_equivalent [form1, form4, form5], CustomFormsPlugin::Form.not_closed
@@ -510,9 +509,9 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
 
   should 'get forms accessible to a visitor' do
     community = fast_create(Community)
-    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => AccessLevels.levels[:visitors])
-    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => AccessLevels.levels[:users])
-    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => AccessLevels.levels[:related])
+    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => Entitlement::Levels.levels[:visitors])
+    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => Entitlement::Levels.levels[:users])
+    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => Entitlement::Levels.levels[:related])
 
     scope = community.forms.accessible_to(nil, community)
 
@@ -523,9 +522,9 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
 
   should 'get forms accessible to an user' do
     community = fast_create(Community)
-    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => AccessLevels.levels[:visitors])
-    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => AccessLevels.levels[:users])
-    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => AccessLevels.levels[:related])
+    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => Entitlement::Levels.levels[:visitors])
+    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => Entitlement::Levels.levels[:users])
+    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => Entitlement::Levels.levels[:related])
 
     user = fast_create(Person)
     scope = community.forms.accessible_to(user, community)
@@ -537,9 +536,9 @@ class CustomFormsPlugin::FormTest < ActiveSupport::TestCase
 
   should 'get forms accessible to a member' do
     community = fast_create(Community)
-    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => AccessLevels.levels[:visitors])
-    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => AccessLevels.levels[:users])
-    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => AccessLevels.levels[:related])
+    f1 = CustomFormsPlugin::Form.create!(:name => 'For Visitors', :profile => community, :access => Entitlement::Levels.levels[:visitors])
+    f2 = CustomFormsPlugin::Form.create!(:name => 'For Logged Users', :profile => community, :access => Entitlement::Levels.levels[:users])
+    f3 = CustomFormsPlugin::Form.create!(:name => 'For Members', :profile => community, :access => Entitlement::Levels.levels[:related])
 
     member = fast_create(Person)
     community.add_member(member)

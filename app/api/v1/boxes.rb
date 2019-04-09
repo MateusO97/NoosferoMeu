@@ -1,7 +1,7 @@
 module Api
   module V1
 
-    class Boxes < Grape::API
+    class Boxes < Grape::API::Instance
 
       kinds = %w[profile community person enterprise]
       kinds.each do |kind|
@@ -12,7 +12,7 @@ module Api
             resource :boxes do
               get do
                 profile = environment.send(kind.pluralize).find(params["#{kind}_id"])
-                return forbidden! unless profile.display_info_to?(current_person)
+                return forbidden! unless profile.display_to?(current_person)
                 present_partial profile.boxes, with: Entities::Box, current_person: current_person
               end
             end

@@ -1,7 +1,7 @@
 <h1><%= _('Enterprise registration: validator organization') %></h1>
 
 <p>
-<%= _('Select one organization to validate your enterprise registration request. Check the provided information about their validation methodoly and criteria.') %>
+<%= _('Select one organization to validate your enterprise registration request. Check the provided information about their validation methodology and criteria.') %>
 </p>
 
 <%= form_tag do %>
@@ -23,6 +23,7 @@
   </table>
 
   <%= button_bar do %>
-    <%= submit_button 'save', _('Confirm') %>
+      <%= submit_button(:ok, _('Confirm'), :cancel => {:profile => current_user.person.identifier,
+            :action=>"enterprises", :controller=>"profile"}) %>
   <% end %>
 <% end %>

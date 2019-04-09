@@ -43,10 +43,10 @@ class Task < ApplicationRecord
 
   include Noosfero::Plugin::HotSpot
 
-  belongs_to :requestor, :class_name => 'Profile', :foreign_key => :requestor_id
-  belongs_to :target, :foreign_key => :target_id, :polymorphic => true
-  belongs_to :responsible, :class_name => 'Person', :foreign_key => :responsible_id
-  belongs_to :closed_by, :class_name => 'Person', :foreign_key => :closed_by_id
+  belongs_to :requestor, class_name: 'Profile', foreign_key: :requestor_id, optional: true
+  belongs_to :target, foreign_key: :target_id, polymorphic: true, optional: true
+  belongs_to :responsible, class_name: 'Person', foreign_key: :responsible_id, optional: true
+  belongs_to :closed_by, class_name: 'Person', foreign_key: :closed_by_id, optional: true
 
   validates_uniqueness_of :code, :on => :create
   validates_presence_of :code
@@ -106,7 +106,7 @@ class Task < ApplicationRecord
     end
   end
 
-  # this method finished the task. It calls #perform, which must be overriden
+  # this method finished the task. It calls #perform, which must be overridden
   # by subclasses. At the end a message (as returned by #finish_message) is
   # sent to the requestor with #notify_requestor.
   def finish(closed_by=nil)
@@ -399,8 +399,8 @@ class Task < ApplicationRecord
   def perform
   end
 
-  # Tells wheter e-mail notifications must be sent or not. Returns
-  # <tt>true</tt> by default (i.e. notification are sent), but can be overriden
+  # Tells whether e-mail notifications must be sent or not. Returns
+  # <tt>true</tt> by default (i.e. notification are sent), but can be overridden
   # in subclasses to disable notifications or even to send notifications based
   # on some conditions.
   def sends_email?

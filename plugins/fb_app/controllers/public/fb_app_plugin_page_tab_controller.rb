@@ -2,8 +2,8 @@ class FbAppPluginPageTabController < FbAppPluginController
 
   no_design_blocks
 
-  before_filter :change_theme
-  before_filter :disable_cache
+  before_action :change_theme
+  before_action :disable_cache
 
   include ProductsPlugin::CatalogHelper
 
@@ -88,7 +88,7 @@ class FbAppPluginPageTabController < FbAppPluginController
   end
 
   def enterprise_search
-    scope = environment.enterprises.enabled.is_public
+    scope = environment.enterprises.enabled.accessible_to(user)
     @query = params[:query]
     @profiles = scope.limit(10).order('name ASC').
       where(['name ILIKE ? OR name ILIKE ? OR identifier LIKE ?', "#{@query}%", "% #{@query}%", "#{@query}%"])

@@ -13,7 +13,7 @@ class Folder < Article
   extend ActsAsHavingSettings::ClassMethods
   acts_as_having_settings field: :setting
 
-  xss_terminate :only => [ :name, :body ], :with => 'white_list', :on => 'validation'
+  xss_terminate only: [ :name, :body ], with: :white_list, on: :validation
 
   include WhiteListFilter
   filter_iframes :body
@@ -54,7 +54,7 @@ class Folder < Article
   end
 
   def news(limit = 30, highlight = false)
-    profile.recent_documents(limit, ["articles.type != ? AND articles.highlighted = ? AND articles.parent_id = ?", 'Folder', highlight, id])
+    children.news(profile, limit, highlight)
   end
 
   has_many :images, -> {

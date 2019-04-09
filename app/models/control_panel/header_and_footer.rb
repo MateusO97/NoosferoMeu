@@ -9,7 +9,7 @@ class ControlPanel::HeaderAndFooter < ControlPanel::Entry
     end
 
     def icon
-      'object-group'
+      'header_footer'
     end
 
     def priority
@@ -21,6 +21,7 @@ class ControlPanel::HeaderAndFooter < ControlPanel::Entry
     end
 
     def display?(user, profile, context={})
+      return false if (!user || !profile)
       user.is_admin?(profile.environment) || (!profile.enterprise? && !profile.environment.enabled?('disable_header_and_footer'))
     end
   end

@@ -38,7 +38,7 @@ class ProfileMembersController < MyProfileController
       if@person.is_last_admin_leaving?(profile, @roles)
         redirect_to :action => :last_admin
       elsif @person.define_roles(@roles, profile)
-        session[:notice] = _('Roles successfuly updated')
+        session[:notice] = _('Roles successfully updated')
         redirect_to :action => 'index'
       else
         session[:notice] = _('Couldn\'t change the roles')
@@ -95,7 +95,7 @@ class ProfileMembersController < MyProfileController
     associations = member.find_roles(profile)
     RoleAssignment.transaction do
       if associations.map(&:destroy)
-        session[:notice] = _('Member succesfully unassociated')
+        session[:notice] = _('Member successfully unassociated')
       else
         session[:notice] = _('Failed to unassociate member')
       end
@@ -140,7 +140,7 @@ class ProfileMembersController < MyProfileController
   def search_user
     role = Role.find(params[:role])
     q = params['q_'+role.key].try(:downcase)
-    render :text => environment.people.where('LOWER(name) LIKE ? OR LOWER(identifier) LIKE ?', "%#{q}%", "%#{q}%").
+    render plain: environment.people.where('LOWER(name) LIKE ? OR LOWER(identifier) LIKE ?', "%#{q}%", "%#{q}%").
       select { |person| !profile.members_by_role(role).include?(person) }.
       map {|person| {:id => person.id, :name => person.name} }.
       to_json
@@ -181,7 +181,7 @@ class ProfileMembersController < MyProfileController
     field = 'email' if params[:filter_name] =~ /\@/
 
     result = profile.members_like field, params[:filter_name]
-    result = result.select{|member| member.can_view_field?(current_person, "email") } if field=="email"
+    result = result.select{|member| member.public_fields.include?('email') } if field=='email'
     render :json => result.map { |member| {:label => "#{member.name}#{member.can_view_field?(current_person, "email") ? " <#{member.email}>" : ""}", :value => member.name }}
   end
 

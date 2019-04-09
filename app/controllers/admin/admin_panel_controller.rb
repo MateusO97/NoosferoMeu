@@ -12,7 +12,7 @@ class AdminPanelController < AdminController
     @no_design_blocks = true
     if request.post?
       if params[:environment][:languages]
-        params[:environment][:languages] = params[:environment][:languages].map {|lang, value| lang if value=='true'}.compact
+        params[:environment][:languages] = params[:environment][:languages].to_h.map {|lang, value| lang if value=='true'}.compact
       end
       if @environment.update(params[:environment])
         session[:notice] = _('Environment settings updated')
@@ -75,5 +75,36 @@ class AdminPanelController < AdminController
   end
 
   def string_templates
+  end
+
+  def index
+    @system_settings_actions = [
+        [{action: 'site_info'},_('Environment settings')],
+        [{controller: 'features'}, _('Features')],
+        [{controller: 'plugins'},_('Plugins')],
+        [{controller:'environment_themes'},_('Appearance')],
+        [{controller: 'environment_design'},_('Sideboxes')],
+        [{action: 'set_portal_community'},_('Homepage')],
+        [{controller:'licenses'},_('Licenses')],
+        [{controller:'trusted_sites'},_('Trusted sites')],
+        [{controller:'environment_email_templates'},_('Email templates')],
+        [{controller:'captcha'},_('Captcha')],
+        [{action: 'string_templates'},_('Macros')]
+      ]
+    @profiles_actions = [
+        [{controller: 'role'},_('User roles')],
+        [{controller: 'users'},_('Users')],
+        [{controller: 'organizations'},_('Organizations')],
+        [{controller: 'templates'},_('Profile templates')],
+        [{controller: 'features', action: 'manage_fields'},_('Fields')],
+        [{controller: 'kinds'},_('Kinds')],
+        [{controller: 'profile_quotas'}, _('Quotas')],
+      ]
+    @enterprise_settings_actions = [
+        [{action: 'message_for_disabled_enterprise'},
+            _('Message for disabled enterprises')],
+        [{controller: 'region_validators'},_('Validators by region')],
+        [{controller: 'categories'},_('Categories')]
+      ]
   end
 end

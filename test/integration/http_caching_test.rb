@@ -19,13 +19,13 @@ class HttpCachingTest < ActionDispatch::IntegrationTest
   end
 
   test 'search results, default config' do
-    get '/search', query: 'anything'
+    get '/search', params: {query: 'anything'}
     assert_cache(15.minutes)
   end
 
   test 'search results, custom config' do
     set_env_config(general_cache_in_minutes: 30)
-    get '/search', query: 'anything'
+    get '/search', params: {query: 'anything'}
     assert_cache(30.minutes)
   end
 
@@ -85,7 +85,8 @@ class HttpCachingTest < ActionDispatch::IntegrationTest
 
   test 'private community content should not return cache headers' do
     community = create_private_community('the-community')
-    create(Article, profile_id: community.id, name: 'Test page', published: false)
+    create(Article, profile_id: community.id, name: 'Test page', 
+           :access => Entitlement::Levels.levels[:self] )
 
     get "/the-community/test-page"
     assert_response 403
@@ -93,7 +94,7 @@ class HttpCachingTest < ActionDispatch::IntegrationTest
   end
 
   test 'user data, not logged in' do
-    get '/account/user_data', {}, { 'X-Requested-With' => 'XMLHttpRequest'}
+    get '/account/user_data'
     assert_no_cookies
   end
 
@@ -109,7 +110,7 @@ class HttpCachingTest < ActionDispatch::IntegrationTest
 
   def create_private_community(identifier)
     community = fast_create(Community, identifier: identifier)
-    community.public_profile = false
+    community.access = Entitlement::Levels.levels[:self]
     community.save!
     community
   end

@@ -3,13 +3,12 @@ class ProfileEditorController < MyProfileController
   protect 'edit_profile', :profile, :except => [:destroy_profile]
   protect 'destroy_profile', :profile, :only => [:destroy_profile]
 
-  skip_before_filter :verify_authenticity_token, only: [:google_map]
-  before_filter :access_welcome_page, :only => [:welcome_page]
-  before_filter :back_to
-  before_filter :forbid_destroy_profile, :only => [:destroy_profile]
-  before_filter :check_user_can_edit_header_footer, :only => [:header_footer]
-  before_filter :location_active, :only => [:locality]
-
+  skip_before_action :verify_authenticity_token, only: [:google_map]
+  before_action :access_welcome_page, :only => [:welcome_page]
+  before_action :back_to
+  before_action :forbid_destroy_profile, :only => [:destroy_profile]
+  before_action :check_user_can_edit_header_footer, :only => [:header_footer]
+  before_action :location_active, :only => [:locality]
   helper_method :has_welcome_page
   helper CustomFieldsHelper
 
@@ -25,15 +24,18 @@ class ProfileEditorController < MyProfileController
   def informations
     @profile_data = profile
     @kinds = environment.kinds.where(:type => profile.type)
+    profile_params = params[:profile_data].to_h
+
     if request.post?
-      params[:profile_data][:fields_privacy] ||= {} if profile.person? && params[:profile_data].is_a?(Hash)
+      profile_params[:fields_privacy] ||= {} if profile.person? && profile_params.is_a?(Hash)
       Profile.transaction do
         Image.transaction do
           begin
             # TODO: Move this somewhere else.
             @plugins.dispatch(:profile_editor_transaction_extras)
+
             # TODO: This is unsafe! Add sanitizer
-            @profile_data.update!(params[:profile_data])
+            @profile_data.update!(profile_params)
             redirect_to :action => 'index', :profile => profile.identifier
           rescue
             profile.identifier = params[:profile] if profile.identifier.blank?
@@ -97,6 +99,10 @@ class ProfileEditorController < MyProfileController
   end
 
   def privacy
+    if params[:profile_data].present?
+      profile.update_access_level(params[:profile_data].delete(:access))
+      profile.update_access_level(params[:profile_data].delete(:wall_access), 'wall')
+    end
     update_profile_data
   end
 
@@ -268,7 +274,8 @@ class ProfileEditorController < MyProfileController
   end
 
   def location_active
-    unless profile.active_fields.include?('location')
+    unless (profile.active_fields & Profile::LOCATION_FIELDS).present? ||
+           profile.active_fields.include?('location')
       session[:notice] = _('Location is disabled on the environment.')
       redirect_to action: 'index'
     end

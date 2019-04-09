@@ -1,5 +1,6 @@
 .slider {
   margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .slider .ui-slider-range {
@@ -21,4 +22,9 @@
   float: left;
   width: 50%;
   margin-bottom: 20px;
+}
+
+.captcha-sliders-wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }

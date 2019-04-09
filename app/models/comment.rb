@@ -12,14 +12,14 @@ class Comment < ApplicationRecord
 
   validates_presence_of :body
 
-  belongs_to :source, :counter_cache => true, :polymorphic => true
+  belongs_to :source, counter_cache: true, polymorphic: true, optional: true
   alias :article :source
   alias :article= :source=
   attr_accessor :follow_article
 
-  belongs_to :author, :class_name => 'Person', :foreign_key => 'author_id'
-  has_many :children, :class_name => 'Comment', :foreign_key => 'reply_of_id', :dependent => :destroy
-  belongs_to :reply_of, :class_name => 'Comment', :foreign_key => 'reply_of_id'
+  belongs_to :author, class_name: 'Person', foreign_key: 'author_id', optional: true
+  has_many :children, class_name: 'Comment', foreign_key: 'reply_of_id', dependent: :destroy
+  belongs_to :reply_of, class_name: 'Comment', foreign_key: 'reply_of_id', optional: true
 
   scope :without_reply, -> { where 'reply_of_id IS NULL' }
 
@@ -46,7 +46,7 @@ class Comment < ApplicationRecord
   extend ActsAsHavingSettings::ClassMethods
   acts_as_having_settings
 
-  xss_terminate :only => [ :body, :title, :name ], :on => 'validation'
+  xss_terminate only: [ :body, :title, :name ], on: :validation
 
   acts_as_voteable
 
@@ -112,9 +112,9 @@ class Comment < ApplicationRecord
 
   after_create :new_follower
   def new_follower
-    if source.kind_of?(Article) and !author.nil? and @follow_article
+    if source.kind_of?(Article) and !author.nil? and (@follow_article.to_s == 'true')
       article.person_followers += [author]
-      article.person_followers.uniq!
+      article.person_followers.to_a.uniq!
       article.save
     end
   end
@@ -174,9 +174,11 @@ class Comment < ApplicationRecord
   after_create do |comment|
     if comment.source.kind_of?(Article)
       comment.article.create_activity if comment.article.activity.nil?
-      if comment.article.activity
-        comment.article.activity.increment!(:comments_count)
-        comment.article.activity.update_attribute(:visible, true)
+      activity = comment.article.activity
+      if activity.present?
+        activity.increment!(:comments_count)
+        activity.update_attribute(:visible, true)
+        activity.touch
       end
     end
   end
@@ -236,12 +238,6 @@ class Comment < ApplicationRecord
     self.source && self.source.is_a?(Article) && self.source.archived?
   end
 
-  protected
-
-  def article_archived?
-    errors.add(:article, N_('associated with this comment is archived!')) if archived?
-  end
-
   def new_comment_for_author_notification
     author = self.article.profile
     if author.respond_to? :push_subscriptions
@@ -250,6 +246,12 @@ class Comment < ApplicationRecord
       })
     end
   end
+  protected
+
+  def article_archived?
+    errors.add(:article, N_('associated with this comment is archived!')) if archived?
+  end
+
 
   def new_comment_for_followers_notification
     {

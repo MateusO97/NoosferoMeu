@@ -24,9 +24,9 @@ class UploadedFile < Article
 
   DBM_PRIVATE_FILE = 'cache/private_files'
   after_save do |uploaded_file|
-    if uploaded_file.published_changed?
+    if uploaded_file.access_changed?
       dbm = SDBM.open(DBM_PRIVATE_FILE)
-      if uploaded_file.published
+      if uploaded_file.access <= Entitlement::Levels.levels[:visitors]
         dbm.delete(uploaded_file.public_filename)
       else
         dbm.store(uploaded_file.public_filename, uploaded_file.full_path)
@@ -38,7 +38,7 @@ class UploadedFile < Article
   after_save :update_profile_disk_usage
   after_destroy :update_profile_disk_usage
 
-  track_actions :upload_image, :after_create, :keep_params => ["view_url", "thumbnail_path", "parent.url", "parent.name"], :if => Proc.new { |a| a.published? && a.image? && !a.parent.nil? && a.parent.gallery? }, :custom_target => :parent
+  track_actions :upload_image, :after_create, :keep_params => ["view_url", "thumbnail_path", "parent.url", "parent.name"], :if => Proc.new { |a| a.access == Entitlement::Levels.levels[:visitors] && a.image? && !a.parent.nil? && a.parent.gallery? }, :custom_target => :parent
 
   def title
     if self.name.present? then self.name else self.filename end
@@ -100,8 +100,8 @@ class UploadedFile < Article
   validates_attachment :size => N_("{fn} of uploaded file was larger than the maximum size of %{size}").sub('%{size}', self.max_size.to_humanreadable).fix_i18n
   validate :profile_quota_usage
 
-  extend DelayedAttachmentFu::ClassMethods
-  delay_attachment_fu_thumbnails
+  extend AttachmentFuAssistant::ClassMethods
+  attachment_fu_thumbnails
 
   postgresql_attachment_fu
 

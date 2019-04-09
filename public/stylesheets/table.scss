@@ -1,3 +1,5 @@
+@import "color";
+
 table.actions {
   table-layout: fixed;
   width: 100%;
@@ -41,7 +43,7 @@ th {
 }
 
 tr:hover td {
-  background-color: #f0f0f0;
+  background-color: $light_gray;
 }
 
 table.noborder th,
@@ -89,4 +91,8 @@ table.profile td {
 
 table.profile tr:hover td {
   background: none;
+}
+
+table td.actions {
+  text-align: center;
 }
