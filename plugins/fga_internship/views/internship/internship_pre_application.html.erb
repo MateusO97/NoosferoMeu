@@ -7,8 +7,8 @@
 			<% end %>
 	  </div>
 	  <div class="button-container">
-			<%= button(:back, "Voltar", { :controller => "internship", :action => "index" } , { :class => "internship_button internship_main_button " }) %>
-			<%= button(:next, "Matrícula", { :controller => "internship", :action => "internship_application" } , { :class => "internship_button internship_main_button" }) %>
+			<%= button(:back, "Voltar", { :controller => "internship", :action => "index", :community_id => params[:community_id] } , { :class => "internship_button internship_main_button " }) %>
+			<%= button(:next, "Matrícula", { :controller => "internship", :action => "internship_application", :community_id => params[:community_id] } , { :class => "internship_button internship_main_button" }) %>
 	  </div>
 	</div>
 </div>
