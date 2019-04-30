@@ -1,4 +1,4 @@
-class AddPhaseToProcess < ActiveRecord::Migration[5.0]
+class AddPhaseToProcess < ActiveRecord::Migration[5.1]
 	def self.up
 		add_column :fga_internship_plugin_processes, :phase, :string, :default => 'pre-application'
 	end
