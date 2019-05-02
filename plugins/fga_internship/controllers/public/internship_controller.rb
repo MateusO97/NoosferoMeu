@@ -12,6 +12,10 @@ class InternshipController < PublicController
 
   no_design_blocks
 
+  def student_upload_files
+
+  end
+
   def index
     @community_id = params[:community_id]
     unless Folder.find_by(:name => 'processos ativos', :profile_id => @community_id)
