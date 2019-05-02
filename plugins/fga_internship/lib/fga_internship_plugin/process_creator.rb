@@ -109,7 +109,7 @@ module FgaInternshipPlugin::ProcessCreator
     community = Community.find(params[:community_id])
     student = current_user.person
     
-    process = FgaInternshipPlugin::Process.new
+    process = FgaInternshipPlugin::InternshipProcess.new
 
     process.checklists = create_checklists
     process.community_id = community

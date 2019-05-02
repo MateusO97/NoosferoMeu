@@ -211,7 +211,7 @@ class InternshipController < PublicController
   end
 
   def get_internship_process
-    @process = FgaInternshipPlugin::Process.find_by(:student_id => current_user.person.id)
+    @process = FgaInternshipPlugin::InternshipProcess.find_by(:student_id => current_user.person.id)
     if @process.nil?
       @process = create_process
     end
