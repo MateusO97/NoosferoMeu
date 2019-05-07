@@ -84,7 +84,7 @@ module FgaInternshipPlugin::ProcessCreator
     return documents = [fi, tc, pa, he, rt, a1, a2, a3, a4]
   end
 
-  def create_checklists
+  def create_checklists(process)
     documents = create_documents
 
     checklists = []
@@ -96,6 +96,7 @@ module FgaInternshipPlugin::ProcessCreator
         :checked => false
       )
       checklist.document = document
+      checklist.internship_process = process
 
       checklist.save
 
@@ -111,11 +112,13 @@ module FgaInternshipPlugin::ProcessCreator
     
     process = FgaInternshipPlugin::InternshipProcess.new
 
-    process.checklists = create_checklists
     process.community_id = community
     process.student_id = student
+    process.supervisor_id = Person.find(53)
 
     process.save
+
+    process.checklists = create_checklists(process)
 
     return process
   end
