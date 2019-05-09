@@ -1,16 +1,13 @@
-class InternshipController < PublicController
+class FgaInternshipPluginProfileController < ProfileController
   require 'securerandom'
   require 'exceptions'
 
   include FgaInternshipPlugin::ProcessCreator
   include CustomFormsPlugin::Helper
 
-  before_action :get_profile
   before_action :has_access, :only => [:show]
   before_action :get_internship_process, :only => [:internship_pre_application,
     :internship_application, :internship_in_progress, :internship_evaluation]
-
-  no_design_blocks
 
   def index
     @community_id = params[:community_id]
@@ -228,10 +225,6 @@ class InternshipController < PublicController
 
   def checklist_params
     params.require(:fga_internship_plugin_checklists).permit(:checked)
-  end
-
-  def get_profile
-    @profile = current_user.person if current_user
   end
 
 end
