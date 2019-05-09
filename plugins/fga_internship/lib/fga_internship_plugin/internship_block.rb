@@ -1,4 +1,4 @@
-class InternshipBlock < Block
+class FgaInternshipPlugin::InternshipBlock < Block
 
   settings_items :community_id, :type => :integer, :default => nil
 
@@ -13,6 +13,5 @@ class InternshipBlock < Block
   def view_title
     _('Internship')
   end
-
 
 end
