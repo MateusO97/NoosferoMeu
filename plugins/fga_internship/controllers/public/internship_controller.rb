@@ -30,7 +30,7 @@ class InternshipController < PublicController
 
   def internship_pre_application
     @checklists = []
-    @process.checklists.order(:id).each do |checklist|
+    @process.checklists.each do |checklist|
       if(checklist.document.phase == "pre-application")
         @checklists << checklist
       end
@@ -52,7 +52,7 @@ class InternshipController < PublicController
   # call the mailers and send email to supervisor with his login and password
   def internship_application
     @checklists = []
-    @process.checklists.order(:id).each do |checklist|
+    @process.checklists.each do |checklist|
       if(checklist.document.phase == "application")
         @checklists << checklist
       end
@@ -61,7 +61,7 @@ class InternshipController < PublicController
 
   def internship_in_progress
     @checklists = []
-    @process.checklists.order(:id).each do |checklist|
+    @process.checklists.each do |checklist|
       if(checklist.document.phase == "in-progress")
         @checklists << checklist
       end
@@ -70,7 +70,7 @@ class InternshipController < PublicController
 
   def internship_evaluation
     @checklists = []
-    @process.checklists.order(:id).each do |checklist|
+    @process.checklists.each do |checklist|
       if(checklist.document.phase == "evaluation")
         @checklists << checklist
       end

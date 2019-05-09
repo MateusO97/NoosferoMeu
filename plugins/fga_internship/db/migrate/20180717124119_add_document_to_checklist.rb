@@ -1,4 +1,4 @@
-class AddDocumentToChecklist < ActiveRecord::Migration
+class AddDocumentToChecklist < ActiveRecord::Migration[5.0]
   def self.up
    add_reference :fga_internship_plugin_checklists, :document, index: { unique: true }
   end
