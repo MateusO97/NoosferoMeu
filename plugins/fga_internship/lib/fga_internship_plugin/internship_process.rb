@@ -1,4 +1,5 @@
 class FgaInternshipPlugin::InternshipProcess < ApplicationRecord
+  self.table_name = 'fga_internship_plugin_processes'
   
 	has_many :checklists
 
