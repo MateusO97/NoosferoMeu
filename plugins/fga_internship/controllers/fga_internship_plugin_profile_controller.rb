@@ -98,12 +98,16 @@ class FgaInternshipPluginProfileController < ProfileController
       session[:notice] = _('Incorrect username or password')
     end
 
-    redirect_to :controller => :internship , :action => :index, :community_id => params[:community_id]
+    redirect_to :controller => :fga_internship_plugin_profile,
+      :action => :index, :community_id => params[:community_id]
   end
 
   def show_forms
     update_checklist
-    redirect_to :controller => :internship, :action => :internship_pre_application, :checklist_id => params[:checklist_id], :fga_internship_plugin_checklists => {checked: true}
+    redirect_to :controller => :fga_internship_plugin_profile,
+      :action => :internship_pre_application,
+      :checklist_id => params[:checklist_id],
+      :fga_internship_plugin_checklists => {checked: true}
   end
 
   def answer_form
@@ -137,7 +141,10 @@ class FgaInternshipPluginProfileController < ProfileController
         end
 
         session[:notice] = _('Submission saved')
-        redirect_to :controller => :internship, :action => :internship_pre_application, :checklist_id => params[:checklist_id], :fga_internship_plugin_checklists => {checked: true}
+        redirect_to :controller => :fga_internship_plugin_profile,
+          :action => :internship_pre_application,
+          :checklist_id => params[:checklist_id],
+          :fga_internship_plugin_checklists => { checked: true }
       rescue SubmissionError => err
         session[:notice] = _(err.message)
       end

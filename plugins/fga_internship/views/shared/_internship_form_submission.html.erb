@@ -8,7 +8,11 @@
 
     <% if submission.id.present? %>
       <div class="reply-message"><%= _('This was your answer.')%></div>
-      <%= button(:back, "Voltar para o processo", { :controller => "internship", :action => "internship_pre_application", :community_id => params[:community_id] } , { :class => "internship_button internship_main_button" }) %>
+      <%= button(:back, "Voltar para o processo", {
+          :controller => "fga_internship_plugin_profile",
+          :action => "internship_pre_application",
+          :community_id => params[:community_id]
+        }, { :class => "internship_button internship_main_button" }) %>
     <% end %>
   </div>
 </div>
