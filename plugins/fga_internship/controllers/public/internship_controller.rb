@@ -12,6 +12,24 @@ class InternshipController < PublicController
 
   no_design_blocks
 
+  def index_pre_enrolled_students
+    if current_person.has_permission?('manage_friends', profile) # alterar tipo de permissão
+
+      internship_form_identifier = 'estágio'
+
+      form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+      submissions = CustomFormsPlugin::Submission.find_by form_id: form.id
+
+      pre_enrolled_students = []
+
+      submissions.each do |submission|
+        @pre_enrolled_students.add(submission.profile)
+      end
+    else
+      redirect_to user
+    end
+  end
+
   def index
     @community_id = params[:community_id]
     unless Folder.find_by(:name => 'processos ativos', :profile_id => @community_id)

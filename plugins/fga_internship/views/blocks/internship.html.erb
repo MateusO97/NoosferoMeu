@@ -1,8 +1,14 @@
 
-<% if current_person.has_permission?('manage_friends', profile) %>
+<% if !current_person.has_permission?('manage_friends', profile) %>
 	<%= button_to({
 		:controller => "internship", :action => "index"}, class: "internship-process") do %>
 		<i class="fa fa-file"></i><%= _('Internship Process') %>
+		<%= hidden_field_tag('community_id', block.owner.id) %>
+	<% end %>
+<% else %>
+	<%= button_to({
+		:controller => "internship", :action => "index_pre_enrolled_students"}, class: "internship-process") do %>
+		<i class="fa fa-file"></i><%= _('Pre-enrolled Students') %>
 		<%= hidden_field_tag('community_id', block.owner.id) %>
 	<% end %>
 <% end %>
