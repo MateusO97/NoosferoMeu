@@ -4,6 +4,7 @@
 	  <div class="checklist-container">
 			<% @checklists.each do |checklist| %>
 				<%= render partial: 'partials/checklist', locals: { :checklist => checklist } %>
+				<%= render partial: "partials/upload_files", locals:{:community_id => params[:community_id]}%>
 			<% end %>
 	  </div>
 	  <div class="button-container">

@@ -13,10 +13,8 @@
 <% end %>
 <div class="upload-container">
   <div class="upload-box">
-    <h2><%= _('Publish media') %></h2>
     <%= @target %>
-    <h3><%= _("Select the files you want to upload (max size %s):") % UploadedFile.max_size.to_humanreadable %></h3>
-    <h4><%= _('Documents, Images, Videos, Audio') %></h4>
+    <h4><%= _("Selecione seu arquivo para upload (max size %s):") % UploadedFile.max_size.to_humanreadable %></h4>
     <h5><%= (_('Uploading files to %s') % content_tag('code', @target)).html_safe%></h5>
     <%= form_for('uploaded_file', :url => { :action => 'upload_files' }, :html => {:multipart => true}) do |f| %>
 
@@ -25,15 +23,15 @@
     <% if @parent %>
     <%= hidden_field_tag('parent_id', @parent.id) %>
     <% else %>
-    <%= select_profile_folder(_('Choose folder to upload files:'), @folder_tcc_submition, @tcc_community) %>
+    <%#= select_profile_folder(_('Choose folder to upload files:'), @folder_tcc_submition, @tcc_community) %>
     <% end %>
 
     <div id='uploaded_files'>
       <p><%= file_field_tag('uploaded_files[]', :multiple => true, :required =>true) %></p>
     </div>
 
-    <%= hidden_field_tag('internship_community', @internship_community.id) %>
-    <%= hidden_field_tag('parent', @parent.id) %>
+    <%= hidden_field_tag('internship_community', :community_id) %>
+    <%#= hidden_field_tag('parent', @parent.id) %>
 
    <%= button_bar do %>
 <!--       <%= button_to_function :add, _('More files'), "add_new_file_fields()",
@@ -45,7 +43,7 @@
   </div>
 </div>
 
-<button type="button" class="tcc-button" name="button" id="back-course-choice" onclick="render_course_choice()">Voltar</button>
+
 
 <script type="text/javascript">
   $(document).ready(function() {

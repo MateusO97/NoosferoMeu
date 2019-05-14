@@ -68,6 +68,10 @@ class InternshipController < PublicController
     end
   end
 
+  def upload_activity_plan
+    
+  end
+
   def internship_evaluation
     @checklists = []
     @process.checklists.each do |checklist|

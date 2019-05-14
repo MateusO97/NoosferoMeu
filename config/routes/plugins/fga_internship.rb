@@ -1,0 +1,1 @@
+/noosfero/config/plugins/fga_internship/config/routes.rb
