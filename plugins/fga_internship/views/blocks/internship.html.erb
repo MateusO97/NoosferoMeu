@@ -1,5 +1,5 @@
-<%= button_to({
-	:controller => "internship", :action => "index"}, class: "internship-process") do %>
-  <i class="fa fa-file"></i><%= _('Internship Process') %>
+<%= button(:add, "Internship Process",{
+	:controller => "internship", :action => "index"},class:  "internship-process") do %>
+  <i class="fa fa-file"></i>
   <%= hidden_field_tag('community_id', block.owner.id) %>
 <% end %>
