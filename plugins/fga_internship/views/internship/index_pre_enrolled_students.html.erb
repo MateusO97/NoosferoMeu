@@ -3,9 +3,9 @@
     <th>Name</th>
     <th>Matricula</th>
   </tr>
-<% @pre_enrolled_students.each do |student| %>
+<% @submissions.each do |submission| %>
   <tr>
-    <td><%= student.name %></td>
-    <td><%= student. %></td>
+    <td><%= submission.profile.name %></td>
+    <td><%= submission.return_answer_field('alo') %></td>
   </tr>
 <% end %>

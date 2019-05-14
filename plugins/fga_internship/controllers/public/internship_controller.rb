@@ -18,13 +18,8 @@ class InternshipController < PublicController
       internship_form_identifier = 'estágio'
 
       form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
-      submissions = CustomFormsPlugin::Submission.where form_id: form.id
+      @submissions = CustomFormsPlugin::Submission.where form_id: form.id
 
-      @pre_enrolled_students = []
-
-      submissions.each do |submission|
-        @pre_enrolled_students.push(submission.profile)
-      end
     else
       redirect_to user
     end
