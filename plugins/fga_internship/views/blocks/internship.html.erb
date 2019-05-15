@@ -1,4 +1,4 @@
 <%= button(:text, "Internship Process", {
-	:controller => "internship", :action => "index"}, class:  "internship-process") do %>
+	:controller => "fga_internship_plugin_profile", :action => "index"}, class:  "internship-process") do %>
   <%= hidden_field_tag('community_id', block.owner.id) %>
 <% end %>

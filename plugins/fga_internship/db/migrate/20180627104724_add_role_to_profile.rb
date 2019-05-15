@@ -1,4 +1,4 @@
-class AddRoleToProfile < ActiveRecord::Migration[5.0]
+class AddRoleToProfile < ActiveRecord::Migration[5.1]
   def self.up
     add_column :profiles, :internship_role, :string, :default => 'none'
   end
