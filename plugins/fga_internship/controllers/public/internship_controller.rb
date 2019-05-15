@@ -12,6 +12,36 @@ class InternshipController < PublicController
 
   no_design_blocks
 
+
+  def pre_enrolled_students_filter_date
+
+    min_date = Date.parse(params[:min_date])
+    max_date = Date.parse(params[:max_date])
+
+    internship_form_identifier = 'estágio'
+
+    form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+    submissions = CustomFormsPlugin::Submission.where form_id: form.id
+
+    new_submissions = []
+
+    submissions.each do |submission|
+
+      if submission.created_at >= min_date && submission.created_at <= max_date
+
+        name = submission.profile.name
+        email = submission.profile.email
+        date = submission.created_at.strftime("%d-%m-%Y").gsub!('-','/')
+        time = submission.created_at.strftime("%H:%m")
+
+        new_submissions.push({name: name, email: email, date: date, time: time})
+      end
+    end
+
+    render json: new_submissions
+
+  end
+
   def index_pre_enrolled_students
     if current_person.has_permission?('manage_friends', profile) # alterar tipo de permissão
 
