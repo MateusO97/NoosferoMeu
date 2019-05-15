@@ -1,4 +1,4 @@
-class AddIsTemporaryToUsers < ActiveRecord::Migration[5.0]
+class AddIsTemporaryToUsers < ActiveRecord::Migration[5.1]
   def self.up
     add_column :users, :is_temporary, :boolean, :default => false
     add_column :users, :expiration_date, :datetime, :default => nil
