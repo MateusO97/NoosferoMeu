@@ -43,7 +43,7 @@ class InternshipController < PublicController
   end
 
   def index_pre_enrolled_students
-    if current_person.has_permission?('manage_friends', profile) # alterar tipo de permissão
+    if current_person.has_permission?('coordinator', profile) # must create role to coordinator
 
       internship_form_identifier = 'estágio'
 
