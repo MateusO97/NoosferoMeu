@@ -1,4 +1,4 @@
-class CreateChecklists < ActiveRecord::Migration
+class CreateChecklists < ActiveRecord::Migration[5.0]
   def self.up
    create_table :fga_internship_plugin_checklists do |t|
       t.column :name,              :string

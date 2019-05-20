@@ -20,8 +20,6 @@
       <%= submit_button :save, label,
                         data: { confirm: _('Are you sure your want to submit your vote?') } %>
     <% end %>
-    <%= button :back, _('Go back'), controller: :profile, profile: profile.identifier %>
+    <%= button(:back, _("Go back"), { :controller => "internship", :action => "internship_pre_application", :community_id => params[:community_id] } , { :class => "internship_button internship_main_button" }) %>
   <% end %>
 <% end %>
-
-

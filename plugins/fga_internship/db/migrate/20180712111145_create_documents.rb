@@ -1,4 +1,4 @@
-class CreateDocuments < ActiveRecord::Migration
+class CreateDocuments < ActiveRecord::Migration[5.0]
   def self.up
    create_table :fga_internship_plugin_documents do |t|
       t.column :name,              :string

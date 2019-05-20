@@ -1,4 +1,4 @@
-class CreateTaskLists < ActiveRecord::Migration
+class CreateTaskLists < ActiveRecord::Migration[5.0]
   def self.up
    create_table :fga_internship_plugin_task_lists do |t|
       t.column :name,              :string

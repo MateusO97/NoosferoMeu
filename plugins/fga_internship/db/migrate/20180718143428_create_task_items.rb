@@ -1,4 +1,4 @@
-class CreateTaskItems < ActiveRecord::Migration
+class CreateTaskItems < ActiveRecord::Migration[5.0]
   def self.up
   # TODO: add reference to submission and file uploaded and task list
    create_table :fga_internship_plugin_task_items do |t|
