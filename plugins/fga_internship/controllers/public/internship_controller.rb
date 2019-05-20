@@ -15,30 +15,34 @@ class InternshipController < PublicController
 
   def pre_enrolled_students_filter_date
 
-    min_date = Date.parse(params[:min_date])
-    max_date = Date.parse(params[:max_date])
+    if params[:min_date] == nil && params[:max_date] == nil
+      redirect_to root_path
+    else
+      min_date = Date.parse(params[:min_date])
+      max_date = Date.parse(params[:max_date])
 
-    internship_form_identifier = 'estágio'
+      internship_form_identifier = 'estágio'
 
-    form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
-    submissions = CustomFormsPlugin::Submission.where form_id: form.id
+      form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+      submissions = CustomFormsPlugin::Submission.where form_id: form.id
 
-    new_submissions = []
+      new_submissions = []
 
-    submissions.each do |submission|
+      submissions.each do |submission|
 
-      if submission.created_at >= min_date && submission.created_at <= max_date
+        if submission.created_at >= min_date && submission.created_at <= max_date
 
-        name = submission.profile.name
-        email = submission.profile.email
-        date = submission.created_at.strftime("%d-%m-%Y").gsub!('-','/')
-        time = submission.created_at.strftime("%H:%m")
+          name = submission.profile.name
+          email = submission.profile.email
+          date = submission.created_at.strftime("%d-%m-%Y").gsub!('-','/')
+          time = submission.created_at.strftime("%H:%m")
 
-        new_submissions.push({name: name, email: email, date: date, time: time})
+          new_submissions.push({name: name, email: email, date: date, time: time})
+        end
       end
-    end
 
-    render json: new_submissions
+      render json: new_submissions
+    end
 
   end
 
