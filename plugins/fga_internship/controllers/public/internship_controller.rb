@@ -43,15 +43,20 @@ class InternshipController < PublicController
   end
 
   def index_pre_enrolled_students
-    if current_person.has_permission?('coordinator', profile) # must create role to coordinator
-
-      internship_form_identifier = 'estágio'
-
-      form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
-      @submissions = CustomFormsPlugin::Submission.where form_id: form.id
-
+    if !current_user
+      session[:notice] = _("You need to sign in")
+      redirect_to root_path
     else
-      redirect_to user
+      if current_person.has_permission?('manage_internship', profile)
+
+        internship_form_identifier = 'estágio'
+
+        form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+        @submissions = CustomFormsPlugin::Submission.where form_id: form.id
+
+      else
+        redirect_to user
+      end
     end
   end
 
