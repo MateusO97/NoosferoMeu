@@ -64,7 +64,7 @@ gem 'api-pagination'
 gem 'uglifier'
 gem 'sass-rails'
 gem 'sass'
-gem 'sprockets-rails', "~> 2.3.3"
+gem 'sprockets-rails'
 
 gem 'serviceworker-rails'
 gem 'webpush'
