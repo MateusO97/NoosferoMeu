@@ -1,4 +1,4 @@
-class InternshipController < PublicController
+class FgaInternshipPluginProfileController < PublicController
   require 'securerandom'
   require 'exceptions'
 
@@ -28,17 +28,16 @@ class InternshipController < PublicController
 
       new_submissions = []
 
-      submissions.each do |submission|
+      submissions_find = submissions.where(:created_at => min_date..max_date)
 
-        if submission.created_at >= min_date && submission.created_at <= max_date
+      submissions_find.each do |submission|
 
-          name = submission.profile.name
-          email = submission.profile.email
-          date = submission.created_at.strftime("%d-%m-%Y").gsub!('-','/')
-          time = submission.created_at.strftime("%H:%m")
+        name = submission.profile.name
+        email = submission.profile.email
+        date = submission.created_at.strftime("%d-%m-%Y").gsub!('-','/')
+        time = submission.created_at.strftime("%H:%m")
 
-          new_submissions.push({name: name, email: email, date: date, time: time})
-        end
+        new_submissions.push({name: name, email: email, date: date, time: time})
       end
 
       render json: new_submissions

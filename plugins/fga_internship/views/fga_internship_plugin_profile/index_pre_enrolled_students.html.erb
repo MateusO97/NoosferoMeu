@@ -1,0 +1,28 @@
+<%= javascript_include_tag "pre_enrolled" %>
+<body>
+  <label for="min_date">From:</label>
+  <input id="min_date" type="date" class="date-range-filter"/>
+  <label for="max_date">To:</label>
+  <input id="max_date" type="date" class="date-range-filter"/>
+  <button id="main-button">Filter</button>
+  <table style="width:100%" id="main-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Form Submission Date</th>
+        <th>Form Submission Time</th>
+      </tr>
+    </thead>
+    <tbody id="main-tbody">
+      <% @submissions.each do |submission| %>
+        <tr>
+          <td><%= submission.profile.name %></td>
+          <td><%= submission.profile.email %></td>
+          <td><%= submission.created_at.strftime("%d-%m-%Y").gsub!('-','/') %></td>
+          <td><%= submission.created_at.strftime("%H:%m") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</body>
