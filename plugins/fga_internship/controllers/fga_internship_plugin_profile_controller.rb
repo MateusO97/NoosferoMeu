@@ -3,7 +3,7 @@ class FgaInternshipPluginProfileController < ProfileController
   require 'exceptions'
 
   include FgaInternshipPlugin::ProcessCreator
-  include CustomFormsPlugin::Helper
+  # include CustomFormsPlugin::Helper
 
   before_action :has_access, :only => [:show]
   before_action :get_internship_process, :only => [:internship_pre_application,
@@ -66,9 +66,26 @@ class FgaInternshipPluginProfileController < ProfileController
   end
 
   def upload_activity_plan
-    
+    community = @process.community_id
+    active_processes = Folder.find_by(:name => 'processos ativos', :profile_id => community.id)
+  
+    @parent = check_parent(params[:parent_id])
+    @target = @parent ? ('/%s/%s' % [profile.identifier, @parent.full_name]) : '/%s' % profile.identifier
+    record_coming
+    if params[:uploaded_file]
+      file = params[:uploaded_file]
+      if file && file.has_key?('file') && file[:file] != ''
+        data = {
+              :uploaded_data => file[:file],
+              :profile => profile,
+              :parent => @parent,
+              :last_changed_by => user,
+              :author => user,
+        }
+        UploadedFile.create(data, :without_protection => true
+      end
+    end
   end
-
   def internship_evaluation
     @checklists = []
     @process.checklists.each do |checklist|
