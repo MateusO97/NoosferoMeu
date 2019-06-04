@@ -7,7 +7,7 @@
 
     <% @user ||= User.new %>
 
-    <%= labelled_form_for :user, :url => { :controller => 'internship', :action => 'login' } do |f| %>
+    <%= labelled_form_for :user, :url => { :controller => 'fga_internship_plugin_profile', :action => 'login' } do |f| %>
 
     <%= f.text_field :login, :onchange => 'this.value = convToValidLogin( this.value )' %>
 
