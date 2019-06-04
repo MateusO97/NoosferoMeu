@@ -9,6 +9,59 @@ class FgaInternshipPluginProfileController < ProfileController
   before_action :get_internship_process, :only => [:internship_pre_application,
     :internship_application, :internship_in_progress, :internship_evaluation]
 
+  no_design_blocks
+
+
+  def pre_enrolled_students_filter_date
+
+    if params[:min_date] == nil && params[:max_date] == nil
+      redirect_to root_path
+    else
+      min_date = Date.parse(params[:min_date])
+      max_date = Date.parse(params[:max_date])
+
+      internship_form_identifier = 'estágio'
+
+      form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+      submissions = CustomFormsPlugin::Submission.where form_id: form.id
+
+      new_submissions = []
+
+      submissions_find = submissions.where(:created_at => min_date..max_date)
+
+      submissions_find.each do |submission|
+
+        name = submission.profile.name
+        email = submission.profile.email
+        date = submission.created_at.strftime("%d-%m-%Y").gsub!('-','/')
+        time = submission.created_at.strftime("%H:%m")
+
+        new_submissions.push({name: name, email: email, date: date, time: time})
+      end
+
+      render json: new_submissions
+    end
+
+  end
+
+  def index_pre_enrolled_students
+    if !current_user
+      session[:notice] = _("You need to sign in")
+      redirect_to root_path
+    else
+      if current_person.has_permission?('manage_internship', profile)
+
+        internship_form_identifier = 'estágio'
+
+        form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+        @submissions = CustomFormsPlugin::Submission.where form_id: form.id
+
+      else
+        redirect_to user
+      end
+    end
+  end
+
   def index
     @community_id = params[:community_id]
     unless Folder.find_by(:name => 'processos ativos', :profile_id => @community_id)

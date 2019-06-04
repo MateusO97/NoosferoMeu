@@ -1,4 +1,14 @@
-<%= button(:text, "Internship Process", {
-	:controller => "fga_internship_plugin_profile", :action => "index"}, class:  "internship-process") do %>
-  <%= hidden_field_tag('community_id', block.owner.id) %>
+
+<% if current_user && current_person.has_permission?('manage_internship', profile) %>
+	<%= button_to({
+		:controller => "fga_internship_plugin_profile", :action => "index_pre_enrolled_students"}, class: "internship-process") do %>
+		<i class="fa fa-file"></i><%= _('Pre-enrolled Students') %>
+		<%= hidden_field_tag('community_id', block.owner.id) %>
+	<% end %>
+<% else %>
+	<%= button_to({
+		:controller => "fga_internship_plugin_profile", :action => "index"}, class: "internship-process") do %>
+		<i class="fa fa-file"></i><%= _('Internship Process') %>
+		<%= hidden_field_tag('community_id', block.owner.id) %>
+	<% end %>
 <% end %>
