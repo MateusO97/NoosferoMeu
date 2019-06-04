@@ -8,7 +8,7 @@ $('#main-button').click( function() {
       }else{
         $.ajax({
           method: "POST",
-          url: "/plugin/fga_internship/internship/pre_enrolled_students_filter_date/",
+          url: "/profile/" + window.location.pathname.split("/")[2] + "/plugin/fga_internship/pre_enrolled_students_filter_date/",
           data: { min_date: min_date, max_date: max_date }
         })
         .done(function(data){
