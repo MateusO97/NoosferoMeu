@@ -12,7 +12,8 @@ class FgaInternshipPluginProfileController < ProfileController
   no_design_blocks
 
   INTERNSHIP_FORM_IDENTIFIER = 'estágio'
-
+  ACTIVE_PROCESSES_NAME = 'processos ativos'
+  INACTIVE_PROCESSES_NAME = 'processos inativos'
 
   # Search pre enrolled students throght date range and render then as json
   # url: POST /profile/ <community name> /plugin/fga_internship/list_pre_enrolle
@@ -65,15 +66,15 @@ class FgaInternshipPluginProfileController < ProfileController
 
   def index
     @community_id = params[:community_id]
-    unless Folder.find_by(:name => 'processos ativos', :profile_id => @community_id)
+    unless Folder.find_by(:name => ACTIVE_PROCESSES_NAME, :profile_id => @community_id)
       active_processes = Folder.new
-      active_processes.name = 'processos ativos'
+      active_processes.name = ACTIVE_PROCESSES_NAME
       active_processes.profile_id = @community_id
       active_processes.save
     end
-    unless Folder.find_by(:name => 'processos inativos', :profile_id => @community_id)
+    unless Folder.find_by(:name => INACTIVE_PROCESSES_NAME, :profile_id => @community_id)
       inactive_processes = Folder.new
-      inactive_processes.name = 'processos inativos'
+      inactive_processes.name = INACTIVE_PROCESSES_NAME
       inactive_processes.profile_id = @community_id
       inactive_processes.save
     end
@@ -88,7 +89,7 @@ class FgaInternshipPluginProfileController < ProfileController
     end
 
     community = @process.community_id
-    active_processes = Folder.find_by(:name => 'processos ativos', :profile_id => community.id)
+    active_processes = Folder.find_by(:name => ACTIVE_PROCESSES_NAME, :profile_id => community.id)
 
     unless Folder.find_by(:name => self.current_user.name , :profile_id => community.id, :parent_id =>active_processes.id)
       user_folder = Folder.new
