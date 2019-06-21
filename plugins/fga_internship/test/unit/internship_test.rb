@@ -3,7 +3,7 @@ require 'json'
 
 class InternshipTest < ActionDispatch::IntegrationTest
 
-  should 'pre_enrolled_students_filter_date' do
+  should 'index_pre_enrolled_students_filter_by_date' do
     profile = fast_create(Profile)
     form = CustomFormsPlugin::Form.create!(:profile => profile,
                                            :name => 'Free Software',
@@ -15,7 +15,7 @@ class InternshipTest < ActionDispatch::IntegrationTest
 
     params = {min_date: '12/05/2019', max_date: '16/05/2019'}
 
-    post '/plugin/fga_internship/internship/pre_enrolled_students_filter_date', params: params, as: :json;
+    post '/plugin/fga_internship/internship/index_pre_enrolled_students_filter_by_date', params: params, as: :json;
 
     assert_equal JSON.parse(response.body).count, 0
     assert_response 200

@@ -11,18 +11,20 @@ class FgaInternshipPluginProfileController < ProfileController
 
   no_design_blocks
 
+  INTERNSHIP_FORM_IDENTIFIER = 'estágio'
 
-  def pre_enrolled_students_filter_date
 
-    if params[:min_date] == nil && params[:max_date] == nil
-      redirect_to root_path
-    else
+  # Search pre enrolled students throght date range and render then as json
+  # url: POST /profile/ <community name> /plugin/fga_internship/list_pre_enrolle
+  # d_students_filter_by_date/
+  def index_pre_enrolled_students_filter_by_date
+
+    if params[:min_date] && params[:max_date]
+
       min_date = Date.parse(params[:min_date])
       max_date = Date.parse(params[:max_date])
 
-      internship_form_identifier = 'estágio'
-
-      form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+      form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
       submissions = CustomFormsPlugin::Submission.where form_id: form.id
 
       new_submissions = []
@@ -40,25 +42,24 @@ class FgaInternshipPluginProfileController < ProfileController
       end
 
       render json: new_submissions
+    else
+      redirect_to root_path
     end
 
   end
 
   def index_pre_enrolled_students
-    if !current_user
-      session[:notice] = _("You need to sign in")
-      redirect_to root_path
-    else
+    if current_user
       if current_person.has_permission?('manage_internship', profile)
-
-        internship_form_identifier = 'estágio'
-
-        form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+        form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
         @submissions = CustomFormsPlugin::Submission.where form_id: form.id
 
       else
         redirect_to user
       end
+    else
+      session[:notice] = _("You need to sign in")
+      redirect_to root_path
     end
   end
 
@@ -164,8 +165,7 @@ class FgaInternshipPluginProfileController < ProfileController
   end
 
   def answer_form
-    internship_form_identifier = 'estágio'
-    @form = CustomFormsPlugin::Form.find_by(identifier: internship_form_identifier)
+    @form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
     @community = Community.find_by(id: params[:community_id])
 
     if user
