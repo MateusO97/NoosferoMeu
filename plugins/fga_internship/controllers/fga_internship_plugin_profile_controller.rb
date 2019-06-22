@@ -5,7 +5,8 @@ class FgaInternshipPluginProfileController < ProfileController
   include FgaInternshipPlugin::ProcessCreator
   include CustomFormsPlugin::Helper
 
-  before_action :has_access, :only => [:show]
+  before_action :has_access, :only => [:show, :index_pre_enrolled_students,
+    :index_pre_enrolled_students_filter_by_date]
   before_action :get_internship_process, :only => [:internship_pre_application,
     :internship_application, :internship_in_progress, :internship_evaluation]
 
@@ -22,17 +23,17 @@ class FgaInternshipPluginProfileController < ProfileController
 
     if params[:min_date] && params[:max_date]
 
-      min_date = Date.parse(params[:min_date])
-      max_date = Date.parse(params[:max_date])
-
       form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
       submissions = CustomFormsPlugin::Submission.where form_id: form.id
 
+      min_date = Date.parse(params[:min_date])
+      max_date = Date.parse(params[:max_date])
+
+      submissions_filtered_by_date = submissions.where(:created_at => min_date..max_date)
+
       new_submissions = []
 
-      submissions_find = submissions.where(:created_at => min_date..max_date)
-
-      submissions_find.each do |submission|
+      submissions_filtered_by_date.each do |submission|
 
         name = submission.profile.name
         email = submission.profile.email
@@ -50,7 +51,6 @@ class FgaInternshipPluginProfileController < ProfileController
   end
 
   def index_pre_enrolled_students
-    if current_user
       if current_person.has_permission?('manage_internship', profile)
         form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
         @submissions = CustomFormsPlugin::Submission.where form_id: form.id
@@ -58,10 +58,6 @@ class FgaInternshipPluginProfileController < ProfileController
       else
         redirect_to user
       end
-    else
-      session[:notice] = _("You need to sign in")
-      redirect_to root_path
-    end
   end
 
   def index
@@ -127,34 +123,6 @@ class FgaInternshipPluginProfileController < ProfileController
         @checklists << checklist
       end
     end
-  end
-
-  def login
-    store_location(request.referer) unless params[:return_to] or session[:return_to]
-
-    return unless request.post?
-
-    begin
-      self.current_user ||= User.authenticate(params[:user][:login], params[:user][:password], environment) if params[:user]
-    rescue User::UserNotActivated => e
-      session[:notice] = e.message
-      return
-    end
-    if logged_in?
-      check_join_in_community(self.current_user)
-
-      if params[:remember_me] == "1"
-        self.current_user.remember_me
-        cookies[:auth_token] = {value: self.current_user.remember_token, expires: self.current_user.remember_token_expires_at}
-      end
-
-      session[:notice] = _("Logged in successfully")
-    else
-      session[:notice] = _('Incorrect username or password')
-    end
-
-    redirect_to :controller => :fga_internship_plugin_profile,
-      :action => :index, :community_id => params[:community_id]
   end
 
   def show_forms
