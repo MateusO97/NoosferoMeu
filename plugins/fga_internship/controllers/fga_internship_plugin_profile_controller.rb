@@ -18,34 +18,6 @@ class FgaInternshipPluginProfileController < ProfileController
   ACTIVE_PROCESSES_NAME = 'processos ativos'
   INACTIVE_PROCESSES_NAME = 'processos inativos'
 
-  def is_logged_in?
-    if current_user
-      # Do nothing
-    else
-      session[:notice] = _("You need to sign in")
-      redirect_to({ :controller => "account" ,:action => "login" })
-    end
-  end
-
-  def has_manage_internship_permission?
-    if current_person.has_permission?('manage_internship', profile)
-      # Do nothing
-    else
-      session[:notice] = _("You need manage internship permission to acess")
-      redirect_to user
-    end
-  end
-  
-  def validate_all_params_presence(param_list)
-    param_list.each do |param|
-      if param
-        # Do nothing
-      else
-        return false
-      end
-    end
-    return true
-  end
 
   # Search pre enrolled students throght date range and render then as json
   # url: POST /profile/ <community name> /plugin/fga_internship/list_pre_enrolle
@@ -223,45 +195,36 @@ class FgaInternshipPluginProfileController < ProfileController
     end
   end
 
-  private
-  # creates a temporary user given his fields
-  def create_temporary_user(email, name)
-    password = generate_password
-    temporary_user = User.create(
-      login: generate_login(name),
-      email: email,
-      name: name,
-      password: password,
-      password_confirmation: password,
-      is_temporary: true)
-    temporary_user.save!
-    UserMailer.temporary_user_credentials_email(temporary_user, password).deliver
-  end
-
-  # deletes all tmp users from db
-  def delete_tmp_users
-    tmp_users = User.find_by(is_temporary: true)
-    tmp_users.each do |tmp|
-      tmp.destroy!
+  def is_logged_in?
+    if current_user
+      # Do nothing
+    else
+      session[:notice] = _("You need to sign in")
+      redirect_to({ :controller => "account" ,:action => "login" })
     end
   end
 
-  def req_fields
-    ['supervisor_name','supervisor_email']
+  def has_manage_internship_permission?
+    if current_person.has_permission?('manage_internship', profile)
+      # Do nothing
+    else
+      session[:notice] = _("You need manage internship permission to acess")
+      redirect_to user
+    end
   end
 
-  def generate_password
-    SecureRandom.hex[10..20].reverse
+  def validate_all_params_presence(param_list)
+    param_list.each do |param|
+      if param
+        # Do nothing
+      else
+        return false
+      end
+    end
+    return true
   end
 
-  def generate_login(name)
-    name.split(' ').first.downcase + rand(100..999).to_s
-  end
-
-  def update_role
-    @profile.update(profile_params)
-    @profile.save
-  end
+  private
 
   def get_internship_process
     @process = FgaInternshipPlugin::InternshipProcess.where(student_id: current_person.id).first
@@ -269,14 +232,6 @@ class FgaInternshipPluginProfileController < ProfileController
       @process = create_process
     end
     return @process
-  end
-
-  def profile_params
-    require(:profile).permit(:intenship_role)
-  end
-
-  def process_params
-    params.require(:fga_internship_plugin_processes).permit(:phase)
   end
 
   def checklist_params
