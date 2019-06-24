@@ -5,10 +5,12 @@ class FgaInternshipPluginProfileController < ProfileController
   include FgaInternshipPlugin::ProcessCreator
   include CustomFormsPlugin::Helper
 
-  before_action :has_access, :only => [:show, :index_pre_enrolled_students,
+  before_action :is_logged_in?, :only => [:index_pre_enrolled_students,
     :index_pre_enrolled_students_filter_by_date]
   before_action :get_internship_process, :only => [:internship_pre_application,
     :internship_application, :internship_in_progress, :internship_evaluation]
+  before_action :has_manage_internship_permission?, :only => [:index_pre_enrolled_students,
+    :index_pre_enrolled_students_filter_by_date]
 
   no_design_blocks
 
@@ -16,12 +18,41 @@ class FgaInternshipPluginProfileController < ProfileController
   ACTIVE_PROCESSES_NAME = 'processos ativos'
   INACTIVE_PROCESSES_NAME = 'processos inativos'
 
+  def is_logged_in?
+    if current_user
+      # Do nothing
+    else
+      session[:notice] = _("You need to sign in")
+      redirect_to({ :controller => "account" ,:action => "login" })
+    end
+  end
+
+  def has_manage_internship_permission?
+    if current_person.has_permission?('manage_internship', profile)
+      # Do nothing
+    else
+      session[:notice] = _("You need manage internship permission to acess")
+      redirect_to user
+    end
+  end
+  
+  def validate_all_params_presence(param_list)
+    param_list.each do |param|
+      if param
+        # Do nothing
+      else
+        return false
+      end
+    end
+    return true
+  end
+
   # Search pre enrolled students throght date range and render then as json
   # url: POST /profile/ <community name> /plugin/fga_internship/list_pre_enrolle
   # d_students_filter_by_date/
   def index_pre_enrolled_students_filter_by_date
 
-    if params[:min_date] && params[:max_date]
+    if validate_all_params_presence([params[:min_date], params[:max_date]])
 
       form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
       submissions = CustomFormsPlugin::Submission.where form_id: form.id
@@ -45,19 +76,15 @@ class FgaInternshipPluginProfileController < ProfileController
 
       render json: new_submissions
     else
-      redirect_to root_path
+      session[:notice] = _("Variables min_date and max_date are required")
+      redirect_to user
     end
 
   end
 
   def index_pre_enrolled_students
-      if current_person.has_permission?('manage_internship', profile)
-        form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
-        @submissions = CustomFormsPlugin::Submission.where form_id: form.id
-
-      else
-        redirect_to user
-      end
+      form = CustomFormsPlugin::Form.find_by(identifier: INTERNSHIP_FORM_IDENTIFIER)
+      @submissions = CustomFormsPlugin::Submission.where form_id: form.id
   end
 
   def index
