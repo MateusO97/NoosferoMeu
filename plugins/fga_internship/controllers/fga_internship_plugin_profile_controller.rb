@@ -6,7 +6,7 @@ class FgaInternshipPluginProfileController < ProfileController
   include CustomFormsPlugin::Helper
 
   before_action :is_logged_in?, :only => [:index_pre_enrolled_students,
-    :index_pre_enrolled_students_filter_by_date]
+    :index_pre_enrolled_students_filter_by_date, :index]
   before_action :get_internship_process, :only => [:internship_pre_application,
     :internship_application, :internship_in_progress, :internship_evaluation]
   before_action :has_manage_internship_permission?, :only => [:index_pre_enrolled_students,
@@ -48,8 +48,8 @@ class FgaInternshipPluginProfileController < ProfileController
 
       render json: new_submissions
     else
-      session[:notice] = _("Variables min_date and max_date are required")
-      redirect_to user
+      session[:notice] = _("Params min_date and max_date are required")
+      redirect_to root_path
     end
 
   end
