@@ -1,5 +1,5 @@
 class AnalyticsPlugin::StatsController < MyProfileController
-
+  helper ProductsHelper
   no_design_blocks
 
   before_action :skip_page_view
@@ -35,10 +35,6 @@ class AnalyticsPlugin::StatsController < MyProfileController
   protected
 
   # inherit routes from core skipping use_relative_controller!
-  def url_for options
-    options[:controller] = "/#{options[:controller]}" if options.is_a? Hash and options[:controller] and not options[:controller].to_s.starts_with? '/'
-    super options
-  end
   helper_method :url_for
 
   def skip_page_view
