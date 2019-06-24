@@ -116,8 +116,7 @@ class ProfileMembersController < MyProfileController
   end
 
   def add_admin
-    @title = _('Current admins')
-    @collection = :profile_admins
+    get_admin
 
     if profile.community?
       member = profile.members.find_by(identifier: params[:id])
@@ -127,8 +126,7 @@ class ProfileMembersController < MyProfileController
   end
 
   def remove_admin
-    @title = _('Current admins')
-    @collection = :profile_admins
+    get_admin
 
     if profile.community?
       member = profile.members.find_by(identifier: params[:id])
@@ -183,6 +181,13 @@ class ProfileMembersController < MyProfileController
     result = profile.members_like field, params[:filter_name]
     result = result.select{|member| member.public_fields.include?('email') } if field=='email'
     render :json => result.map { |member| {:label => "#{member.name}#{member.can_view_field?(current_person, "email") ? " <#{member.email}>" : ""}", :value => member.name }}
+  end
+
+  private
+
+  def get_admin
+    @title = _('Current admins')
+    @collection = :profile_admins
   end
 
 end
