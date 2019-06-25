@@ -127,7 +127,10 @@ module CustomFormsPlugin::Helper
 
   def build_multiple_select_tag(field, answer, form)
     selected = default_selected(field, answer)
-    input_name = form.to_s + "[#{field.id}]"
+    input_name = form.to_s + "[#:multiple => true,
+              :title => _('Hold down Ctrl to select options'),
+              :size => field.alternatives.size,
+              {field.id}]"
 
     inputs = hidden_field_tag(input_name, '0')
     inputs += select_tag input_name,
@@ -199,15 +202,22 @@ module CustomFormsPlugin::Helper
   end
 
   def radio_button?(field)
-    type_for_options(field.class) == 'select_field' && field.show_as == 'radio'
+    (type_for_options(field.class) == 'select_field') && \
+    (field.show_as == 'radio')
   end
 
   def check_box?(field)
-    type_for_options(field.class) == 'select_field' && field.show_as == 'check_box'
+    (type_for_options(field.class) == 'select_field') && \
+    (field.show_as == 'check_box')
   end
 
   def form_image_header(form)
-    content_tag('div', '', class: 'form-image-header', style: "background-image: url(#{form.image_url})")
+    content_tag(
+      'div',
+      '',
+      class: 'form-image-header',
+        style: "background-image: url(#{form.image_url})"
+    )
   end
 
   def form_image_tag(form)
@@ -215,23 +225,25 @@ module CustomFormsPlugin::Helper
   end
 
   def time_status(form)
-    if form.beginning.present? && form.ending.present?
-      if Time.now < form.beginning
-        _('%s left to open') % distance_of_time_in_words(Time.now, form.beginning)
-      elsif Time.now < form.ending
-        _('%s left to close') % distance_of_time_in_words(Time.now, form.ending)
+    beginning = form.beginning
+    ending = form.ending
+    if beginning.present? && ending.present?
+      if Time.now < beginning
+        _('%s left to open') % distance_of_time_in_words(Time.now, beginning)
+      elsif Time.now < ending
+        _('%s left to close') % distance_of_time_in_words(Time.now, ending)
       else
         _('Closed')
       end
-    elsif form.beginning.present?
-      if Time.now < form.beginning
-        _('%s left to open') % distance_of_time_in_words(Time.now, form.beginning)
+    elsif beginning.present?
+      if Time.now < beginning
+        _('%s left to open') % distance_of_time_in_words(Time.now, beginning)
       else
         _('Always open')
       end
-    elsif form.ending.present?
-      if Time.now < form.ending
-        _('%s left to close') % distance_of_time_in_words(Time.now, form.ending)
+    elsif ending.present?
+      if Time.now < ending
+        _('%s left to close') % distance_of_time_in_words(Time.now, ending)
       else
         _('Closed')
       end
