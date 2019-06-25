@@ -114,61 +114,87 @@ module CustomFormsPlugin::Helper
     end
   end
 
+  def build_select_tag(field, answer, form)
+    selected = default_selected(field, answer)
+    select_tag form.to_s + "[#{field.id}]",
+                options_for_select(
+                  [['','']] +
+                  field.alternatives.map {|a| [a.label, a.id.to_s]},
+                  selected
+                ),
+                :disabled => display_disabled?(field, answer)
+  end
+
+  def build_multiple_select_tag(field, answer, form)
+    selected = default_selected(field, answer)
+    input_name = form.to_s + "[#{field.id}]"
+
+    inputs = hidden_field_tag(input_name, '0')
+    inputs += select_tag input_name,
+              options_for_select(
+                field.alternatives.map{|a| [a.label, a.id.to_s]},
+                selected
+              ),
+              :multiple => true,
+              :title => _('Hold down Ctrl to select options'),
+              :size => field.alternatives.size,
+              :disabled => display_disabled?(field, answer)
+    inputs.html_safe
+  end
+
+  def build_check_box_content_tag(field, answer, form)
+    answers = answer.alternatives.map { |alt| alt.id } if (answer.present?)
+
+    field.alternatives.map do |alternative|
+      default = if answer.present?
+                  answers.include?(alternative.id)
+                else
+                  alternative.selected_by_default
+                end
+      content_tag(:div, (labelled_check_box alternative.label,
+                         form.to_s + "[#{field.id}][#{alternative.id}]",
+                         '1',
+                         default,
+                         :disabled => display_disabled?(field, answer)),
+                  :class => 'labelled-check field-alternative-row')
+    end.join("\n")
+  end
+
+  def build_radio_content_tag(field, answer, form)
+    input_name = form.to_s + "[#{field.id}]"
+    inputs = hidden_field_tag(input_name, '0')
+    inputs += field.alternatives.map do |alternative|
+      default = if answer.present?
+                  unless answer.alternatives.empty?
+                    answer.alternatives.first.id == alternative.id
+                  end
+                else
+                  alternative.selected_by_default
+                end
+
+      content_tag(:div, (labelled_radio_button alternative.label,
+                         input_name,
+                         alternative.id,
+                         default,
+                         :disabled => display_disabled?(field, answer)),
+                         :class => 'labelled-check field-alternative-row')
+    end.join("\n").html_safe
+  end
+
   def display_select_field(field, answer, form)
     case field.show_as
     when 'select'
-      selected = default_selected(field, answer)
-      select_tag form.to_s + "[#{field.id}]",
-                 options_for_select([['','']] +
-                   field.alternatives.map {|a| [a.label, a.id.to_s]}, selected),
-                 :disabled => display_disabled?(field, answer)
+      build_select_tag(field, answer, form)
 
     when 'multiple_select'
-      selected = default_selected(field, answer)
-      input_name = form.to_s + "[#{field.id}]"
-
-      inputs = hidden_field_tag(input_name, '0')
-      inputs += select_tag input_name, options_for_select(field.alternatives.map{|a| [a.label, a.id.to_s]}, selected),
-              :multiple => true, :title => _('Hold down Ctrl to select options'),
-              :size => field.alternatives.size,
-              :disabled => display_disabled?(field, answer)
-      inputs.html_safe
+      build_multiple_select_tag(field, answer, form)
 
     when 'check_box'
-      answers = answer.alternatives.map { |alt| alt.id } if (answer.present?)
+      build_check_box_content_tag(field, answer, form)
 
-      field.alternatives.map do |alternative|
-        default = if answer.present?
-                    answers.include?(alternative.id)
-                  else
-                    alternative.selected_by_default
-                  end
-        content_tag(:div, (labelled_check_box alternative.label,
-                           form.to_s + "[#{field.id}][#{alternative.id}]",
-                           '1',
-                           default,
-                           :disabled => display_disabled?(field, answer)),
-                    :class => 'labelled-check field-alternative-row')
-      end.join("\n")
     when 'radio'
-      input_name = form.to_s + "[#{field.id}]"
-      inputs = hidden_field_tag(input_name, '0')
-      inputs += field.alternatives.map do |alternative|
-        default = if answer.present?
-                    unless answer.alternatives.empty?
-                      answer.alternatives.first.id == alternative.id
-                    end
-                  else
-                    alternative.selected_by_default
-                  end
+      build_radio_content_tag(field, answer, form)
 
-        content_tag(:div, (labelled_radio_button alternative.label,
-                           input_name,
-                           alternative.id,
-                           default,
-                           :disabled => display_disabled?(field, answer)),
-                           :class => 'labelled-check field-alternative-row')
-      end.join("\n").html_safe
     end
   end
 
