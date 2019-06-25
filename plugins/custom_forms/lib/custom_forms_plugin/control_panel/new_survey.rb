@@ -19,7 +19,12 @@ module CustomFormsPlugin::ControlPanel
       end
 
       def url(profile)
-        {profile: profile.identifier, controller: 'custom_forms_plugin_myprofile', action: 'new', kind: 'survey'}
+        {
+          profile: profile.identifier,
+          controller: 'custom_forms_plugin_myprofile',
+          action: 'new',
+          kind: 'survey'
+        }
       end
     end
   end
