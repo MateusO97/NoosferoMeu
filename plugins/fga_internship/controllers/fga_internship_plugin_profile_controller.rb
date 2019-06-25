@@ -114,47 +114,49 @@ class FgaInternshipPluginProfileController < ProfileController
   end
 
   def answer_form
-    @community = Community.find_by(id: params[:community_id])
-
-    if user
-      @submission = CustomFormsPlugin::Submission.find_by(form_id: @form.id,
-                                                          profile_id: user.id)
-      @submission ||= CustomFormsPlugin::Submission.new(form: @form,
-                                                        profile: user)
-    else
-      @submission = CustomFormsPlugin::Submission.new(form: @form)
-    end
-
-    # build the answers
-    if params[:submission]
-      @answers = @submission.build_answers params[:submission]
-    else
-      @answers = @submission.answers
-    end
-
     if request.post?
-      begin
-        if @form.expired?
-          raise SubmissionError, "Form expired!"
-        end
-
-        if !user
-          @submission.author_name = params[:author_name]
-          @submission.author_email = params[:author_email]
-        end
-
-        unless @submission.save
-          raise SubmissionError, "Submission failed: answers not valid"
-        end
-
-        session[:notice] = _("Submission saved")
-        redirect_to controller: :fga_internship_plugin_profile,
-                    action: :internship_process_pre_registration,
-                    checklist_id: params[:checklist_id],
-                    fga_internship_plugin_checklists: { checked: true }
-      rescue SubmissionError => error
-        session[:notice] = _(error.message)
+      answer_form_post_request
+    else
+      if user
+        @submission = CustomFormsPlugin::Submission.find_by(form_id: @form.id,
+                                                            profile_id: user.id)
+        @submission ||= CustomFormsPlugin::Submission.new(form: @form,
+                                                          profile: user)
+      else
+        @submission = CustomFormsPlugin::Submission.new(form: @form)
       end
+
+      # build the answers
+      if params[:submission]
+        @submission.build_answers params[:submission]
+      end
+    end
+  end
+
+  def answer_form_post_request
+    begin
+      if @form.expired?
+        raise SubmissionError, "Form expired!"
+      end
+
+      if user
+        # Do nothing
+      else
+        @submission.author_name = params[:author_name]
+        @submission.author_email = params[:author_email]
+      end
+
+      unless @submission.save
+        raise SubmissionError, "Submission failed: answers not valid"
+      end
+
+      session[:notice] = _("Submission saved")
+      redirect_to controller: :fga_internship_plugin_profile,
+                  action: :internship_process_pre_registration,
+                  checklist_id: params[:checklist_id],
+                  fga_internship_plugin_checklists: { checked: true }
+    rescue SubmissionError => error
+      session[:notice] = _(error.message)
     end
   end
 
