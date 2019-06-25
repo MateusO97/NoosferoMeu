@@ -5,7 +5,11 @@ module CustomFormsPlugin::Helper
 
   def html_for_field(builder, association, klass)
     new_object = klass.new
-    builder.fields_for(association, new_object, :child_index => "new_#{association}") do |f|
+    builder.fields_for(
+      association,
+      new_object,
+      :child_index => "new_#{association}"
+    ) do |f|
       render(partial_for_class(klass), :f => f)
     end
   end
@@ -22,7 +26,10 @@ module CustomFormsPlugin::Helper
     elsif form.beginning.blank? && form.ending.present?
       _('Until %s') % time_format(form.ending)
     elsif form.beginning.present? && form.ending.present?
-      _('From %s until %s') % [time_format(form.beginning), time_format(form.ending)]
+      _('From %s until %s') % [
+        time_format(form.beginning),
+        time_format(form.ending)
+      ]
     end
   end
 
@@ -76,7 +83,14 @@ module CustomFormsPlugin::Helper
   def display_custom_field(field, submission, form)
     sanitized_name = ActionView::Base.white_list_sanitizer.sanitize field.name
     answer = submission.answers.select{|answer| answer.field == field}.first
-    field_tag = send("display_#{type_for_options(field.class)}",field, answer, form).html_safe
+
+    field_tag = send(
+      "display_#{type_for_options(field.class)}",
+      field,
+      answer,
+      form
+    ).html_safe
+
     if field.mandatory? && submission.id.nil?
       required(labelled_form_field(sanitized_name, field_tag))
     else
@@ -91,14 +105,25 @@ module CustomFormsPlugin::Helper
   def display_text_field(field, answer, form)
     value = answer.present? ? answer.value : field.default_value
     if field.show_as == 'textarea'
-      text_area(form, "#{field.id}", :value => value, :disabled => display_disabled?(field, answer))
+      text_area(
+        form,
+        "#{field.id}",
+        :value => value,
+        :disabled => display_disabled?(field, answer)
+      )
     else
-      text_field(form, "#{field.id}", :value => value, :disabled => display_disabled?(field, answer))
+      text_field(
+        form,
+        "#{field.id}",
+        :value => value,
+        :disabled => display_disabled?(field, answer)
+      )
     end
   end
 
   def default_selected(field, answer)
-    answer.present? ? answer.alternatives.map {|m| m.id.to_s} : field.alternatives.select {|a| a.selected_by_default}.map{|a| a.id.to_s}
+    answer.present? ? answer.alternatives.map {|m| m.id.to_s} : \
+    field.alternatives.select {|a| a.selected_by_default}.map{|a| a.id.to_s}
   end
 
   def display_date_time_field(field, answer, form)
