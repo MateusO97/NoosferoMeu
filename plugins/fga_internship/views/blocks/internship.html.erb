@@ -7,7 +7,7 @@
 	<% end %>
 <% else %>
 	<%= button_to({
-		:controller => "fga_internship_plugin_profile", :action => "index"}, class: "internship-process") do %>
+		:controller => "fga_internship_plugin_profile", :action => "internship_process_welcome"}, class: "internship-process") do %>
 		<i class="fa fa-file"></i><%= _('Internship Process') %>
 		<%= hidden_field_tag('community_id', block.owner.id) %>
 	<% end %>

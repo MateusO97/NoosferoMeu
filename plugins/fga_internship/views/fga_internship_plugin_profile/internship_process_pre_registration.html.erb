@@ -16,12 +16,12 @@
     <div class="button-container">
       <%= button(:back, "Voltar", {
 		  :controller => "fga_internship_plugin_profile",
-		  :action => "index",
+		  :action => "internship_process_welcome",
 		  :community_id => params[:community_id]
 	    }, { :class => "internship_button internship_main_button " }) %>
       <%= button(:next, "Matrícula", {
 		  :controller => "fga_internship_plugin_profile",
-		  :action => "internship_application",
+		  :action => "internship_process_registration",
 		  :community_id => params[:community_id]
 	  }, { :class => "internship_button internship_main_button" }) %>
     </div>
