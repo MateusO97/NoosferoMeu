@@ -19,7 +19,10 @@ module CustomFormsPlugin::ControlPanel
       end
 
       def url(profile)
-        {profile: profile.identifier, controller: 'custom_forms_plugin_myprofile'}
+        {
+          profile: profile.identifier,
+          controller: 'custom_forms_plugin_myprofile'
+        }
       end
     end
   end
