@@ -31,30 +31,50 @@ class CustomFormsPlugin::Graph
   def get_select_fields
     # TODO: Use left_joins after Rails 5 upgrade
     @form.fields
-         .joins(:alternatives)
-         .joins('LEFT JOIN custom_forms_plugin_form_answers
-                 ON custom_forms_plugin_alternatives.id = custom_forms_plugin_form_answers.alternative_id')
-         .group('custom_forms_plugin_fields.id, custom_forms_plugin_alternatives.id')
-         .order('custom_forms_plugin_alternatives.id')
-         .select('custom_forms_plugin_fields.name AS field_name,
-                   custom_forms_plugin_fields.show_as AS show_as,
-                   custom_forms_plugin_alternatives.id AS alternative,
-                   custom_forms_plugin_alternatives.label AS label,
-                   COUNT(custom_forms_plugin_form_answers.alternative_id) AS answer_count')
+          .joins(:alternatives)
+          .joins(
+            "LEFT JOIN custom_forms_plugin_form_answers" +
+            "ON custom_forms_plugin_alternatives.id = " +
+            "custom_forms_plugin_form_answers.alternative_id"
+          )
+          .group(
+            "custom_forms_plugin_fields.id, " +
+            "custom_forms_plugin_alternatives.id"
+          )
+          .order("custom_forms_plugin_alternatives.id")
+          .select(
+            "custom_forms_plugin_fields.name AS field_name," +
+            "custom_forms_plugin_fields.show_as AS show_as," +
+            "custom_forms_plugin_alternatives.id AS alternative," +
+            "custom_forms_plugin_alternatives.label AS label," +
+            "COUNT(custom_forms_plugin_form_answers.alternative_id)" +
+            " AS answer_count"
+          )
   end
 
   def get_text_fields
     @form.fields
-         .joins("INNER JOIN custom_forms_plugin_answers as ans ON ans.field_id = custom_forms_plugin_fields.id
-                 INNER JOIN custom_forms_plugin_submissions as s ON s.id = ans.submission_id")
-         .group("custom_forms_plugin_fields.id, custom_forms_plugin_fields.name")
-         .select("custom_forms_plugin_fields.id as id,
-                   custom_forms_plugin_fields.name as field_name,
-                   STRING_AGG(ans.value, ',') as answers,
-                   STRING_AGG(s.author_name, ',') as users,
-                   custom_forms_plugin_fields.show_as as show_as,
-                   STRING_AGG(ans.imported::text, ',') as imported")
-         .where("custom_forms_plugin_fields.type = 'CustomFormsPlugin::TextField'")
+          .joins(
+            "INNER JOIN custom_forms_plugin_answers as ans " +
+            "ON ans.field_id = custom_forms_plugin_fields.id" +
+            "INNER JOIN custom_forms_plugin_submissions as s " +
+            "ON s.id = ans.submission_id"
+          )
+          .group(
+            "custom_forms_plugin_fields.id, "
+            "custom_forms_plugin_fields.name"
+          )
+          .select(
+            "custom_forms_plugin_fields.id as id," +
+            "custom_forms_plugin_fields.name as field_name," +
+            "STRING_AGG(ans.value, ',') as answers," +
+            "STRING_AGG(s.author_name, ',') as users," +
+            "custom_forms_plugin_fields.show_as as show_as," +
+            "STRING_AGG(ans.imported::text, ',') as imported"
+          )
+          .where(
+            "custom_forms_plugin_fields.type = 'CustomFormsPlugin::TextField'"
+          )
   end
 
   def format_text_fields(unformatted_text_fields)
@@ -91,7 +111,7 @@ class CustomFormsPlugin::Graph
         end
       else
         computed_fields << r.field_name
-        data = { 
+        data = {
           "data" => {r.label => r.answer_count},
           "field" => r.field_name,
           "show_as" => chart_to_show_data(r.show_as),
@@ -107,22 +127,22 @@ class CustomFormsPlugin::Graph
   def get_data
     select_fields = get_select_fields
     text_fields = get_text_fields
-    
+
     { text_fields: text_fields, select_fields: select_fields }
   end
 
   def format_data(data)
     select_fields = []
     text_fields = []
-    
+
     unless data[:text_fields] == []
       text_fields = format_text_fields(data[:text_fields])
     end
-    
+
     unless data[:select_fields] == []
       select_fields = format_select_fields(data[:select_fields])
     end
 
     select_fields + text_fields
-  end 
+  end
 end
